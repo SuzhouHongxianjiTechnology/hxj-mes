@@ -1,0 +1,48 @@
+﻿@*
+//------------------------------------------------------------------------------
+//  此代码版权声明为全文件覆盖，如有原作者特别声明，会在下方手动补充
+//  此代码版权（除特别声明外的代码）归作者本人AlbertZhao所有
+//  源代码使用协议遵循本仓库的开源协议及附加协议
+//  Gitee源代码仓库：https://gitee.com/AlbertZhao/AlbertCollection
+//------------------------------------------------------------------------------
+*@
+
+@namespace AlbertCollection.Web.Rcl.Core
+@typeparam TItem where TItem : IDefaultItem<TItem>
+<MListGroup NoAction PrependIcon=@Item.Icon
+            SubGroup="SubGroup">
+    <ActivatorContent>
+        <NavItemContent Item="Item" />
+    </ActivatorContent>
+
+    <ChildContent>
+        @foreach (var child in Item?.Children ?? new())
+        {
+            if (child.Heading is not null)
+            {
+                <MSubheader Class="text--primary font-weight-black text-uppercase" Inset>@child.Heading</MSubheader>
+            }
+            else if (child.Divider)
+            {
+                <MDivider Inset Class="mt-3 mb-2 ml-16"></MDivider>
+            }
+            else if (child.HasChildren())
+            {
+                <DefaultListGroup Item="@child" SubGroup></DefaultListGroup>
+            }
+            else
+            {
+                <DefaultListItem Item="child"></DefaultListItem>
+            }
+        }
+    </ChildContent>
+</MListGroup>
+
+@code {
+    [Parameter]
+    public string Icon { get; set; }
+    [Parameter, EditorRequired]
+    public TItem Item { get; set; }
+    [Parameter]
+    public bool SubGroup { get; set; }
+}

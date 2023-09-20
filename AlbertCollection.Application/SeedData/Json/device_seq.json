@@ -1,0 +1,32 @@
+{
+  "RECORDS": [
+    {
+      "Id": "1",
+      "DeivceId": "1",
+      "DeviceName": "环形1线",
+      "SeqName": "OP10首次读取插入数据",
+      "SqlTable": "Albert_DataFirst",
+      "RisingEdge": "M101.1",
+      "ResponseDb": "M101.2",
+      "SqlOperate": "Insert",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    },
+    {
+      "Id": "2",
+      "DeivceId": "1",
+      "DeviceName": "环形1线",
+      "SeqName": "OP10更新OP10重要信息",
+      "SqlTable": "Albert_DataFirst",
+      "RisingEdge": "M101.1",
+      "ResponseDb": "M101.2",
+      "SqlOperate": "Update",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "RECORDS": [
+    {
+      "Id": "395093826302213",
+      "PluginName": "Hsl.Siemens",
+      "PluginFunction": "S1500",
+      "SimPlcType": "S1500",
+      "PluginExtraInfo": "项目经常用到的 PLC",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    },
+    {
+      "Id": "395093826302214",
+      "PluginName": "Hsl.Siemens",
+      "PluginFunction": "S300",
+      "SimPlcType": "S300",
+      "PluginExtraInfo": "项目经常用到的 PLC",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    },
+    {
+      "Id": "395093826302215",
+      "PluginName": "Hsl.Siemens",
+      "PluginFunction": "S400",
+      "SimPlcType": "S400",
+      "PluginExtraInfo": "项目经常用到的 PLC",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    },
+    {
+      "Id": "395093826302216",
+      "PluginName": "Hsl.Siemens",
+      "PluginFunction": "S1200",
+      "SimPlcType": "S1200",
+      "PluginExtraInfo": "项目经常用到的 PLC",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    },
+    {
+      "Id": "395093826302217",
+      "PluginName": "Hsl.Siemens",
+      "PluginFunction": "S200Smart",
+      "SimPlcType": "S200Smart",
+      "PluginExtraInfo": "项目经常用到的 PLC",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    },
+    {
+      "Id": "395093826302218",
+      "PluginName": "Hsl.Siemens",
+      "PluginFunction": "S200",
+      "SimPlcType": "S200",
+      "PluginExtraInfo": "项目经常用到的 PLC",
+      "CreateTime": "2023-03-12 20:20:55.726",
+      "CreateUser": "superAdmin",
+      "CreateUserId": "212725263002001",
+      "IsDelete": "0"
+    }
+  ]
+}

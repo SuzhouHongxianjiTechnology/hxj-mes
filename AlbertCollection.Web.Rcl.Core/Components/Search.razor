@@ -1,0 +1,26 @@
+﻿@*
+//------------------------------------------------------------------------------
+//  此代码版权声明为全文件覆盖，如有原作者特别声明，会在下方手动补充
+//  此代码版权（除特别声明外的代码）归作者本人AlbertZhao所有
+//  源代码使用协议遵循本仓库的开源协议及附加协议
+//  Gitee源代码仓库：https://gitee.com/AlbertZhao/AlbertCollection
+//------------------------------------------------------------------------------
+*@
+
+@namespace AlbertCollection.Web.Rcl.Core
+@using AlbertCollection.Core;
+@inherits CultureComponentBase
+<div class="d-flex justify-end">
+    <MAutocomplete @bind-Value="Value"
+                   Items="AvalidMenus"
+                   Class="mx-1 text-subtitle-2 rounded-0"
+                   Style="max-width: 350px;"
+                          Flat Dense Placeholder=@T("搜索")
+                   ItemValue="r=>r.Component"
+                   ItemText="r=>r.Title"
+                   HideDetails="true"
+                   PrependInnerIcon="mdi-magnify">
+    </MAutocomplete>
+</div>
+
+

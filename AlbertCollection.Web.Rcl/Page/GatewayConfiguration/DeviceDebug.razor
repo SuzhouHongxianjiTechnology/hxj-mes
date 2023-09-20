@@ -1,0 +1,128 @@
+﻿@page "/gwconfig/devicedebug"
+@namespace AlbertCollection.Web.Rcl
+@using AlbertCollection.Application.BgWorkers;
+@using AlbertCollection.Application.GlobalData;
+@using AlbertCollection.Application.Services.Driver.Dto;
+@using AlbertCollection.Application.Services.GatewayConfiguration;
+@using AlbertCollection.Core.Const;
+@using AlbertCollection.Core.Entity.Device
+@using HslCommunication.Profinet.Siemens;
+@using Microsoft.Extensions.Logging;
+@attribute [Authorize]
+@attribute [RolePermission]
+@inject MasaBlazor MasaBlazor
+@inject IDriverPluginService DriverPluginService
+@inject GlobalDeviceData GlobalDeviceData
+@inject UserResoures UserResoures
+@inherits CultureComponentBase
+@layout MainLayout
+
+<MRow NoGutters>
+    <MCol Md=@(IsShowTreeView?2:0)>
+        <MCard Show=IsShowTreeView Style="height: calc(100vh - 150px) ;border-radius:0px">
+            <MCardTitle>
+                <MTextField Dense Label="插件" PrependIcon="mdi-database-search-outline" 
+                            Style="max-width:200px;" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_searchName">
+                </MTextField>
+            </MCardTitle>
+            <MTreeview Style="height: calc(100vh - 320px);overflow-y:auto" Dense TItem="DriverPluginCategory"
+                       TKey="DriverPluginCategory" OpenOnClick ActiveChanged=@((async a=>
+                       {
+                            // 点击的时候选中传送出去
+                            selectedName = a?.FirstOrDefault()?.Name;
+                            selectedDevice = a?.FirstOrDefault();
+                            Console.WriteLine(selectedName);
+                       }) )
+                       Items="DriverPlugins" ItemText="r=>r.Name" ItemChildren="r=>r.Children"
+                       Search="@_searchName"
+                       Activatable ItemKey=@(r=>r)>
+                <LabelContent>
+                    <span title=@context.Item.Name>
+                        @context.Item.Name
+                    </span>
+                </LabelContent>
+            </MTreeview>
+        </MCard>
+    </MCol>
+    @*侧边单点驱动测试*@
+    <MCol Md="@(IsShowTreeView?10:12)">
+        <MRow NoGutters Style="height:120px;margin-top:10px;border-bottom:1px dashed black">
+            <MCol Md="2" Class="d-flex flex-column mb-6 ">
+                <MButton Dense Color="Color.Primary" Style="margin:5px" OnClick="ConnectPlc" Disabled="@connectDisable">连接</MButton>
+                <MButton Dense Color="Color.Primary" Style="margin:5px" OnClick="DisConnectPlc" Disabled="@(!connectDisable)">断开</MButton>
+            </MCol>
+            <MCol Md="10" Class="d-flex flex-row mb-6">
+                <MTextField Dense Label="IP" PrependIcon="mdi-ip"
+                            Style="max-width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_ip">
+                </MTextField>
+                 <MTextField Dense Label="Port" PrependIcon="mdi-serial-port"
+                            Style="max-width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_port">
+                </MTextField>
+                <MTextField Dense Label="Rack" PrependIcon="mdi-billiards-rack"
+                            Style="max-width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_rack">
+                </MTextField>
+                <MTextField Dense Label="Slot" PrependIcon="mdi-slot-machine"
+                            Style="max-width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_slot">
+                </MTextField>
+            </MCol>
+        </MRow>
+        <MRow NoGutters Style="margin-top:10px;">
+            <MCol Md="2" Style="border-right:1px dashed black;" >
+                <MRow NoGutters Md="5">
+                    <MCard Style="margin-left:5px" Class="d-flex flex-column mb-6">
+                        <MTextField Dense Label="RAddress" PrependIcon="mdi-read"
+                                    Style="width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_readAddress">
+                        </MTextField>
+                        <MTextField Dense Label="StrLength" PrependIcon="mdi-read"
+                                    Style="width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_strLength">
+                        </MTextField>
+                        <MTextField Dense Label="Result" PrependIcon="mdi-access-point-check"
+                                    Style="width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_result">
+                        </MTextField>
+                    </MCard> 
+                </MRow>
+                <MRow NoGutters Md="7">
+                    <MCard Style="margin-left:5px" Class="d-flex flex-column mb-6">
+                        @foreach (var item in _readButtonList)
+                        {
+                            <MButton Dense Color="Color.Primary" Style="width:220px;margin:5px" Id="@("r"+item)" OnClick="() => ReadDataByS7(item)">@item</MButton>
+                        }
+                    </MCard>
+                </MRow>
+            </MCol>
+            <MCol Md="2" Style="border-right:1px dashed black">
+                <MRow NoGutters Md="5">
+                    <MCard Style="margin-left:5px" Class="d-flex flex-column mb-6">
+                        <MTextField Dense Label="WAddress" PrependIcon="mdi-send-check-outline"
+                                    Style="max-width:200px;margin-left:5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_wAddress">
+                        </MTextField>
+                        <MTextField Dense Label="Value" PrependIcon="mdi-alpha-v-box-outline"
+                                    Style="max-width:200px;margin:18px 0 0 5px" HideDetails=@("auto") Class="mx-2 my-1" @bind-Value="_value">
+                        </MTextField>
+                    </MCard>
+                </MRow>
+                <MRow NoGutters Md="7">
+                    <MCard Style="margin-left:5px" Class="d-flex flex-column mb-6">
+                        @foreach (var item in writeButtonList)
+                        {
+                            <MButton Dense Color="Color.Primary" Style="width:220px;margin:5px" Id="@("w"+item)" OnClick="() => WriteDataByS7(item)">@item</MButton>
+                        }
+                    </MCard>
+                </MRow>
+            </MCol>
+            <MCol Md="8" Style="padding:5px">
+                <MCard>
+                    --日志区域，记录您的每一次操作--
+                    @foreach (var item in BackMessage.DebugPageMessages)
+                    {
+                        <PCopyableText>
+                            @item
+                        </PCopyableText>
+                    }
+                </MCard>
+            </MCol>
+        </MRow>
+    </MCol>
+</MRow>
+
+

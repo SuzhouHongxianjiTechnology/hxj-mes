@@ -1,0 +1,27 @@
+﻿@*
+//------------------------------------------------------------------------------
+//  此代码版权声明为全文件覆盖，如有原作者特别声明，会在下方手动补充
+//  此代码版权（除特别声明外的代码）归作者本人AlbertZhao所有
+//  源代码使用协议遵循本仓库的开源协议及附加协议
+//  Gitee源代码仓库：https://gitee.com/AlbertZhao/AlbertCollection
+
+
+
+//------------------------------------------------------------------------------
+*@
+
+@page "/401"
+@layout MainLayout
+@inherits CultureComponentBase
+@namespace AlbertCollection.Web.Rcl
+<div style="height:100%" class="d-flex flex-column justify-center align-center">
+    <div class="bg">
+        <img alt="401" src="@Image" />
+    </div>
+    <h3>@T("抱歉，你没有权限访问此页面。")</h3>
+    <MButton Class="mt-2" Color="primary" Href="/">@T("回到首页")</MButton>
+</div>
+
+@code {
+    private string Image { get; set; } = BlazorConst.ResourceUrl + "images/401.png";
+}

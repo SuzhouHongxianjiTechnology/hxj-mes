@@ -284,13 +284,6 @@
         "ExtJson": "{\"ApiUrl\":\"/tgruntime/collectdevicevariable\"}"
       },
       {
-        "Id": "391924286886187",
-        "Category": "SYS_ROLE_HAS_PERMISSION",
-        "ObjectId": "212725263001002",
-        "TargetId": "/tgruntime/devicestatus",
-        "ExtJson": "{\"ApiUrl\":\"/tgruntime/devicestatus\"}"
-      },
-      {
         "Id": "391924286886188",
         "Category": "SYS_ROLE_HAS_PERMISSION",
         "ObjectId": "212725263001002",

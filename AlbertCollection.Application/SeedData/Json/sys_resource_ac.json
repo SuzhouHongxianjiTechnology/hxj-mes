@@ -802,22 +802,6 @@
       "UpdateUserId": "212725263002001"
     },
     {
-      "Id": "200001101",
-      "Title": "上传设备",
-      "Icon": "mdi-database-cog-outline",
-      "Name": "gwUploadDevice",
-      "Component": "/gwconfig/uploaddevice",
-      "Category": "MENU",
-      "Code": "system",
-      "ParentId": "200001",
-      "SortCode": "2",
-      "TargetType": "SELF",
-      "IsDelete": "0",
-      "UpdateTime": "2023-03-03 17:58:06.9967903",
-      "UpdateUser": "superAdmin",
-      "UpdateUserId": "212725263002001"
-    },
-    {
       "Id": "391545543004421",
       "Title": "个人中心",
       "Icon": "mdi-home-account",

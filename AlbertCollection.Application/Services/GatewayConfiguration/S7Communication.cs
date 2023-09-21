@@ -304,14 +304,14 @@ public class S7Communication : BaseCommunication
                                         {
                                             if (read.Content && oldValue == 0)
                                             {
-                                                (deviceSeq.SeqName+ "【plc-mes】 标签上升沿开始").LogInformation();
+                                                (deviceSeq.SeqName+ "【plc-mes 标签上升沿】开始").LogInformation();
                                                 // 发生了上升沿，需要完成两步
                                                 // 1. 读取 Rfid
                                                 ReadData(deviceSeq.RfidLabel,out var rfid);
                                                 // 发生了上升沿，两步交互逻辑
                                                 // 读成功写两步.1.上升沿写 false，响应地址写 true
                                                 await plc.WriteAsync(deviceSeq.RfidRisingEdge, false);
-                                                (deviceSeq.SeqName + "【plc-mes】 标签上升沿 结束").LogInformation();
+                                                (deviceSeq.SeqName + "【plc-mes 标签上升沿】结束").LogInformation();
 
                                                 if (string.IsNullOrEmpty(rfid))
                                                 {
@@ -324,22 +324,25 @@ public class S7Communication : BaseCommunication
                                                     (deviceSeq.SeqName + "【Rfid 值】" + rfid).LogInformation();
                                                     
                                                     deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
-                                                    
-                                                    // 不为 0,表示被占用，直接给出错误和 NG
-                                                    if (rfidModel?.RFIDIsUse != 0)
+
+                                                    if (deviceSeq.SeqName == "Op10")
                                                     {
-                                                        "托盘被占用，请重新选择".LogError();
-                                                        // 直接 NG [允许工作1允许，2NG，3下线]
-                                                        WriteData(deviceSeq.StationAllow, "2", out var allowResult);
-                                                        (deviceSeq.SeqName + "【托盘被占用】" + allowResult).LogInformation();
+                                                        // 不为 0,表示被占用，直接给出错误和 NG
+                                                        if (rfidModel?.RFIDIsUse != 0)
+                                                        {
+                                                            "Op10 托盘被占用，请重新选择".LogError();
+                                                            // 直接 NG [允许工作1允许，2NG，3下线]
+                                                            WriteData(deviceSeq.StationAllow, "2", out var allowResult);
+                                                            (deviceSeq.SeqName + "【托盘被占用】-NG-" + allowResult).LogInformation();
+                                                        }
                                                     }
-                                                   
+
                                                     if (string.IsNullOrEmpty(rfidModel?.ProductCode))
                                                     {
                                                         // ToDo:PLC 异常的时候产品码也可能为空
                                                         // 2.1 查询产品码为空，则说明是第一站,直接放行 [允许工作1允许，2NG，3下线]
                                                         WriteData(deviceSeq.StationAllow, "1", out var allowResult);
-                                                        (deviceSeq.SeqName + "【是否运行工作】-OK").LogInformation();
+                                                        (deviceSeq.SeqName + "【产品码为空直接放行】-OK").LogInformation();
                                                     }
                                                     else
                                                     {
@@ -356,17 +359,16 @@ public class S7Communication : BaseCommunication
                                                             {
                                                                 // OK 件 [允许工作1允许，2NG，3下线]
                                                                 WriteData(deviceSeq.StationAllow, "1", out var allowResult);
-                                                                (deviceSeq.SeqName+"Rfid 结果" + allowResult).LogInformation();
+                                                                (deviceSeq.SeqName+ "【plc-mes 标签上升沿反馈是否允许工作】- 1" + allowResult).LogInformation();
                                                             }
                                                             else
                                                             {
                                                                 // NG 件 [允许工作1允许，2NG，3下线]
                                                                 WriteData(deviceSeq.StationAllow, "2", out var allowResult);
-                                                                (deviceSeq.SeqName + "Rfid 结果" + allowResult).LogInformation();
+                                                                (deviceSeq.SeqName + "【plc-mes 标签上升沿反馈是否允许工作】- 2" + allowResult).LogInformation();
                                                             }
                                                         }
                                                     }
-
                                                 }
 
                                                 // 读成功写两步.上升沿写 false，2.响应地址写 true
@@ -434,44 +436,32 @@ public class S7Communication : BaseCommunication
                                             // 这边分为 批量读-插入数据库 批量读-更新数据库 写入PLC
                                             switch (deviceSeq.SqlOperate)
                                             {
-                                                // 这种是第一站不需要插入数据到 DataFirst 中的情况
+                                                // 读取，Op10 站
                                                 case SqlOperateEnum.None:
                                                     // 1. 从 Plc 中读取 ReadData 对应的地址填充到 ReadDataDic 中
                                                     ReadDataFromPlc(deviceSeq, plc);
-                                                    // 读取列表，绑定到 Rfid 上，等到 Op20 的时候再切换绑定
+                                                    // 2. 读取列表，绑定到 Rfid 上，等到 Op20 的时候再切换绑定
                                                     await SqlOperateNone(deviceSeq);
-                                                    // 1. 读取完毕，打印日志
-                                                    (deviceSeq.SeqName + "执行完毕").LogInformation();
                                                     break;
-                                                // 数据插入，读取数据后直接插入 DataFirst 中，首站会用到
+                                                // 读取插入
                                                 case SqlOperateEnum.Insert:
-                                                    // 1. 从 Plc 中读取 ReadData 对应的地址填充到 ReadDataDic 中
                                                     ReadDataFromPlc(deviceSeq, plc);
-                                                    // 2. 将 ReadData 中的数据插入数据库（内部含有 Aop 拦截器）
                                                     await SqlOperateInsert(deviceSeq);
-                                                    // 3. 读取完毕，打印日志
-                                                    (deviceSeq.SeqName + "插入数据执行完毕").LogInformation();
                                                     break;
+                                                // 读取更新
                                                 case SqlOperateEnum.Update:
-                                                    // 1. 从 Plc 中读取 ReadData 对应的地址填充到 ReadDataDic 中
                                                     ReadDataFromPlc(deviceSeq, plc);
-                                                    // 2. 更新数据
                                                     await SqlOperateUpdate(deviceSeq);
-                                                    // 3. 读取完毕，打印日志
-                                                    (deviceSeq.SeqName + "更新数据执行完毕").LogInformation();
                                                     break;
                                                 default:
-                                                    (deviceSeq.SeqName + "未走任何分支，请检查配置文件").LogError();
+                                                    (deviceSeq.SeqName + "【未走任何分支，请检查配置文件】").LogError();
                                                     break;
                                             }
-                                            // 1. Op20 要更新 Rfid 表 label 和 product 的绑定关系
-                                            await SqlOperateFinalAop(deviceSeq);
 
-                                            (deviceSeq.SeqName + "保存数据结束").LogInformation();
-
+                                            (deviceSeq.SeqName + "【mes-plc 保存数据结束】完成").LogInformation();
                                             // 读成功写两步.上升沿写 false，响应地址写 true
                                             await plc.WriteAsync(deviceSeq.ResponseEdge, true);
-                                            (deviceSeq.SeqName + "mes-plc 保存数据结束置位").LogInformation();
+                                            (deviceSeq.SeqName + "【mes-plc 保存数据结束】置位").LogInformation();
                                         }
                                         // 更新历史的值
                                         oldValue = read.Content ? 1 : 0; 
@@ -498,33 +488,33 @@ public class S7Communication : BaseCommunication
     }
 
     /// <summary>
-    /// 这个主要用于第一站数据，节拍和加工时间绑定到 rfid 表上，方便 Op20 站移动
+    /// 这个主要用于 Op10 数据，节拍和加工时间绑定到 rfid 表上，方便 Op20 站移动
     /// </summary>
     /// <param name="deviceSeq"></param>
     /// <returns></returns>
     private async Task SqlOperateNone(DeviceSeq deviceSeq)
     {
-        await SqlOperateNoneAop(deviceSeq);
-    }
+        // 用于第一站数据，节拍和加工时间绑定到 rfid 表上，方便 Op20 站搬运数据
+        if (deviceSeq.SeqName == "Op10")
+        {
+            deviceSeq.ReadDataDic.AddOrUpdate("RFIDIsUse", 1);
+            deviceSeq.ReadDataDic.AddOrUpdate("Op10Result", "OK");
+            deviceSeq.ReadDataDic.AddOrUpdate("Op10Time", DateTime.Now);
+            deviceSeq.ReadDataDic.AddOrUpdate("Op10Result", "OK");
+        }
 
-    /// <summary>
-    /// None 的 Aop 拦截
-    /// </summary>
-    /// <param name="deviceSeq"></param>
-    /// <returns></returns>
-    public virtual async Task SqlOperateNoneAop(DeviceSeq deviceSeq)
-    {
+        var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
+            .AS("Albert_RFID").WhereColumns("RFID").ExecuteCommandAsync();
 
-    }
-
-    /// <summary>
-    /// 最终的拦截
-    /// </summary>
-    /// <param name="deviceSeq"></param>
-    /// <returns></returns>
-    public virtual async Task SqlOperateFinalAop(DeviceSeq deviceSeq)
-    {
-
+        if (line > 0)
+        {
+            // 3. 读取完毕，打印日志
+            (deviceSeq.SeqName + "【RFID 表更新】完成").LogInformation();
+        }
+        else
+        {
+            (deviceSeq.SeqName + "【RFID 表更新】失败").LogError();
+        }
     }
 
     /// <summary>
@@ -533,7 +523,7 @@ public class S7Communication : BaseCommunication
     /// <param name="deviceSeq"></param>
     private async Task SqlOperateInsert(DeviceSeq deviceSeq)
     {
-        // 这个必写
+        // OpFinalStation OpFinalDate 两个字段必写
         deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
         deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);
         // 当前站加工时间
@@ -547,8 +537,19 @@ public class S7Communication : BaseCommunication
         
         try
         {
-            await DbContext.Db.Insertable(deviceSeq.ReadDataDic)
+            var line = await DbContext.Db.Insertable(deviceSeq.ReadDataDic)
                 .AS("Albert_DataFirst").ExecuteCommandAsync();
+
+            if (line > 0)
+            {
+                //读取完毕，打印日志
+                (deviceSeq.SeqName + "【插入数据】完成").LogInformation();
+            }
+            else
+            {
+                (deviceSeq.SeqName + "【插入数据】失败").LogInformation();
+            }
+            
         }
         catch (Exception ex)
         {
@@ -558,33 +559,49 @@ public class S7Communication : BaseCommunication
 
     private async Task SqlOperateUpdate(DeviceSeq deviceSeq)
     {
-        // 这边会进行 Aop 拦截，用复写方法可以实现重载
-        // 在拦截里进行判断是否有错误，如果没有直接写 OK 
-        // 这些必写
-        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
-        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);
-        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Time", DateTime.Now);
- 
-        await SqlOperateUpdateAop(deviceSeq);
-
-        // 数据更新,以 ProductCode
-        var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
-            .AS("Albert_DataFirst").WhereColumns("ProductCode").ExecuteCommandAsync();
-
-        if (line <= 0)
+        try
         {
-            (deviceSeq.SeqName+"未更新任何数据").LogError();
+            // 这些必写
+            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
+            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);
+            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Time", DateTime.Now);
+            // 这些可能会被重写
+            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "OK");
+            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "OK");
+
+            await SqlOperateUpdateAop(deviceSeq);
+
+            // 数据更新,以 ProductCode
+            var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
+                .AS("Albert_DataFirst").WhereColumns("ProductCode").ExecuteCommandAsync();
+
+            if (line > 0)
+            {
+                (deviceSeq.SeqName + "【更新数据】完成").LogInformation();
+            }
+            else
+            {
+                (deviceSeq.SeqName + "【更新数据】失败").LogError();
+
+            }
         }
-        ////字典集合
-        //var dtList = new List<Dictionary<string, object>>
-        //{
-        //    deviceSeq.ReadDataDic,
-        //    deviceSeq.UpdateDataDic
-        //};
-        //await DbContext.Db.Updateable(dtList).AS(_device.SqlStore + "." + deviceSeq.SqlTable)
-        //    .WhereColumns(deviceSeq.UpdateDataDic.Keys.ToArray())
-        //    .ExecuteCommandAsync();
+        catch (Exception ex)
+        {
+            ex.Message.LogError();
+        }
+       
     }
+
+    /// <summary>
+    /// 最终的拦截
+    /// </summary>
+    /// <param name="deviceSeq"></param>
+    /// <returns></returns>
+    public virtual async Task SqlOperateFinalAop(DeviceSeq deviceSeq)
+    {
+
+    }
+
 
     /// <summary>
     /// 虚方法来实现插入到不同表的操作

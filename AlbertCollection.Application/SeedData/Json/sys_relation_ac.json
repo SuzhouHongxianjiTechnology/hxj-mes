@@ -263,13 +263,6 @@
         "ExtJson": "{\"ApiUrl\":\"/tglog/runlog\"}"
       },
       {
-        "Id": "391924286886183",
-        "Category": "SYS_ROLE_HAS_PERMISSION",
-        "ObjectId": "212725263001002",
-        "TargetId": "/tgconfig/uploaddevice",
-        "ExtJson": "{\"ApiUrl\":\"/tgconfig/uploaddevice\"}"
-      },
-      {
         "Id": "391924286886184",
         "Category": "SYS_ROLE_HAS_PERMISSION",
         "ObjectId": "212725263001002",

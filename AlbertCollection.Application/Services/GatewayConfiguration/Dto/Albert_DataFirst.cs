@@ -538,32 +538,6 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
         public decimal? Op130Beat { get; set; }
 
         /// <summary>
-        ///创建ID
-        /// </summary>
-        [Display(Name = "创建ID")]
-        [Column(TypeName = "int")]
-        [Editable(true)]
-        public int? CreateID { get; set; }
-
-        /// <summary>
-        ///创建人
-        /// </summary>
-        [Display(Name = "创建人")]
-        [MaxLength(30)]
-        [Column(TypeName = "nvarchar(30)")]
-        [Editable(true)]
-        public string Creator { get; set; }
-
-        /// <summary>
-        ///创建时间
-        /// </summary>
-        [Display(Name = "创建时间")]
-        [Column(TypeName = "datetime")]
-        [Editable(true)]
-        [Required(AllowEmptyStrings = false)]
-        public DateTime CreateDate { get; set; }
-
-        /// <summary>
         ///修改ID
         /// </summary>
         [Display(Name = "修改ID")]

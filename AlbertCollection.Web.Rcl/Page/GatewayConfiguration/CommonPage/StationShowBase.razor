@@ -35,38 +35,6 @@
                         </ul>
                         </MExpansionPanelContent>
                     </MExpansionPanel>
-                    <MExpansionPanel>
-                    <MExpansionPanelHeader>
-                        写地址块详情
-                    </MExpansionPanelHeader>
-                    <MExpansionPanelContent>
-                        <ul>
-                            @if (DeviceSeq?.WriteData != null)
-                            {
-                                @foreach (var item in DeviceSeq?.WriteData)
-                                {
-                                    <li>@item.SqlColumnName - @item.TypeAndDb</li>
-                                }
-                            }
-                        </ul>
-                    </MExpansionPanelContent>
-                    </MExpansionPanel>
-                    <MExpansionPanel>
-                    <MExpansionPanelHeader>
-                        更新地址块详情
-                    </MExpansionPanelHeader>
-                    <MExpansionPanelContent>
-                        <ul>
-                            @if (DeviceSeq?.UpdateData != null)
-                            {
-                                @foreach (var item in DeviceSeq?.UpdateData)
-                                {
-                                    <li>@item.SqlColumnName - @item.TypeAndDb</li>
-                                }
-                            }
-                        </ul>
-                    </MExpansionPanelContent>
-                        </MExpansionPanel>
             </MExpansionPanels>
         </MCardText>
         <MDivider Class="mx-4"></MDivider>

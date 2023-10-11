@@ -11,6 +11,7 @@
 #endregion
 
 using AlbertCollection.Application.BgWorkers;
+using AlbertCollection.Application.Cache;
 using AlbertCollection.Core.Hsl;
 using Furion.Logging.Extensions;
 
@@ -38,6 +39,12 @@ namespace AlbertCollection.Application
             if(isActive)
             {
                 "Hsl 被激活".LogInformation();
+            }
+
+            // 如果启动 Redis 则激活
+            if (App.GetConfig<bool>("Redis:IsUseRedis"))
+            {
+                services.AddSingleton<ICacheRedisService>(cache => new RedisCacheService());
             }
         }
     }

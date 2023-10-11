@@ -9,6 +9,11 @@
 		<Platforms>AnyCPU;x86</Platforms>
 	</PropertyGroup>
 
+
+	<ItemGroup>
+	  <PackageReference Include="CSRedisCore" Version="3.8.671" />
+	</ItemGroup>
+
 	<ItemGroup>
 	  <ProjectReference Include="..\AlbertCollection.Core\AlbertCollection.Core.csproj" />
 	</ItemGroup>

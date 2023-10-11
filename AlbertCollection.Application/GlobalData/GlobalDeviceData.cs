@@ -2,6 +2,7 @@
 using AlbertCollection.Application.Services.GatewayConfiguration;
 using AlbertCollection.Core.Const;
 using System.Collections.Concurrent;
+using AlbertCollection.Application.Cache;
 using AlbertCollection.Core.Entity.Device;
 
 namespace AlbertCollection.Application.GlobalData
@@ -12,6 +13,18 @@ namespace AlbertCollection.Application.GlobalData
     public class GlobalDeviceData : ISingleton
     {
         private ConcurrentDictionary<string, S7CommunicationAop> _globalDeviceDic = new();
+
+        private readonly ICacheRedisService _cacheService;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="cacheService"></param>
+        public GlobalDeviceData(ICacheRedisService cacheService)
+        {
+            this._cacheService = cacheService;
+        }
+
         /// <summary>
         /// 全局设备对象
         /// </summary>
@@ -71,7 +84,7 @@ namespace AlbertCollection.Application.GlobalData
             if (s7Instance == null)
             {
                 TryAddOrUpdateDevice(device);
-                var s7InstanceNew = new S7CommunicationAop(device);
+                var s7InstanceNew = new S7CommunicationAop(device,_cacheService);
                 s7InstanceNew.Init(singleCollect);
                 _globalDeviceDic.TryAdd(device.Name,s7InstanceNew);
             }

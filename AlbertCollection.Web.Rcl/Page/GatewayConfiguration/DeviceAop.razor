@@ -1,0 +1,16 @@
+﻿@page "/gwconfig/deviceaop"
+@namespace ThingsGateway.Web.Page
+@using AlbertCollection.Application.Services.GatewayConfiguration
+@inject IDriverPluginService DriverPluginService
+@attribute [Authorize]
+@inject MasaBlazor MasaBlazor
+@attribute [RolePermission]
+@inherits CultureComponentBase
+@inject UserResoures UserResoures
+@layout MainLayout
+
+<MRow NoGutters>
+    Device Aop
+</MRow>
+
+

@@ -97,5 +97,12 @@ namespace AlbertCollection.Core
         public const string SwaggerLogin = Cache_Prefix_Web + "SwaggerLogin";
 
         #endregion OpenApi
+
+        #region DeviceCache
+        public const string ProductModel = "ProductModel";
+        public const string PlcList = "PlcList";
+        public const string Craft = "Craft";
+        public const string CraftStationList = "CraftStationList";
+        #endregion
     }
 }

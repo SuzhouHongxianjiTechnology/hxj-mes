@@ -1,4 +1,5 @@
-﻿using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
+﻿using AlbertCollection.Application.Cache;
+using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Core.Entity.Device;
 using Furion.Logging.Extensions;
 using TouchSocket.Core;
@@ -10,13 +11,17 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
     /// </summary>
     public class S7CommunicationAop : S7Communication
     {
+        private readonly ICacheRedisService _cacheService;
+        
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="device"></param>
-        public S7CommunicationAop(DeviceCollection device) : base(device)
+        /// <param name="cacheService"></param>
+        public S7CommunicationAop(DeviceCollection device, ICacheRedisService cacheService) : base(device,cacheService)
         {
             _device = device;
+            _cacheService = cacheService;
         }
 
         // 这种用来切换租户 ID
@@ -79,6 +84,34 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     var srcFolder = App.GetConfig<string>("Op60PressFolder");
                     var filePath = RemoveFile(srcFolder, productCode.ToString());
                     deviceSeq.ReadDataDic.AddOrUpdate("Op60PressureFile",filePath);
+
+                    if (deviceSeq.ReadDataDic.TryGetValue("Op60Pressure", out var pressure))
+                    {
+                        if ((pressure.ToString() == "2"))
+                        {
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                        }
+                    }
+                    else
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                    }
+
+                    if (deviceSeq.ReadDataDic.TryGetValue("Op60Displacement", out var displace))
+                    {
+                        if ((pressure.ToString() == "2"))
+                        {
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                        }
+                    }
+                    else
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                    }
                 }
                 else
                 {

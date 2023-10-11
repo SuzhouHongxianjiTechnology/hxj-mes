@@ -9,6 +9,7 @@ using AlbertCollection.Core.Const;
 using AlbertCollection.Core.Entity.Device;
 using AlbertCollection.Core.Enums;
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
+using AlbertCollection.Application.Cache;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration;
 
@@ -19,14 +20,16 @@ public class S7Communication : BaseCommunication
 {
     public DeviceCollection _device = new();
 
+    private readonly ICacheRedisService _cacheService;
 
     /// <summary>
     /// 构造函数，初始化西门子读写
     /// </summary>
     /// <param name="device"></param>
-    public S7Communication(DeviceCollection device)
+    public S7Communication(DeviceCollection device, ICacheRedisService cacheService)
     {
         _device = device;
+        _cacheService = cacheService;
     }
 
     #region 设备相关
@@ -348,24 +351,52 @@ public class S7Communication : BaseCommunication
                                                     {
                                                         // 2.2 从数据库中查询产品码是否存在，如果存在再去线体查找是否可以做
                                                         // 这边需要两个线体查询逻辑
-                                                        var dataFirst = DbContext.Db.Queryable<Albert_DataFirst>()
-                                                            .First(x => x.ProductCode == rfidModel.ProductCode);
+                                                        Albert_DataFirst dataFirst;
+                                                        if (deviceSeq.DeivceId == 1)
+                                                        {
+                                                            // 一线体
+                                                            dataFirst = DbContext.Db.Queryable<Albert_DataFirst>()
+                                                                .First(x => x.ProductCode == rfidModel.ProductCode);
+                                                        }
+                                                        else
+                                                        {
+                                                            // 二线体
+                                                            dataFirst = null;
+                                                        }
+                                                       
                                                         if (dataFirst != null)
                                                         {
                                                             // 如果托盘绑定了产品码，这边直接放入，后面要用到
                                                             deviceSeq.ReadDataDic.AddOrUpdate("ProductCode", dataFirst.ProductCode);
 
-                                                            if (dataFirst.OpFinalResult == "OK")
+                                                            // 从缓存中获取数据
+                                                            var stationList =
+                                                                _cacheService.Get<List<Albert_PdmCraftDevice>>(
+                                                                    CacheConst.CraftStationList);
+
+                                                            // 没有缓存从数据库获取
+                                                            if (stationList == null)
                                                             {
-                                                                // OK 件 [允许工作1允许，2NG，3下线]
-                                                                WriteData(deviceSeq.StationAllow, "1", out var allowResult);
-                                                                (deviceSeq.SeqName+ "【plc-mes 标签上升沿反馈是否允许工作】- 1" + allowResult).LogInformation();
+                                                                stationList = DbContext.Db.Queryable<Albert_PdmCraftDevice>().ToList();
                                                             }
-                                                            else
+
+                                                            var station = stationList?.Where(x => x.DeviceDBName == deviceSeq.SeqName)
+                                                                .First();
+
+                                                            // 工站屏蔽了,直接发 OK，让其流出
+                                                            if (station != null&&station.DeviceDBIsUse=="N")
                                                             {
                                                                 // NG 件 [允许工作1允许，2NG，3下线]
                                                                 WriteData(deviceSeq.StationAllow, "2", out var allowResult);
-                                                                (deviceSeq.SeqName + "【plc-mes 标签上升沿反馈是否允许工作】- 2" + allowResult).LogInformation();
+                                                                (deviceSeq.SeqName + "【工站屏蔽了,直接发 OK】" + allowResult).LogInformation();
+                                                            }
+                                                            else
+                                                            {
+                                                                string opFinalResult = dataFirst.OpFinalResult;
+                                                                string result = (opFinalResult == "OK") ? "1" : "2";
+                                                                // OK 件或 NG 件 [允许工作1允许，2NG，3下线]
+                                                                WriteData(deviceSeq.StationAllow, result, out var allowResult);
+                                                                (deviceSeq.SeqName + "【rfid 标签上升沿反馈 " + opFinalResult + "，发 " + result + "】" + allowResult).LogInformation();
                                                             }
                                                         }
                                                     }

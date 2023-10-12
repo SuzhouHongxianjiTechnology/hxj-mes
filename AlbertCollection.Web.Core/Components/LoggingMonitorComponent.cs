@@ -31,17 +31,19 @@ namespace ThingsGateway.Web.Core
                  options.GlobalEnabled = false;//全局启用
                  options.ConfigureLogger((logger, logContext, context) =>
                   {
-                      var httpContext = context.HttpContext;//获取httpContext
-                      //获取头
+                      // 获取httpContext
+                      var httpContext = context.HttpContext;
+                      // 获取头
                       var userAgent = httpContext.Request.Headers["User-Agent"];
-                      if (string.IsNullOrEmpty(userAgent)) userAgent = "Other";//如果没有这个头就指定一个
-                      //获取客户端信息
+                      // 如果没有这个头就指定一个
+                      if (string.IsNullOrEmpty(userAgent)) userAgent = "Other";
+                      // 获取客户端信息
                       var client = UserAgent.Parser.Parse(userAgent);
                       // 获取控制器/操作描述器
                       var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-                      //操作名称默认是控制器名加方法名,自定义操作名称要在action上加Description特性
+                      // 操作名称默认是控制器名加方法名,自定义操作名称要在action上加Description特性
                       var option = $"{controllerActionDescriptor.ControllerName}/{controllerActionDescriptor.ActionName}";
-                      //获取特性
+                      // 获取特性
                       var monitor = controllerActionDescriptor.MethodInfo.GetCustomAttribute<DescriptionAttribute>();
                       if (monitor != null)//如果有LoggingMonitor特性
                           option = monitor.Description;//则将操作名称赋值为控制器上写的title

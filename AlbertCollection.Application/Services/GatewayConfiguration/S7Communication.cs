@@ -10,6 +10,7 @@ using AlbertCollection.Core.Entity.Device;
 using AlbertCollection.Core.Enums;
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Application.Cache;
+using static System.Collections.Specialized.BitVector32;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration;
 
@@ -322,84 +323,13 @@ public class S7Communication : BaseCommunication
                                                 }
                                                 else
                                                 {
-
-                                                    var rfidModel = DbContext.Db.Queryable<Albert_RFID>().First(x=>x.RFID.ToString() == rfid);
-                                                    (deviceSeq.SeqName + "【Rfid 值】" + rfid).LogInformation();
+                                                    var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
+                                                        .First(x=>x.RFID.ToString() == rfid);
+                                                    $"{deviceSeq.SeqName}【Rfid 值】读取完毕{rfid}".LogInformation();
                                                     
                                                     deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
 
-                                                    if (deviceSeq.SeqName == "Op10")
-                                                    {
-                                                        // 不为 0,表示被占用，直接给出错误和 NG
-                                                        if (rfidModel?.RFIDIsUse != 0)
-                                                        {
-                                                            "Op10 托盘被占用，请重新选择".LogError();
-                                                            // 直接 NG [允许工作1允许，2NG，3下线]
-                                                            WriteData(deviceSeq.StationAllow, "2", out var allowResult);
-                                                            (deviceSeq.SeqName + "【托盘被占用】-NG-" + allowResult).LogInformation();
-                                                        }
-                                                    }
-
-                                                    if (string.IsNullOrEmpty(rfidModel?.ProductCode))
-                                                    {
-                                                        // ToDo:PLC 异常的时候产品码也可能为空
-                                                        // 2.1 查询产品码为空，则说明是第一站,直接放行 [允许工作1允许，2NG，3下线]
-                                                        WriteData(deviceSeq.StationAllow, "1", out var allowResult);
-                                                        (deviceSeq.SeqName + "【产品码为空直接放行】-OK").LogInformation();
-                                                    }
-                                                    else
-                                                    {
-                                                        // 2.2 从数据库中查询产品码是否存在，如果存在再去线体查找是否可以做
-                                                        // 这边需要两个线体查询逻辑
-                                                        Albert_DataFirst dataFirst;
-                                                        if (deviceSeq.DeivceId == 1)
-                                                        {
-                                                            // 一线体
-                                                            dataFirst = DbContext.Db.Queryable<Albert_DataFirst>()
-                                                                .First(x => x.ProductCode == rfidModel.ProductCode);
-                                                        }
-                                                        else
-                                                        {
-                                                            // 二线体
-                                                            dataFirst = null;
-                                                        }
-                                                       
-                                                        if (dataFirst != null)
-                                                        {
-                                                            // 如果托盘绑定了产品码，这边直接放入，后面要用到
-                                                            deviceSeq.ReadDataDic.AddOrUpdate("ProductCode", dataFirst.ProductCode);
-
-                                                            // 从缓存中获取数据
-                                                            var stationList =
-                                                                _cacheService.Get<List<Albert_PdmCraftDevice>>(
-                                                                    CacheConst.CraftStationList);
-
-                                                            // 没有缓存从数据库获取
-                                                            if (stationList == null)
-                                                            {
-                                                                stationList = DbContext.Db.Queryable<Albert_PdmCraftDevice>().ToList();
-                                                            }
-
-                                                            var station = stationList?.Where(x => x.DeviceDBName == deviceSeq.SeqName)
-                                                                .First();
-
-                                                            // 工站屏蔽了,直接发 OK，让其流出
-                                                            if (station != null&&station.DeviceDBIsUse=="N")
-                                                            {
-                                                                // NG 件 [允许工作1允许，2NG，3下线]
-                                                                WriteData(deviceSeq.StationAllow, "2", out var allowResult);
-                                                                (deviceSeq.SeqName + "【工站屏蔽了,直接发 OK】" + allowResult).LogInformation();
-                                                            }
-                                                            else
-                                                            {
-                                                                string opFinalResult = dataFirst.OpFinalResult;
-                                                                string result = (opFinalResult == "OK") ? "1" : "2";
-                                                                // OK 件或 NG 件 [允许工作1允许，2NG，3下线]
-                                                                WriteData(deviceSeq.StationAllow, result, out var allowResult);
-                                                                (deviceSeq.SeqName + "【rfid 标签上升沿反馈 " + opFinalResult + "，发 " + result + "】" + allowResult).LogInformation();
-                                                            }
-                                                        }
-                                                    }
+                                                    RfidAop(rfidModel,deviceSeq);
                                                 }
 
                                                 // 读成功写两步.上升沿写 false，2.响应地址写 true
@@ -515,6 +445,102 @@ public class S7Communication : BaseCommunication
         else
         {
             BackMessage.AddMessage(DeviceConst.DEV_Station_FIND_NG, LogLevel.Error);
+        }
+    }
+
+
+    private void RfidAop(Albert_RFID? rfidModel,DeviceSeq deviceSeq)
+    {
+        if (deviceSeq.SeqName == "Op10")
+        {
+            // 不为 0,表示被占用，直接给出错误和 NG
+            if (rfidModel?.RFIDIsUse != 0)
+            {
+                // 直接 NG [允许工作1允许，2NG，3下线]
+                WriteData(deviceSeq.StationAllow, "2", out _);
+                "【Op10 托盘被占用】，请重新选择，直接给 plc 发送 NG".LogError();
+            }
+            else
+            {
+                // 如果没被占用直接发1
+                WriteData(deviceSeq.StationAllow, "1", out _);
+                $"{deviceSeq.SeqName}【产品码为空直接放行】-OK".LogInformation();
+            }
+        }
+        else
+        {
+            // 2.2 【一线体】Op10、Op20 不会走该分支，到 Op30 之后会用到 Rfid 表中产品码
+            // 根据托盘的产品码去数据库 Albert_DataFirst 表中查询产品码是否存在，如果存在再去线体查找是否可以做
+            if (deviceSeq.DeivceId == 1)
+            {
+                if (deviceSeq.SeqName == "Op20")
+                {
+                    // 直接发1
+                    WriteData(deviceSeq.StationAllow, "1", out _);
+                    $"{deviceSeq.SeqName}【产品码为空直接放行】-OK".LogInformation();
+                }
+                else
+                {
+                    // 一线体(与数据库交互一次) Op20 是不需要和数据库交互的，直接 
+                    var dataFirst = DbContext.Db.Queryable<Albert_DataFirst>()
+                        .First(x => x.ProductCode == rfidModel.ProductCode);
+
+                    if (dataFirst != null)
+                    {
+                        // 如果托盘绑定了产品码，这边直接放入，后面要用到
+                        deviceSeq.ReadDataDic.AddOrUpdate("ProductCode", rfidModel.ProductCode);
+
+                        #region 屏蔽工站逻辑(根据 Redis 缓存获取工站列表)
+                        // 从缓存中获取数据
+                        var station = _cacheService
+                            .Get<List<Albert_PdmCraftDevice>>(CacheConst.CraftStationList)
+                            ?.Where(x => x.DeviceDBName == deviceSeq.SeqName)
+                            .First();
+
+                        // 没有缓存从数据库获取
+                        if (station == null)
+                        {
+                            var stationList = DbContext.Db
+                                .Queryable<Albert_PdmCraftDevice>()
+                                .Where(x => x.DeviceDBName ==
+                                    deviceSeq.SeqName);
+
+                            // 写入缓存中
+                            _cacheService.AddObject(
+                                CacheConst.CraftStationList, stationList);
+
+                            station = stationList.First();
+                        }
+
+                        // 工站屏蔽了,直接发 2，让其流出
+                        if (station?.DeviceDBIsUse == "N")
+                        {
+                            // NG 件 [允许工作1允许，2NG，3下线]
+                            WriteData(deviceSeq.StationAllow, "2", out _);
+                            $"{deviceSeq.SeqName}【工站屏蔽了,直接 NG 流出】".LogWarning();
+                        }
+                        else
+                        {
+                            // 没有屏蔽工站，则按照正常逻辑进行
+                            var finalResult = (dataFirst.OpFinalResult == "OK") ? "1" : "2";
+                            WriteData(deviceSeq.StationAllow, finalResult, out _);
+                            $"{deviceSeq.SeqName}【rfid 标签上升沿反馈】{finalResult}".LogInformation();
+                        }
+                        #endregion
+                    }
+                    else
+                    {
+                        // 未根据产品码查询到相关数据，直接 NG
+                        WriteData(deviceSeq.StationAllow, "2", out _);
+                        $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
+                    }
+                }
+            }
+            else
+            {
+                // 二线体
+
+            }
         }
     }
 

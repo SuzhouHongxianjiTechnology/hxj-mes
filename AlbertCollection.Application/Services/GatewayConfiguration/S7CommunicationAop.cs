@@ -76,6 +76,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
         /// <returns></returns>
         public override async Task SqlOperateUpdateAop(DeviceSeq deviceSeq)
         {
+            // Op60 站压力、位移判断
             if (deviceSeq.SeqName == "Op60")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
@@ -101,7 +102,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
                     if (deviceSeq.ReadDataDic.TryGetValue("Op60Displacement", out var displace))
                     {
-                        if ((pressure.ToString() == "2"))
+                        if ((displace.ToString() == "2"))
                         {
                             deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
                             deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
@@ -144,6 +145,55 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 else
                 {
                     (deviceSeq.SeqName + "【字典数据未查询到】RFID or ProductCode").LogError();
+                }
+            }
+
+            // Op90 站位移判断
+            if (deviceSeq.SeqName == "Op90")
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("Op90DisplacementResult", out var displace))
+                {
+                    if ((displace.ToString() == "2"))
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                    }
+                }
+                else
+                {
+                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                    deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                }
+
+                if (deviceSeq.ReadDataDic.TryGetValue("Op90IV3Result", out var iv3Result))
+                {
+                    if ((iv3Result.ToString() == "2"))
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                    }
+                }
+                else
+                {
+                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                    deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                }
+            }
+
+            if (deviceSeq.SeqName == "Op110")
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("Op110IV3Result", out var displace))
+                {
+                    if ((displace.ToString() == "2"))
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                    }
+                }
+                else
+                {
+                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                    deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
                 }
             }
 

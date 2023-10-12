@@ -19,7 +19,6 @@ namespace AlbertCollection.Web.Core
     /// </summary>
     public class DatabaseLoggingWriter : IDatabaseLoggingWriter
     {
-
         /// <inheritdoc/>
         public void Write(LogMessage logMsg, bool flush)
         {

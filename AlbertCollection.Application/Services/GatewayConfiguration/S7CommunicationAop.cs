@@ -2,6 +2,7 @@
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Core.Entity.Device;
 using Furion.Logging.Extensions;
+using HslCommunication.Enthernet;
 using TouchSocket.Core;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration
@@ -60,11 +61,13 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
+                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName+"【数据字典未查询到】RFID 或产品码").LogError();
+                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
             }
         }
@@ -117,12 +120,17 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 else
                 {
                     (deviceSeq.SeqName+ "【字典数据未查询到】产品码，无法重命名压机文件").LogError();
+                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】产品码，无法重命名压机文件"));
+
+                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                    deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
                 }
             }
 
             // 这一站：将托盘上的料夹走（第一个托盘），后面的托盘会放前一个托盘的料
             if (deviceSeq.SeqName == "Op80")
             {
+                // 80 解绑-第一次会报错，无需关心
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid)
                     && deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
                 {
@@ -140,11 +148,13 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
+                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表--80 解绑-第一次会报错，无需关心"));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【字典数据未查询到】RFID or ProductCode").LogError();
+                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】RFID or ProductCode"));
                 }
             }
 
@@ -216,11 +226,13 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
+                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表"));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【字典数据未查询到】 RFID").LogError();
+                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】 RFID"));
                 }
             }
         }
@@ -249,6 +261,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 else
                 {
                     "【压机文件重命名】失败，目录中没有文件.".LogError();
+                    _cacheService.LPush("MES-PLC 交互", "【压机文件重命名】失败，目录中没有文件.");
                     return "";
                 }
             }

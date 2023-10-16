@@ -11,6 +11,7 @@ using AlbertCollection.Core.Enums;
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Application.Cache;
 using static System.Collections.Specialized.BitVector32;
+using System.Collections.Generic;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration;
 
@@ -44,12 +45,14 @@ public class S7Communication : BaseCommunication
         if (!CmdPing(_device.IpAddress, out var strErr))
         {
             strErr.LogError();
+            _cacheService.LPush("MES-PLC 交互", strErr);
             return this;
         }
 
         if (_device == null)
         {
             "初始化设备为空".LogError();
+            _cacheService.LPush("MES-PLC 交互", "初始化设备为空");
             return this;
         }
 
@@ -160,6 +163,7 @@ public class S7Communication : BaseCommunication
                 catch (Exception ex)
                 {
                     ex.ToString().LogError();
+                    _cacheService.LPush("MES-PLC 交互", ex.ToString());
                     _device.IsHeartbeatOpen = false;
                 }
         }, cancellationToken);
@@ -175,6 +179,7 @@ public class S7Communication : BaseCommunication
         catch (Exception ex)
         {
             ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message).LogError();
+            _cacheService.LPush("MES-PLC 交互", ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message));
         }
     }
 
@@ -232,11 +237,15 @@ public class S7Communication : BaseCommunication
             if (!connect.IsSuccess)
                 ("型号：" + _device.SimPlcType.ToString() + " PLC连接失败！IP：" + _device.IpAddress + " Port:" + port)
                     .LogError();
+            _cacheService.LPush("MES-PLC 交互",
+                ("型号：" + _device.SimPlcType.ToString() + " PLC连接失败！IP：" + _device.IpAddress + " Port:" + port));
             return connect.IsSuccess;
         }
         catch (Exception ex)
         {
             ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message).LogError();
+            _cacheService.LPush("MES-PLC 交互",
+                ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message));
         }
 
         return false;
@@ -264,6 +273,96 @@ public class S7Communication : BaseCommunication
                 deviceSeq.IsOpen = true;
                 deviceSeq.StopStationTokenSource = new CancellationTokenSource();
 
+                if (deviceSeq.SeqName == "Op120")
+                {
+                    // Rfid 上升延 这边有一个特殊情况 Op120 工站要根据 1200.4 bool false结束 true开启
+                    // Op120Torque float,DB50.1210.0
+                    Task.Run(async () =>
+                    {
+                        // 用于判断是否是第一次
+                        var plc = _device.SimTcpNet;
+                        var torqueList = new List<string>();
+
+                        while (true)
+                        {
+                            try
+                            {
+                                // 异步任务取消分支
+                                if (deviceSeq.StopStationTokenSource.IsCancellationRequested)
+                                {
+                                    deviceSeq.IsOpen = false;
+                                    $"{deviceSeq.SeqName}--停止采集".LogWarning();
+                                    break;
+                                }
+                                else
+                                {
+                                    torqueList.Clear();
+                                    // 读取压机上升沿信号，如果是 1，则直接循环采集 50 个点
+                                    var torqueUp = await plc.ReadBoolAsync("DB50.1200.4");
+
+                                    if (torqueUp.Content)
+                                    {
+                                        // ToDo;和 plc 商量，读取完后我来写 0
+                                        // 同时读取 rfid ，rfid 表上面有产品码，根据产品码将读取到的压机曲线数据插入到数据库
+                                        ReadData(deviceSeq.RfidLabel, out var rfid);
+                                        for (int i = 0; i < 50; i++)
+                                        {
+                                            ReadData("float,DB50.1210.0", out var torque);
+                                            // 用来防止 plc 读取的位数过长
+                                            string subTorque = torque.Length >= 4 ? torque.Substring(0, 4) : torque;
+                                            torqueList.Add(subTorque);
+                                            await Task.Delay(20);
+                                        }
+
+                                        // 将 torqueList 中的数据插入到数据库中
+                                        if (torqueList.Count > 0)
+                                        {
+                                            string op120TorqueList = string.Join(",", torqueList);
+
+                                            var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
+                                                .First(x => x.RFID.ToString() == rfid);
+
+                                            var tempDic = new Dictionary<string, object>();
+                                            tempDic.AddOrUpdate("ProductCode", rfidModel.ProductCode);
+                                            tempDic.AddOrUpdate("Op120TorqueList", op120TorqueList);
+
+                                            var line = await DbContext.Db.Updateable(tempDic)
+                                                .AS("Albert_DataFirst").WhereColumns("ProductCode").ExecuteCommandAsync();
+
+                                            if (line > 0)
+                                            {
+                                                (deviceSeq.SeqName + "压机曲线更新成功").LogInformation();
+                                                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "压机曲线更新成功"));
+
+                                                await Task.Delay(1000);
+                                            }
+                                            else
+                                            {
+                                                (deviceSeq.SeqName + "压机曲线更新失败").LogError();
+                                                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "压机曲线更新失败"));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            (deviceSeq.SeqName + "压机曲线未获取到任何数据").LogError();
+                                            _cacheService.LPush("MES-PLC 交互-压机曲线", (deviceSeq.SeqName + "压机曲线未获取到任何数据"));
+                                        }
+                                    }
+
+                                    await Task.Delay(50);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                (deviceSeq.SeqName + ex.Message).LogError();
+                                _cacheService.LPush("MES-PLC 交互-压机曲线", (deviceSeq.SeqName + ex.Message));
+                                deviceSeq.IsOpen = false;
+                                break;
+                            }
+                        }
+                    }, deviceSeq.StopStationTokenSource.Token);
+                }
+
                 // 下面是两个异步分支
                 // 一个是用于读 Rfid 并告知是否能做
                 Task.Run(async () =>
@@ -284,64 +383,57 @@ public class S7Communication : BaseCommunication
                             }
                             else
                             {
-                                // 异步任务取消分支
-                                if (deviceSeq.StopStationTokenSource.IsCancellationRequested)
+                                // 读取工站上升沿地址  从 0-->1 上升沿读取
+                                var read = await plc.ReadBoolAsync(deviceSeq.RfidRisingEdge);
+                                if (read.IsSuccess)
                                 {
-                                    deviceSeq.IsOpen = false;
-                                    $"{deviceSeq.SeqName}--停止采集".LogWarning();
-                                    break;
-                                }
-                                else
-                                {
-                                    // 读取工站上升沿地址  从 0-->1 上升沿读取
-                                    var read = await plc.ReadBoolAsync(deviceSeq.RfidRisingEdge);
-                                    if (read.IsSuccess)
+                                    if (oldValue == -1)
                                     {
-                                        if (oldValue == -1)
+                                        (deviceSeq.SeqName + "第一次开机未知状态").LogInformation();
+                                        // 第一次开机未知的情况，先初始化一次数据
+                                        // 更新历史的值
+                                        oldValue = read.Content ? 1 : 0;
+                                    }
+                                    else
+                                    {
+                                        if (read.Content && oldValue == 0)
                                         {
-                                            (deviceSeq.SeqName + "第一次开机未知状态").LogInformation();
-                                            // 第一次开机未知的情况，先初始化一次数据
-                                            // 更新历史的值
-                                            oldValue = read.Content ? 1 : 0;
-                                        }
-                                        else
-                                        {
-                                            if (read.Content && oldValue == 0)
+                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】开始").LogInformation();
+                                            // 发生了上升沿，需要完成两步
+                                            // 1. 读取 Rfid
+                                            ReadData(deviceSeq.RfidLabel, out var rfid);
+                                            // 发生了上升沿，两步交互逻辑
+                                            // 读成功写两步.1.上升沿写 false，响应地址写 true
+                                            await plc.WriteAsync(deviceSeq.RfidRisingEdge, false);
+                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】结束").LogInformation();
+
+                                            if (string.IsNullOrEmpty(rfid))
                                             {
-                                                (deviceSeq.SeqName+ "【plc-mes 标签上升沿】开始").LogInformation();
-                                                // 发生了上升沿，需要完成两步
-                                                // 1. 读取 Rfid
-                                                ReadData(deviceSeq.RfidLabel,out var rfid);
-                                                // 发生了上升沿，两步交互逻辑
-                                                // 读成功写两步.1.上升沿写 false，响应地址写 true
-                                                await plc.WriteAsync(deviceSeq.RfidRisingEdge, false);
-                                                (deviceSeq.SeqName + "【plc-mes 标签上升沿】结束").LogInformation();
+                                                (deviceSeq.SeqName + "rfid 未读取到").LogError();
+                                                _cacheService.LPush("MES-PLC 交互",
+                                                    (deviceSeq.SeqName + "rfid 未读取到"));
+                                            }
+                                            else
+                                            {
+                                                var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
+                                                    .First(x => x.RFID.ToString() == rfid);
+                                                $"{deviceSeq.SeqName}【Rfid 值】读取完毕{rfid}".LogInformation();
 
-                                                if (string.IsNullOrEmpty(rfid))
-                                                {
-                                                    (deviceSeq.SeqName+"rfid 未读取到").LogError();
-                                                }
-                                                else
-                                                {
-                                                    var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
-                                                        .First(x=>x.RFID.ToString() == rfid);
-                                                    $"{deviceSeq.SeqName}【Rfid 值】读取完毕{rfid}".LogInformation();
-                                                    
-                                                    deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
+                                                deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
 
-                                                    RfidAop(rfidModel,deviceSeq);
-                                                }
-
-                                                // 读成功写两步.上升沿写 false，2.响应地址写 true
-                                                await plc.WriteAsync(deviceSeq.RfidResponseEdge, true);
-                                                (deviceSeq.SeqName + "MES-PLC 标签结束 true").LogInformation();
+                                                RfidAop(rfidModel, deviceSeq);
                                             }
 
-                                            // 更新历史的值
-                                            oldValue = read.Content ? 1 : 0;
+                                            // 读成功写两步.上升沿写 false，2.响应地址写 true
+                                            await plc.WriteAsync(deviceSeq.RfidResponseEdge, true);
+                                            (deviceSeq.SeqName + "MES-PLC 标签结束 true").LogInformation();
                                         }
+
+                                        // 更新历史的值
+                                        oldValue = read.Content ? 1 : 0;
                                     }
                                 }
+
                                 deviceSeq.IsOpen = true;
                                 await Task.Delay(20);
                             }
@@ -349,6 +441,7 @@ public class S7Communication : BaseCommunication
                         catch (Exception ex)
                         {
                             (deviceSeq.SeqName + ex.Message).LogError();
+                            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
                             deviceSeq.IsOpen = false;
                             break;
                         }
@@ -416,6 +509,8 @@ public class S7Communication : BaseCommunication
                                                     break;
                                                 default:
                                                     (deviceSeq.SeqName + "【未走任何分支，请检查配置文件】").LogError();
+                                                    _cacheService.LPush("MES-PLC 交互",
+                                                        (deviceSeq.SeqName + "【未走任何分支，请检查配置文件】"));
                                                     break;
                                             }
 
@@ -436,6 +531,7 @@ public class S7Communication : BaseCommunication
                         catch (Exception ex)
                         {
                             (deviceSeq.SeqName+ex.Message).LogError();
+                            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
                             deviceSeq.IsOpen = false;
                             break;
                         }
@@ -456,9 +552,10 @@ public class S7Communication : BaseCommunication
             // 不为 0,表示被占用，直接给出错误和 NG
             if (rfidModel?.RFIDIsUse != 0)
             {
-                // 直接 NG [允许工作1允许，2NG，3下线]
+                // 直接 NG [允许工作1允许，2NG]
                 WriteData(deviceSeq.StationAllow, "2", out _);
                 "【Op10 托盘被占用】，请重新选择，直接给 plc 发送 NG".LogError();
+                _cacheService.LPush("MES-PLC 交互", "【Op10 托盘被占用】，请重新选择，直接给 plc 发送 NG");
             }
             else
             {
@@ -515,7 +612,7 @@ public class S7Communication : BaseCommunication
                         // 工站屏蔽了,直接发 2，让其流出
                         if (station?.DeviceDBIsUse == "N")
                         {
-                            // NG 件 [允许工作1允许，2NG，3下线]
+                            // NG 件 [允许工作1允许，2NG]
                             WriteData(deviceSeq.StationAllow, "2", out _);
                             $"{deviceSeq.SeqName}【工站屏蔽了,直接 NG 流出】".LogWarning();
                         }
@@ -533,6 +630,7 @@ public class S7Communication : BaseCommunication
                         // 未根据产品码查询到相关数据，直接 NG
                         WriteData(deviceSeq.StationAllow, "2", out _);
                         $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
+                        _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG");
                     }
                 }
             }
@@ -571,6 +669,7 @@ public class S7Communication : BaseCommunication
         else
         {
             (deviceSeq.SeqName + "【RFID 表更新】失败").LogError();
+            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【RFID 表更新】失败"));
         }
     }
 
@@ -610,7 +709,8 @@ public class S7Communication : BaseCommunication
         }
         catch (Exception ex)
         {
-            ex.Message.LogError();
+            $"【插入数据】失败{ex.Message}".LogError();
+            _cacheService.LPush("MES-PLC 交互", $"【插入数据】失败{ex.Message}");
         }
     }
 
@@ -639,12 +739,13 @@ public class S7Communication : BaseCommunication
             else
             {
                 (deviceSeq.SeqName + "【更新数据】失败").LogError();
-
+                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败"));
             }
         }
         catch (Exception ex)
         {
-            ex.Message.LogError();
+            $"【更新数据】失败{ex.Message}".LogError();
+            _cacheService.LPush("MES-PLC 交互", $"【更新数据】失败{ex.Message}");
         }
        
     }
@@ -936,6 +1037,7 @@ public class S7Communication : BaseCommunication
         else
         {
             (address + " 读取失败-原因：" + result.ToMessageShowString()).LogError();
+            _cacheService.LPush("MES-PLC 交互", (address + " 读取失败-原因：" + result.ToMessageShowString()));
             return "";
         }
     }

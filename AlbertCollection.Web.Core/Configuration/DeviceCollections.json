@@ -342,6 +342,8 @@
             "DeviceName": "环形1线",
             "SeqName": "Op120",
             "SqlTable": "Albert_DataFirst",
+            // Rfid 上升延 这边有一个特殊情况 Op120 工站要根据 1200.4 bool false结束 true开启
+            // Op120Torque float,DB50.1210.0
             "RfidRisingEdge": "DB50.1200.0",
             "RfidResponseEdge": "DB50.1200.1",
             "RisingEdge": "DB50.1200.2",

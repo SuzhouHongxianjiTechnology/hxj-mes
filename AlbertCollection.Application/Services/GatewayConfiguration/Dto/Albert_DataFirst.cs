@@ -78,15 +78,6 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
         public string IsRework { get; set; }
 
         /// <summary>
-        ///物料码
-        /// </summary>
-        [Display(Name = "物料码")]
-        [MaxLength(50)]
-        [Column(TypeName = "nvarchar(50)")]
-        [Editable(true)]
-        public string MaterialCode { get; set; }
-
-        /// <summary>
         ///Op10加工结果
         /// </summary>
         [Display(Name = "Op10加工结果")]

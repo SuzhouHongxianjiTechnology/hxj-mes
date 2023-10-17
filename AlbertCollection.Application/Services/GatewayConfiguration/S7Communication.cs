@@ -273,6 +273,92 @@ public class S7Communication : BaseCommunication
                 deviceSeq.IsOpen = true;
                 deviceSeq.StopStationTokenSource = new CancellationTokenSource();
 
+                // 下面是两个异步分支
+                // 一个是用于读 Rfid 并告知是否能做
+                Task.Run(async () =>
+                {
+                    // 用于判断是否是第一次
+                    var oldValue = -1;
+                    var plc = _device.SimTcpNet;
+                    while (true)
+                    {
+                        try
+                        {
+                            // 异步任务取消分支
+                            if (deviceSeq.StopStationTokenSource.IsCancellationRequested)
+                            {
+                                deviceSeq.IsOpen = false;
+                                $"{deviceSeq.SeqName}--停止采集".LogWarning();
+                                break;
+                            }
+                            else
+                            {
+                                // 读取工站上升沿地址  从 0-->1 上升沿读取
+                                var read = await plc.ReadBoolAsync(deviceSeq.RfidRisingEdge);
+
+                                if (read.IsSuccess)
+                                {
+                                    if (oldValue == -1)
+                                    {
+                                        (deviceSeq.SeqName + "第一次开机未知状态").LogInformation();
+                                        // 第一次开机未知的情况，先初始化一次数据
+                                        // 更新历史的值
+                                        oldValue = read.Content ? 1 : 0;
+                                    }
+                                    else
+                                    {
+                                        if (read.Content && oldValue == 0)
+                                        {
+                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】开始").LogInformation();
+                                            // 发生了上升沿，需要完成两步
+                                            // 1. 读取 Rfid
+                                            ReadData(deviceSeq.RfidLabel, out var rfid);
+                                            // 发生了上升沿，两步交互逻辑
+                                            // 读成功写两步.1.上升沿写 false，响应地址写 true
+                                            await plc.WriteAsync(deviceSeq.RfidRisingEdge, false);
+                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】结束").LogInformation();
+
+                                            if (string.IsNullOrEmpty(rfid))
+                                            {
+                                                (deviceSeq.SeqName + "rfid 未读取到").LogError();
+                                                _cacheService.LPush("MES-PLC 交互",
+                                                    (deviceSeq.SeqName + "rfid 未读取到"));
+                                            }
+                                            else
+                                            {
+                                                var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
+                                                    .First(x => x.RFID.ToString() == rfid);
+
+                                                $"{deviceSeq.SeqName}【Rfid 值】读取完毕{rfid}".LogInformation();
+                                                deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
+
+                                                RfidAop(rfidModel, deviceSeq);
+                                            }
+
+                                            // 读成功写两步.上升沿写 false，2.响应地址写 true
+                                            await plc.WriteAsync(deviceSeq.RfidResponseEdge, true);
+                                            (deviceSeq.SeqName + "MES-PLC 标签结束 true").LogInformation();
+                                        }
+
+                                        // 更新历史的值
+                                        oldValue = read.Content ? 1 : 0;
+                                    }
+                                }
+
+                                deviceSeq.IsOpen = true;
+                                await Task.Delay(20);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            (deviceSeq.SeqName + ex.Message).LogError();
+                            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
+                            deviceSeq.IsOpen = false;
+                            break;
+                        }
+                    }
+                }, deviceSeq.StopStationTokenSource.Token);
+
                 if (deviceSeq.SeqName == "Op120")
                 {
                     // Rfid 上升延 这边有一个特殊情况 Op120 工站要根据 1200.4 bool false结束 true开启
@@ -362,91 +448,6 @@ public class S7Communication : BaseCommunication
                         }
                     }, deviceSeq.StopStationTokenSource.Token);
                 }
-
-                // 下面是两个异步分支
-                // 一个是用于读 Rfid 并告知是否能做
-                Task.Run(async () =>
-                {
-                    // 用于判断是否是第一次
-                    var oldValue = -1;
-                    var plc = _device.SimTcpNet;
-                    while (true)
-                    {
-                        try
-                        {
-                            // 异步任务取消分支
-                            if (deviceSeq.StopStationTokenSource.IsCancellationRequested)
-                            {
-                                deviceSeq.IsOpen = false;
-                                $"{deviceSeq.SeqName}--停止采集".LogWarning();
-                                break;
-                            }
-                            else
-                            {
-                                // 读取工站上升沿地址  从 0-->1 上升沿读取
-                                var read = await plc.ReadBoolAsync(deviceSeq.RfidRisingEdge);
-                                if (read.IsSuccess)
-                                {
-                                    if (oldValue == -1)
-                                    {
-                                        (deviceSeq.SeqName + "第一次开机未知状态").LogInformation();
-                                        // 第一次开机未知的情况，先初始化一次数据
-                                        // 更新历史的值
-                                        oldValue = read.Content ? 1 : 0;
-                                    }
-                                    else
-                                    {
-                                        if (read.Content && oldValue == 0)
-                                        {
-                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】开始").LogInformation();
-                                            // 发生了上升沿，需要完成两步
-                                            // 1. 读取 Rfid
-                                            ReadData(deviceSeq.RfidLabel, out var rfid);
-                                            // 发生了上升沿，两步交互逻辑
-                                            // 读成功写两步.1.上升沿写 false，响应地址写 true
-                                            await plc.WriteAsync(deviceSeq.RfidRisingEdge, false);
-                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】结束").LogInformation();
-
-                                            if (string.IsNullOrEmpty(rfid))
-                                            {
-                                                (deviceSeq.SeqName + "rfid 未读取到").LogError();
-                                                _cacheService.LPush("MES-PLC 交互",
-                                                    (deviceSeq.SeqName + "rfid 未读取到"));
-                                            }
-                                            else
-                                            {
-                                                var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
-                                                    .First(x => x.RFID.ToString() == rfid);
-                                                $"{deviceSeq.SeqName}【Rfid 值】读取完毕{rfid}".LogInformation();
-
-                                                deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
-
-                                                RfidAop(rfidModel, deviceSeq);
-                                            }
-
-                                            // 读成功写两步.上升沿写 false，2.响应地址写 true
-                                            await plc.WriteAsync(deviceSeq.RfidResponseEdge, true);
-                                            (deviceSeq.SeqName + "MES-PLC 标签结束 true").LogInformation();
-                                        }
-
-                                        // 更新历史的值
-                                        oldValue = read.Content ? 1 : 0;
-                                    }
-                                }
-
-                                deviceSeq.IsOpen = true;
-                                await Task.Delay(20);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            (deviceSeq.SeqName + ex.Message).LogError();
-                            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
-                            deviceSeq.IsOpen = false;
-                            break;
-                        }
-                    }
-                }, deviceSeq.StopStationTokenSource.Token);
 
                 // 第二个分支用于读取数据
                 Task.Run(async () =>
@@ -572,7 +573,7 @@ public class S7Communication : BaseCommunication
             {
                 if (deviceSeq.SeqName == "Op20")
                 {
-                    // 直接发1
+                    // 直接发 1
                     WriteData(deviceSeq.StationAllow, "1", out _);
                     $"{deviceSeq.SeqName}【产品码为空直接放行】-OK".LogInformation();
                 }
@@ -653,9 +654,25 @@ public class S7Communication : BaseCommunication
         if (deviceSeq.SeqName == "Op10")
         {
             deviceSeq.ReadDataDic.AddOrUpdate("RFIDIsUse", 1);
-            deviceSeq.ReadDataDic.AddOrUpdate("Op10Result", "OK");
             deviceSeq.ReadDataDic.AddOrUpdate("Op10Time", DateTime.Now);
             deviceSeq.ReadDataDic.AddOrUpdate("Op10Result", "OK");
+        }
+
+        if (deviceSeq.SeqName == "Op150")
+        {
+            deviceSeq.ReadDataDic.AddOrUpdate("RFIDIsUse", 1);
+            deviceSeq.ReadDataDic.AddOrUpdate("Op150Time", DateTime.Now);
+            deviceSeq.ReadDataDic.AddOrUpdate("Bearing", "N"); // 轴承
+            deviceSeq.ReadDataDic.AddOrUpdate("Case", "Y"); // 壳体
+            deviceSeq.ReadDataDic.AddOrUpdate("SteelBall", "Y"); // 钢球
+            deviceSeq.ReadDataDic.AddOrUpdate("PlugCap", "Y"); // 堵帽
+            deviceSeq.ReadDataDic.AddOrUpdate("Spring", "Y"); // 弹簧
+        }
+
+        if (deviceSeq.SeqName == "Op160")
+        {
+            deviceSeq.ReadDataDic.AddOrUpdate("Op160Time", DateTime.Now);
+            deviceSeq.ReadDataDic.AddOrUpdate("Op160Result", "OK");
         }
 
         var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)

@@ -27,11 +27,6 @@ namespace AlbertCollection.Core.Entity.Device
         [SugarColumn(ColumnName = "SeqName", ColumnDescription = "批量名", Length = 20, IsNullable = true)]
         public string SeqName { get; set; }
         /// <summary>
-        /// 批量操作表
-        /// </summary>
-        [SugarColumn(ColumnName = "SqlTable", ColumnDescription = "批量操作表", Length = 20, IsNullable = true)]
-        public string SqlTable { get; set; }
-        /// <summary>
         ///  Rfid上升沿
         /// </summary>
         [SugarColumn(ColumnName = "RfidRisingEdge", ColumnDescription = "Rfid 上升沿", Length = 50, IsNullable = true)]

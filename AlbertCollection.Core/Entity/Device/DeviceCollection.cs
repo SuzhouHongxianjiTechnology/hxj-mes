@@ -48,11 +48,6 @@ namespace AlbertCollection.Core.Entity.Device
         [SugarColumn(ColumnDataType = "varchar(50)", ColumnName = "SimPlcType", ColumnDescription = "西门子类型", SqlParameterDbType = typeof(EnumToStringConvert))]
         public SiemensPLCS SimPlcType { get; set; }
         /// <summary>
-        /// 操作数据库名
-        /// </summary>
-        [SugarColumn(ColumnName = "SqlStore", ColumnDescription = "操作数据库名", Length = 20, IsNullable = true)]
-        public string SqlStore { get; set; }
-        /// <summary>
         /// PLC 通讯句柄
         /// </summary>
         [SugarColumn(IsIgnore = true)]

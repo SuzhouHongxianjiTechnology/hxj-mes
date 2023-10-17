@@ -35,6 +35,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
         /// <returns></returns>
         public override async Task SqlOperateInsertAop(DeviceSeq deviceSeq)
         {
+            // 将 Op10 的数据从 rfid 表绑定到数据大表上 Albert_RFID
             if (deviceSeq.SeqName == "Op20")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid)
@@ -67,6 +68,47 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 else
                 {
                     (deviceSeq.SeqName+"【数据字典未查询到】RFID 或产品码").LogError();
+                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
+                }
+            }
+
+            if (deviceSeq.SeqName == "Op170")
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid)
+                    && deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                {
+                    var rfidModel = DbContext.Db.Queryable<Albert_RFID>().First(x => x.RFID.ToString() == rfid.ToString());
+
+                    if (rfidModel != null)
+                    {
+                        // 1.更新 RFID 表
+                        // 绑定 Rfid 和 产品码
+                        rfidModel.ShellCode = shellCode.ToString();
+
+                        // 更新绑定关系
+                        await DbContext.Db.Updateable(rfidModel)
+                            .Where(it => it.RFID == rfid.ToInt(0))
+                            .ExecuteCommandAsync();
+
+                        // 2.更新产品表
+                        // 从 _rfidModel 中获取 Op150 Op160 数据
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op150Beat", rfidModel.OP150Beat);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op150Result", rfidModel.Op150Result);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op150Time", rfidModel.Op150Time);
+
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op160Beat", rfidModel.OP150Beat);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op160Result", rfidModel.Op150Result);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op160Time", rfidModel.Op150Time);
+                    }
+                    else
+                    {
+                        (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
+                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
+                    }
+                }
+                else
+                {
+                    (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
                     _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
             }

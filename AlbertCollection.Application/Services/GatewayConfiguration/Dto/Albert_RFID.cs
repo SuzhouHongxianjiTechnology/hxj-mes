@@ -27,6 +27,10 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
         ///产品码
         /// </summary>
         public string ProductCode { get; set; }
+        /// <summary>
+        ///壳体码
+        /// </summary>
+        public string ShellCode { get; set; }
 
         /// <summary>
         ///Op10节拍
@@ -41,6 +45,32 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
         /// Op10结果
         /// </summary>
         public DateTime Op10Time { get; set; }
+        /// <summary>
+        ///Op150节拍
+        /// </summary>
+        public string OP150Beat { get; set; }
+
+        /// <summary>
+        /// Op150结果
+        /// </summary>
+        public string Op150Result { get; set; }
+        /// <summary>
+        /// Op150结果
+        /// </summary>
+        public DateTime Op150Time { get; set; }
+        /// <summary>
+        ///Op160节拍
+        /// </summary>
+        public string OP160Beat { get; set; }
+
+        /// <summary>
+        /// Op160结果
+        /// </summary>
+        public string Op160Result { get; set; }
+        /// <summary>
+        /// Op160结果
+        /// </summary>
+        public DateTime Op160Time { get; set; }
 
         /// <summary>
         ///钢球在位(Y/N)

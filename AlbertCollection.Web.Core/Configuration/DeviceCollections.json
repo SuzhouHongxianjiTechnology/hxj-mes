@@ -9,14 +9,12 @@
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
         "SetHeartAddress": "DB50.0.0",
-        "SqlStore": "MySqlDemo",
         "StationSeqs": [
           {
             "Id": "1",
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op10",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.100.0",
             "RfidResponseEdge": "DB50.100.1",
             "RisingEdge": "DB50.100.2",
@@ -38,8 +36,7 @@
             "Id": "2",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op20",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op20",  
             "RfidRisingEdge": "DB50.200.0",
             "RfidResponseEdge": "DB50.200.1",
             "RisingEdge": "DB50.200.2",
@@ -48,7 +45,6 @@
             "RfidLabel": "short,DB50.204.0",
             "SqlOperate": "Insert",
             "ReadData": [
-
               {
                 "Id": "1",
                 "SeqId": "1",
@@ -70,7 +66,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op30",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.300.0",
             "RfidResponseEdge": "DB50.300.1",
             "RisingEdge": "DB50.300.2",
@@ -93,7 +88,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op40",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.400.0",
             "RfidResponseEdge": "DB50.400.1",
             "RisingEdge": "DB50.400.2",
@@ -116,7 +110,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op50",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.500.0",
             "RfidResponseEdge": "DB50.500.1",
             "RisingEdge": "DB50.500.2",
@@ -139,7 +132,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op60",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.600.0",
             "RfidResponseEdge": "DB50.600.1",
             "RisingEdge": "DB50.600.2",
@@ -190,7 +182,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op70",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.700.0",
             "RfidResponseEdge": "DB50.700.1",
             "RisingEdge": "DB50.700.2",
@@ -213,7 +204,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op80",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.800.0",
             "RfidResponseEdge": "DB50.800.1",
             "RisingEdge": "DB50.800.2",
@@ -243,7 +233,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op90",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.900.0",
             "RfidResponseEdge": "DB50.900.1",
             "RisingEdge": "DB50.900.2",
@@ -288,7 +277,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op100",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.1000.0",
             "RfidResponseEdge": "DB50.1000.1",
             "RisingEdge": "DB50.1000.2",
@@ -311,7 +299,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op110",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.1100.0",
             "RfidResponseEdge": "DB50.1100.1",
             "RisingEdge": "DB50.1100.2",
@@ -341,7 +328,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op120",
-            "SqlTable": "Albert_DataFirst",
             // Rfid 上升延 这边有一个特殊情况 Op120 工站要根据 1200.4 bool false结束 true开启
             // Op120Torque float,DB50.1210.0
             "RfidRisingEdge": "DB50.1200.0",
@@ -373,7 +359,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op130",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.1300.0",
             "RfidResponseEdge": "DB50.1300.1",
             "RisingEdge": "DB50.1300.2",
@@ -396,7 +381,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op140",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.1400.0",
             "RfidResponseEdge": "DB50.1400.1",
             "RisingEdge": "DB50.1400.2",
@@ -424,21 +408,19 @@
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
         "SetHeartAddress": "DB50.0.0",
-        "SqlStore": "MySqlDemo",
         "StationSeqs": [
           {
             "Id": "1",
             "DeivceId": "2",
             "DeviceName": "环形2线",
-            "SeqName": "Op150",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op150", // 放五个零件，显示五个零件在线，无轴承码
             "RfidRisingEdge": "DB50.100.0",
             "RfidResponseEdge": "DB50.100.1",
             "RisingEdge": "DB50.100.2",
             "ResponseEdge": "DB50.100.3",
             "StationAllow": "short,DB50.102.0",
             "RfidLabel": "short,DB50.104.0",
-            "SqlOperate": "Insert",
+            "SqlOperate": "None",
             "ReadData": [
               {
                 "Id": "1",
@@ -446,13 +428,6 @@
                 "Sort": "1",
                 "SqlColumnName": "Op150Beat",
                 "TypeAndDb": "int,DB50.106.0"
-              },
-              {
-                "Id": "2",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "Op150Beat",
-                "TypeAndDb": "string,DB50.110.0,16"
               }
             ]
           },
@@ -461,21 +436,19 @@
             "DeivceId": "2",
             "DeviceName": "环形2线",
             "SeqName": "Op160",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.200.0",
             "RfidResponseEdge": "DB50.200.1",
             "RisingEdge": "DB50.200.2",
             "ResponseEdge": "DB50.200.3",
             "StationAllow": "short,DB50.202.0",
             "RfidLabel": "short,DB50.204.0",
-            "SqlOperate": "Update",
+            "SqlOperate": "None",
             "ReadData": [
-
               {
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op20Beat",
+                "SqlColumnName": "Op160Beat",
                 "TypeAndDb": "int,DB50.206.0"
               }
             ]
@@ -484,15 +457,14 @@
             "Id": "3",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op170",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op170", // 插入数据，将托盘上 Op150 节拍、Op160 节拍转移到壳体码数据表上
             "RfidRisingEdge": "DB50.300.0",
             "RfidResponseEdge": "DB50.300.1",
             "RisingEdge": "DB50.300.2",
             "ResponseEdge": "DB50.300.3",
             "StationAllow": "short,DB50.302.0",
             "RfidLabel": "short,DB50.304.0",
-            "SqlOperate": "Update",
+            "SqlOperate": "Insert",
             "ReadData": [
               {
                 "Id": "1",
@@ -505,7 +477,7 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op170壳体码",
+                "SqlColumnName": "ShellCode", //跟托盘绑定
                 "TypeAndDb": "string,DB50.306.0,16"
               }
             ]
@@ -514,8 +486,7 @@
             "Id": "4",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op180_1",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op180_1",      
             "RfidRisingEdge": "DB50.400.0",
             "RfidResponseEdge": "DB50.400.1",
             "RisingEdge": "DB50.400.2",
@@ -537,8 +508,7 @@
             "Id": "5",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op180_2",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op180_2",    
             "RfidRisingEdge": "DB50.500.0",
             "RfidResponseEdge": "DB50.500.1",
             "RisingEdge": "DB50.500.2",
@@ -561,7 +531,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op180_3",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.600.0",
             "RfidResponseEdge": "DB50.600.1",
             "RisingEdge": "DB50.600.2",
@@ -595,42 +564,42 @@
                 "Id": "4",
                 "SeqId": "1",
                 "Sort": "4",
-                "SqlColumnName": "Op180_3Result",
+                "SqlColumnName": "Op180_3TorqueResult", //判断是否 NG，1 OK 2 NG
                 "TypeAndDb": "short,DB50.618.0"
               },
               {
                 "Id": "5",
                 "SeqId": "1",
                 "Sort": "5",
-                "SqlColumnName": "Op180_3Torque-1",
+                "SqlColumnName": "Op180_3Torque2",
                 "TypeAndDb": "float,DB50.620.0"
               },
               {
                 "Id": "6",
                 "SeqId": "1",
                 "Sort": "6",
-                "SqlColumnName": "Op180_3Angle-1",
+                "SqlColumnName": "Op180_3Angle2",
                 "TypeAndDb": "float,DB50.624.0"
               },
               {
                 "Id": "7",
                 "SeqId": "1",
                 "Sort": "7",
-                "SqlColumnName": "Op180_3Result-1",
+                "SqlColumnName": "Op180_3TorqueResult2", // 判断是否 NG，1 OK 2 NG
                 "TypeAndDb": "short,DB50.628.0"
               },
               {
                 "Id": "8",
                 "SeqId": "1",
                 "Sort": "8",
-                "SqlColumnName": "Op180_3轴承码",
+                "SqlColumnName": "ProductCode", // 轴承码
                 "TypeAndDb": "string,DB50.630.0,16"
               },
               {
                 "Id": "9",
                 "SeqId": "1",
                 "Sort": "9",
-                "SqlColumnName": "Op180_3壳体码",
+                "SqlColumnName": "ShellCode", // 壳体轴承二合一，绑定在一起，数据承载在壳体码上
                 "TypeAndDb": "string,DB50.646.0,16"
               }
             ]
@@ -639,8 +608,7 @@
             "Id": "7",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op190",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op190", // 球阀组装 
             "RfidRisingEdge": "DB50.700.0",
             "RfidResponseEdge": "DB50.700.1",
             "RisingEdge": "DB50.700.2",
@@ -662,8 +630,7 @@
             "Id": "8",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op200_1",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op200_1", // 堵帽
             "RfidRisingEdge": "DB50.800.0",
             "RfidResponseEdge": "DB50.800.1",
             "RisingEdge": "DB50.800.2",
@@ -685,8 +652,7 @@
             "Id": "9",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op200_2",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op200_2",  
             "RfidRisingEdge": "DB50.900.0",
             "RfidResponseEdge": "DB50.900.1",
             "RisingEdge": "DB50.900.2",
@@ -701,13 +667,6 @@
                 "Sort": "1",
                 "SqlColumnName": "Op200_2Beat",
                 "TypeAndDb": "int,DB50.906.0"
-              },
-              {
-                "Id": "2",
-                "SeqId": "1",
-                "Sort": "2",
-                "SqlColumnName": "Op200_2IV3",
-                "TypeAndDb": "float,DB50.910.0"
               }
             ]
           },
@@ -716,7 +675,6 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op210",
-            "SqlTable": "Albert_DataFirst",
             "RfidRisingEdge": "DB50.1000.0",
             "RfidResponseEdge": "DB50.1000.1",
             "RisingEdge": "DB50.1000.2",
@@ -750,14 +708,14 @@
                 "Id": "4",
                 "SeqId": "1",
                 "Sort": "4",
-                "SqlColumnName": "Op210Result",
+                "SqlColumnName": "Op210Result",// 螺丝枪 1 OK 2 NG
                 "TypeAndDb": "short,DB50.1018.0"
               },
               {
                 "Id": "5",
                 "SeqId": "1",
                 "Sort": "5",
-                "SqlColumnName": "Op210壳体码",
+                "SqlColumnName": "壳体码",// rfid 壳体码绑定
                 "TypeAndDb": "string,DB50.1020.0,16"
               }
             ]
@@ -767,7 +725,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op220", // OK  NG下线  要么发1，要么发3
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.1100.0",
             "RfidResponseEdge": "DB50.1100.1",
             "RisingEdge": "DB50.1100.2",
@@ -782,6 +740,20 @@
                 "Sort": "1",
                 "SqlColumnName": "Op220Beat",
                 "TypeAndDb": "int,DB50.1106.0"
+              },
+              {
+                "Id": "2",
+                "SeqId": "1",
+                "Sort": "2",
+                "SqlColumnName": "Op220DisplaceResult",
+                "TypeAndDb": "short,DB50.1110.0"
+              },
+              {
+                "Id": "3",
+                "SeqId": "1",
+                "Sort": "3",
+                "SqlColumnName": "Op220DisplaceValue",
+                "TypeAndDb": "float,DB50.1112.0"
               }
             ]
           },
@@ -789,8 +761,8 @@
             "Id": "12",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op230_1", // 读完标签上升沿能做就直接写壳体码，string,DB50.1210.0
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op230_1", // 氦检
+            
             "RfidRisingEdge": "DB50.1200.0",
             "RfidResponseEdge": "DB50.1200.1",
             "RisingEdge": "DB50.1200.2",
@@ -806,24 +778,14 @@
                 "SqlColumnName": "Op230_1Beat",
                 "TypeAndDb": "int,DB50.1206.0"
               }
-            ],
-            "WriteData": [
-              {
-                "Id": "1",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1206.0",
-                "Value": ""
-              }
             ]
           },
           {
             "Id": "13",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op230_2", // 读完标签上升沿能做就直接写壳体码，string,DB50.1310.0
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op230_2",
+            
             "RfidRisingEdge": "DB50.1300.0",
             "RfidResponseEdge": "DB50.1300.1",
             "RisingEdge": "DB50.1300.2",
@@ -839,16 +801,6 @@
                 "SqlColumnName": "Op230_2Beat",
                 "TypeAndDb": "int,DB50.1206.0"
               }
-            ],
-            "WriteData": [
-              {
-                "Id": "1",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1310.0",
-                "Value": ""
-              }
             ]
           },
           {
@@ -856,7 +808,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op230_3",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.1400.0",
             "RfidResponseEdge": "DB50.1400.1",
             "RisingEdge": "DB50.1400.2",
@@ -876,7 +828,7 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "ShellCode",
+                "SqlColumnName": "壳体码",
                 "TypeAndDb": "string,DB50.1410.0,16"
               }
             ]
@@ -886,7 +838,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op230_4",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.1500.0",
             "RfidResponseEdge": "DB50.1500.1",
             "RisingEdge": "DB50.1500.2",
@@ -906,7 +858,7 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "ShellCode",
+                "SqlColumnName": "壳体码",
                 "TypeAndDb": "string,DB50.1510.0,16"
               }
             ]
@@ -916,7 +868,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op240_1", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.1600.0",
             "RfidResponseEdge": "DB50.1600.1",
             "RisingEdge": "DB50.1600.2",
@@ -938,7 +890,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "ShellCode",
+                "SqlColumnName": "壳体码",
                 "TypeAndDb": "string,DB50.1610.0",
                 "Value": ""
               }
@@ -949,7 +901,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op240_2",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.1700.0",
             "RfidResponseEdge": "DB50.1700.1",
             "RisingEdge": "DB50.1700.2",
@@ -969,7 +921,7 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "ShellCode",
+                "SqlColumnName": "壳体码",  // rfid 壳体码绑定
                 "TypeAndDb": "string,DB50.1710.0,16"
               }
             ]
@@ -979,7 +931,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op250_1", // 读完标签上升沿能做就直接写壳体码
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.1800.0",
             "RfidResponseEdge": "DB50.1800.1",
             "RisingEdge": "DB50.1800.2",
@@ -1001,7 +953,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "ShellCode",
+                "SqlColumnName": "壳体码",
                 "TypeAndDb": "string,DB50.1810.0",
                 "Value": ""
               }
@@ -1012,7 +964,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op250_2",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.1900.0",
             "RfidResponseEdge": "DB50.1900.1",
             "RisingEdge": "DB50.1900.2",
@@ -1032,7 +984,7 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "Op230_3壳体码",
+                "SqlColumnName": "壳体码",
                 "TypeAndDb": "string,DB50.1910.0,16"
               }
             ]
@@ -1042,7 +994,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op260",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.2000.0",
             "RfidResponseEdge": "DB50.2000.1",
             "RisingEdge": "DB50.2000.2",
@@ -1064,8 +1016,8 @@
             "Id": "20",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op270",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op270",// 执行器涂油组装
+            
             "RfidRisingEdge": "DB50.2100.0",
             "RfidResponseEdge": "DB50.2100.1",
             "RisingEdge": "DB50.2100.2",
@@ -1085,7 +1037,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "未知码",
+                "SqlColumnName": "执行器码",// 三码合一
                 "TypeAndDb": "string,DB50.2110.0,16"
               }
             ]
@@ -1095,7 +1047,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op280",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.2200.0",
             "RfidResponseEdge": "DB50.2200.1",
             "RisingEdge": "DB50.2200.2",
@@ -1185,15 +1137,8 @@
                 "Id": "11",
                 "SeqId": "1",
                 "Sort": "11",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "壳体码", // 将数据放于壳体上
                 "TypeAndDb": "string,DB50.2240.0,16"
-              },
-              {
-                "Id": "12",
-                "SeqId": "1",
-                "Sort": "12",
-                "SqlColumnName": "壳体码-2",
-                "TypeAndDb": "string,DB50.2256.0,16"
               }
             ]
           },
@@ -1201,8 +1146,8 @@
             "Id": "22",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op290_1",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op290_1", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
+            
             "RfidRisingEdge": "DB50.2300.0",
             "RfidResponseEdge": "DB50.2300.1",
             "RisingEdge": "DB50.2300.2",
@@ -1218,14 +1163,24 @@
                 "SqlColumnName": "Op290_1Beat",
                 "TypeAndDb": "int,DB50.2306.0"
               }
+            ],
+            "WriteData": [
+              {
+                "Id": "1",
+                "SeqId": "1",
+                "Sort": "1",
+                "SqlColumnName": "壳体码",
+                "TypeAndDb": "string,DB50.1810.0",
+                "Value": ""
+              }
             ]
           },
           {
             "Id": "23",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op290_2",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op290_2", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
+            
             "RfidRisingEdge": "DB50.2400.0",
             "RfidResponseEdge": "DB50.2400.1",
             "RisingEdge": "DB50.2400.2",
@@ -1245,15 +1200,8 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "未知码",
+                "SqlColumnName": "壳体码",
                 "TypeAndDb": "string,DB50.2410.0,16"
-              },
-              {
-                "Id": "3",
-                "SeqId": "1",
-                "Sort": "3",
-                "SqlColumnName": "未知码",
-                "TypeAndDb": "string,DB50.2426.0,16"
               }
             ]
           },
@@ -1261,8 +1209,8 @@
             "Id": "24",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op300_1",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op300_1", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
+            
             "RfidRisingEdge": "DB50.2500.0",
             "RfidResponseEdge": "DB50.2500.1",
             "RisingEdge": "DB50.2500.2",
@@ -1278,6 +1226,16 @@
                 "SqlColumnName": "Op300_1Beat",
                 "TypeAndDb": "int,DB50.2506.0"
               }
+            ],
+            "WriteData": [
+              {
+                "Id": "1",
+                "SeqId": "1",
+                "Sort": "1",
+                "SqlColumnName": "壳体码",
+                "TypeAndDb": "string,DB50.1810.0",
+                "Value": ""
+              }
             ]
           },
           {
@@ -1285,7 +1243,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op300_2",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.2600.0",
             "RfidResponseEdge": "DB50.2600.1",
             "RisingEdge": "DB50.2600.2",
@@ -1300,6 +1258,13 @@
                 "Sort": "1",
                 "SqlColumnName": "Op300_2Beat",
                 "TypeAndDb": "int,DB50.2606.0"
+              },
+              {
+                "Id": "2",
+                "SeqId": "1",
+                "Sort": "2",
+                "SqlColumnName": "壳体码",
+                "TypeAndDb": "string,DB50.2410.0,16"
               }
             ]
           },
@@ -1307,8 +1272,8 @@
             "Id": "26",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op310_1",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op310_1",// 屏蔽
+            
             "RfidRisingEdge": "DB50.2700.0",
             "RfidResponseEdge": "DB50.2700.1",
             "RisingEdge": "DB50.2700.2",
@@ -1330,8 +1295,8 @@
             "Id": "27",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op310_2",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op310_2",//屏蔽
+            
             "RfidRisingEdge": "DB50.2800.0",
             "RfidResponseEdge": "DB50.2800.1",
             "RisingEdge": "DB50.2800.2",
@@ -1353,13 +1318,6 @@
                 "Sort": "2",
                 "SqlColumnName": "未知码",
                 "TypeAndDb": "string,DB50.2810.0,16"
-              },
-              {
-                "Id": "3",
-                "SeqId": "1",
-                "Sort": "3",
-                "SqlColumnName": "未知码",
-                "TypeAndDb": "string,DB50.2816.0,16"
               }
             ]
           },
@@ -1367,8 +1325,8 @@
             "Id": "28",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op320",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op320",//螺柱组装
+            
             "RfidRisingEdge": "DB50.2900.0",
             "RfidResponseEdge": "DB50.2900.1",
             "RisingEdge": "DB50.2900.2",
@@ -1409,7 +1367,7 @@
                 "Id": "5",
                 "SeqId": "1",
                 "Sort": "5",
-                "SqlColumnName": "未知码",
+                "SqlColumnName": "壳体码",
                 "TypeAndDb": "string,DB50.2920.0,16"
               }
             ]
@@ -1418,8 +1376,8 @@
             "Id": "29",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op330",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op330",// 托盘上升沿到了，tcpip 发数据给贴标机
+            
             "RfidRisingEdge": "DB50.3000.0",
             "RfidResponseEdge": "DB50.3000.1",
             "RisingEdge": "DB50.3000.2",
@@ -1434,13 +1392,6 @@
                 "Sort": "1",
                 "SqlColumnName": "Op330Beat",
                 "TypeAndDb": "int,DB50.3006.0"
-              },
-              {
-                "Id": "2",
-                "SeqId": "1",
-                "Sort": "2",
-                "SqlColumnName": "未知码",
-                "TypeAndDb": "string,DB50.3010.0,16"
               }
             ]
           },
@@ -1449,7 +1400,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op340",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.3100.0",
             "RfidResponseEdge": "DB50.3100.1",
             "RisingEdge": "DB50.3100.2",
@@ -1471,8 +1422,8 @@
             "Id": "31",
             "DeivceId": "1",
             "DeviceName": "环形1线",
-            "SeqName": "Op350",
-            "SqlTable": "Albert_DataFirst",
+            "SeqName": "Op350",// 人工下料，rfid 壳体码解绑’
+            
             "RfidRisingEdge": "DB50.3200.0",
             "RfidResponseEdge": "DB50.3200.1",
             "RisingEdge": "DB50.3200.2",
@@ -1495,7 +1446,7 @@
             "DeivceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op360",
-            "SqlTable": "Albert_DataFirst",
+            
             "RfidRisingEdge": "DB50.3300.0",
             "RfidResponseEdge": "DB50.3300.1",
             "RisingEdge": "DB50.3300.2",

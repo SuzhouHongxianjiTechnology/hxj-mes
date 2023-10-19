@@ -14,8 +14,8 @@ namespace AlbertCollection.Core.Entity.Device
         /// <summary>
         /// 设备ID
         /// </summary>
-        [SugarColumn(ColumnName = "DeivceId", ColumnDescription = "设备ID")]
-        public long DeivceId { get; set; }
+        [SugarColumn(ColumnName = "DeviceId", ColumnDescription = "设备ID")]
+        public long DeviceId { get; set; }
         /// <summary>
         /// 设备名称
         /// </summary>

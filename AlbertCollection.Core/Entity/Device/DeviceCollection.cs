@@ -41,7 +41,12 @@ namespace AlbertCollection.Core.Entity.Device
         /// 设置心跳地址
         /// </summary>
         [SugarColumn(ColumnName = "SetHeartAddress", ColumnDescription = "设置心跳地址", Length = 20, IsNullable = true)]
-        public string SetHeartAddress { get; set; } = "M100";
+        public string SetHeartAddress { get; set; } = "DB50.0.0";
+        /// <summary>
+        /// 设置心跳地址
+        /// </summary>
+        [SugarColumn(ColumnName = "ProductType", ColumnDescription = "产品型号", Length = 20, IsNullable = true)]
+        public string ProductType { get; set; } = "int,DB50.2.0";
         /// <summary>
         /// PLC 类型
         /// </summary>

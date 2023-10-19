@@ -2,7 +2,7 @@
   "RECORDS": [
     {
       "Id": "1",
-      "DeivceId": "1",
+      "DeviceId": "1",
       "DeviceName": "环形1线",
       "SeqName": "OP10首次读取插入数据",
       "SqlTable": "Albert_DataFirst",
@@ -16,7 +16,7 @@
     },
     {
       "Id": "2",
-      "DeivceId": "1",
+      "DeviceId": "1",
       "DeviceName": "环形1线",
       "SeqName": "OP10更新OP10重要信息",
       "SqlTable": "Albert_DataFirst",

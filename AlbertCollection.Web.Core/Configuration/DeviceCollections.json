@@ -4,15 +4,17 @@
       {
         "Id": "1",
         "Name": "环形1线",
-        "IpAddress": "192.168.1.2",
+        "IpAddress": "127.0.0.1",
+        //"IpAddress": "192.168.1.2",
         "Port": "102",
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
         "SetHeartAddress": "DB50.0.0",
+        "ProductType": "int,DB50.2.0",
         "StationSeqs": [
           {
             "Id": "1",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op10",
             "RfidRisingEdge": "DB50.100.0",
@@ -34,7 +36,7 @@
           },
           {
             "Id": "2",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op20",  
             "RfidRisingEdge": "DB50.200.0",
@@ -63,7 +65,7 @@
           },
           {
             "Id": "3",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op30",
             "RfidRisingEdge": "DB50.300.0",
@@ -85,7 +87,7 @@
           },
           {
             "Id": "4",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op40",
             "RfidRisingEdge": "DB50.400.0",
@@ -107,7 +109,7 @@
           },
           {
             "Id": "5",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op50",
             "RfidRisingEdge": "DB50.500.0",
@@ -129,7 +131,7 @@
           },
           {
             "Id": "6",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op60",
             "RfidRisingEdge": "DB50.600.0",
@@ -179,7 +181,7 @@
           },
           {
             "Id": "7",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op70",
             "RfidRisingEdge": "DB50.700.0",
@@ -201,7 +203,7 @@
           },
           {
             "Id": "8",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op80",
             "RfidRisingEdge": "DB50.800.0",
@@ -230,7 +232,7 @@
           },
           {
             "Id": "9",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op90",
             "RfidRisingEdge": "DB50.900.0",
@@ -274,7 +276,7 @@
           },
           {
             "Id": "10",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op100",
             "RfidRisingEdge": "DB50.1000.0",
@@ -296,7 +298,7 @@
           },
           {
             "Id": "11",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op110",
             "RfidRisingEdge": "DB50.1100.0",
@@ -325,7 +327,7 @@
           },
           {
             "Id": "12",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op120",
             // Rfid 上升延 这边有一个特殊情况 Op120 工站要根据 1200.4 bool false结束 true开启
@@ -356,7 +358,7 @@
           },
           {
             "Id": "13",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op130",
             "RfidRisingEdge": "DB50.1300.0",
@@ -378,7 +380,7 @@
           },
           {
             "Id": "14",
-            "DeivceId": "1",
+            "DeviceId": "1",
             "DeviceName": "环形1线",
             "SeqName": "Op140",
             "RfidRisingEdge": "DB50.1400.0",
@@ -408,10 +410,11 @@
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
         "SetHeartAddress": "DB50.0.0",
+        "ProductType": "int,DB50.2.0",
         "StationSeqs": [
           {
             "Id": "1",
-            "DeivceId": "2",
+            "DeviceId": "2",
             "DeviceName": "环形2线",
             "SeqName": "Op150", // 放五个零件，显示五个零件在线，无轴承码
             "RfidRisingEdge": "DB50.100.0",
@@ -433,7 +436,7 @@
           },
           {
             "Id": "2",
-            "DeivceId": "2",
+            "DeviceId": "2",
             "DeviceName": "环形2线",
             "SeqName": "Op160",
             "RfidRisingEdge": "DB50.200.0",
@@ -455,8 +458,8 @@
           },
           {
             "Id": "3",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op170", // 插入数据，将托盘上 Op150 节拍、Op160 节拍转移到壳体码数据表上
             "RfidRisingEdge": "DB50.300.0",
             "RfidResponseEdge": "DB50.300.1",
@@ -484,9 +487,9 @@
           },
           {
             "Id": "4",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op180_1",      
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op180_1",
             "RfidRisingEdge": "DB50.400.0",
             "RfidResponseEdge": "DB50.400.1",
             "RisingEdge": "DB50.400.2",
@@ -506,9 +509,9 @@
           },
           {
             "Id": "5",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op180_2",    
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op180_2",
             "RfidRisingEdge": "DB50.500.0",
             "RfidResponseEdge": "DB50.500.1",
             "RisingEdge": "DB50.500.2",
@@ -528,8 +531,8 @@
           },
           {
             "Id": "6",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op180_3",
             "RfidRisingEdge": "DB50.600.0",
             "RfidResponseEdge": "DB50.600.1",
@@ -606,8 +609,8 @@
           },
           {
             "Id": "7",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op190", // 球阀组装 
             "RfidRisingEdge": "DB50.700.0",
             "RfidResponseEdge": "DB50.700.1",
@@ -628,8 +631,8 @@
           },
           {
             "Id": "8",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op200_1", // 堵帽
             "RfidRisingEdge": "DB50.800.0",
             "RfidResponseEdge": "DB50.800.1",
@@ -650,9 +653,9 @@
           },
           {
             "Id": "9",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op200_2",  
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op200_2",
             "RfidRisingEdge": "DB50.900.0",
             "RfidResponseEdge": "DB50.900.1",
             "RisingEdge": "DB50.900.2",
@@ -672,8 +675,8 @@
           },
           {
             "Id": "10",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op210",
             "RfidRisingEdge": "DB50.1000.0",
             "RfidResponseEdge": "DB50.1000.1",
@@ -708,24 +711,23 @@
                 "Id": "4",
                 "SeqId": "1",
                 "Sort": "4",
-                "SqlColumnName": "Op210Result",// 螺丝枪 1 OK 2 NG
+                "SqlColumnName": "Op210TorqueResult", // 螺丝枪 1 OK 2 NG
                 "TypeAndDb": "short,DB50.1018.0"
               },
               {
                 "Id": "5",
                 "SeqId": "1",
                 "Sort": "5",
-                "SqlColumnName": "壳体码",// rfid 壳体码绑定
+                "SqlColumnName": "ShellCode", // rfid 壳体码绑定
                 "TypeAndDb": "string,DB50.1020.0,16"
               }
             ]
           },
           {
             "Id": "11",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op220", // OK  NG下线  要么发1，要么发3
-            
             "RfidRisingEdge": "DB50.1100.0",
             "RfidResponseEdge": "DB50.1100.1",
             "RisingEdge": "DB50.1100.2",
@@ -752,17 +754,16 @@
                 "Id": "3",
                 "SeqId": "1",
                 "Sort": "3",
-                "SqlColumnName": "Op220DisplaceValue",
+                "SqlColumnName": "Op220Displace",
                 "TypeAndDb": "float,DB50.1112.0"
               }
             ]
           },
           {
             "Id": "12",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op230_1", // 氦检
-            
             "RfidRisingEdge": "DB50.1200.0",
             "RfidResponseEdge": "DB50.1200.1",
             "RisingEdge": "DB50.1200.2",
@@ -782,10 +783,9 @@
           },
           {
             "Id": "13",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op230_2",
-            
             "RfidRisingEdge": "DB50.1300.0",
             "RfidResponseEdge": "DB50.1300.1",
             "RisingEdge": "DB50.1300.2",
@@ -805,10 +805,9 @@
           },
           {
             "Id": "14",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op230_3",
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op230_3", // 需要从氦检数据库抓取数据
             "RfidRisingEdge": "DB50.1400.0",
             "RfidResponseEdge": "DB50.1400.1",
             "RisingEdge": "DB50.1400.2",
@@ -828,17 +827,16 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.1410.0,16"
               }
             ]
           },
           {
             "Id": "15",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op230_4",
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op230_4", // 需要从氦检数据库抓取数据
             "RfidRisingEdge": "DB50.1500.0",
             "RfidResponseEdge": "DB50.1500.1",
             "RisingEdge": "DB50.1500.2",
@@ -858,17 +856,16 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.1510.0,16"
               }
             ]
           },
           {
             "Id": "16",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op240_1", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
-            
             "RfidRisingEdge": "DB50.1600.0",
             "RfidResponseEdge": "DB50.1600.1",
             "RisingEdge": "DB50.1600.2",
@@ -890,7 +887,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.1610.0",
                 "Value": ""
               }
@@ -898,10 +895,9 @@
           },
           {
             "Id": "16",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op240_2",
-            
             "RfidRisingEdge": "DB50.1700.0",
             "RfidResponseEdge": "DB50.1700.1",
             "RisingEdge": "DB50.1700.2",
@@ -921,17 +917,16 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "壳体码",  // rfid 壳体码绑定
+                "SqlColumnName": "ShellCode", // rfid 壳体码绑定
                 "TypeAndDb": "string,DB50.1710.0,16"
               }
             ]
           },
           {
             "Id": "17",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op250_1", // 读完标签上升沿能做就直接写壳体码
-            
             "RfidRisingEdge": "DB50.1800.0",
             "RfidResponseEdge": "DB50.1800.1",
             "RisingEdge": "DB50.1800.2",
@@ -953,7 +948,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.1810.0",
                 "Value": ""
               }
@@ -961,10 +956,9 @@
           },
           {
             "Id": "18",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op250_2",
-            
             "RfidRisingEdge": "DB50.1900.0",
             "RfidResponseEdge": "DB50.1900.1",
             "RisingEdge": "DB50.1900.2",
@@ -984,17 +978,16 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.1910.0,16"
               }
             ]
           },
           {
             "Id": "19",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op260",
-            
             "RfidRisingEdge": "DB50.2000.0",
             "RfidResponseEdge": "DB50.2000.1",
             "RisingEdge": "DB50.2000.2",
@@ -1014,10 +1007,9 @@
           },
           {
             "Id": "20",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op270",// 执行器涂油组装
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op270", // 执行器涂油组装
             "RfidRisingEdge": "DB50.2100.0",
             "RfidResponseEdge": "DB50.2100.1",
             "RisingEdge": "DB50.2100.2",
@@ -1034,20 +1026,19 @@
                 "TypeAndDb": "int,DB50.2106.0"
               },
               {
-                "Id": "1",
+                "Id": "2",
                 "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "执行器码",// 三码合一
+                "Sort": "2",
+                "SqlColumnName": "RunCode", // 三码合一
                 "TypeAndDb": "string,DB50.2110.0,16"
               }
             ]
           },
           {
             "Id": "21",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op280",
-            
             "RfidRisingEdge": "DB50.2200.0",
             "RfidResponseEdge": "DB50.2200.1",
             "RisingEdge": "DB50.2200.2",
@@ -1081,73 +1072,65 @@
                 "Id": "4",
                 "SeqId": "1",
                 "Sort": "4",
-                "SqlColumnName": "Op280Result",
+                "SqlColumnName": "Op280TorqueResult",
                 "TypeAndDb": "short,DB50.2218.0"
               },
               {
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "Op280Torque_1",
+                "SqlColumnName": "Op280Torque2",
                 "TypeAndDb": "float,DB50.2220.0"
               },
               {
                 "Id": "5",
                 "SeqId": "1",
                 "Sort": "5",
-                "SqlColumnName": "Op280Angle_1",
+                "SqlColumnName": "Op280Angle2",
                 "TypeAndDb": "float,DB50.2224.0"
               },
               {
                 "Id": "6",
                 "SeqId": "1",
                 "Sort": "6",
-                "SqlColumnName": "Op280Result_1",
+                "SqlColumnName": "Op280TorqueResult2",
                 "TypeAndDb": "short,DB50.2228.0"
               },
               {
                 "Id": "7",
                 "SeqId": "1",
                 "Sort": "7",
-                "SqlColumnName": "Op280Torque_2",
+                "SqlColumnName": "Op280Torque3",
                 "TypeAndDb": "float,DB50.2230.0"
               },
               {
                 "Id": "8",
                 "SeqId": "1",
                 "Sort": "8",
-                "SqlColumnName": "Op280Angle_2",
+                "SqlColumnName": "Op280Angle3",
                 "TypeAndDb": "float,DB50.2234.0"
               },
               {
                 "Id": "9",
                 "SeqId": "1",
                 "Sort": "9",
-                "SqlColumnName": "Op280Result_2",
+                "SqlColumnName": "Op280TorqueResult3",
                 "TypeAndDb": "short,DB50.2238.0"
               },
               {
                 "Id": "10",
                 "SeqId": "1",
                 "Sort": "10",
-                "SqlColumnName": "Op280Result_2",
-                "TypeAndDb": "short,DB50.2238.0"
-              },
-              {
-                "Id": "11",
-                "SeqId": "1",
-                "Sort": "11",
-                "SqlColumnName": "壳体码", // 将数据放于壳体上
+                "SqlColumnName": "ShellCode", // 将数据放于壳体上
                 "TypeAndDb": "string,DB50.2240.0,16"
               }
             ]
           },
           {
             "Id": "22",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op290_1", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
-            
             "RfidRisingEdge": "DB50.2300.0",
             "RfidResponseEdge": "DB50.2300.1",
             "RisingEdge": "DB50.2300.2",
@@ -1169,7 +1152,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.1810.0",
                 "Value": ""
               }
@@ -1177,10 +1160,9 @@
           },
           {
             "Id": "23",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op290_2", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
-            
             "RfidRisingEdge": "DB50.2400.0",
             "RfidResponseEdge": "DB50.2400.1",
             "RisingEdge": "DB50.2400.2",
@@ -1200,17 +1182,16 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.2410.0,16"
               }
             ]
           },
           {
             "Id": "24",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op300_1", // 读完标签上升沿能做就直接写壳体码，string,DB50.1610.0
-            
             "RfidRisingEdge": "DB50.2500.0",
             "RfidResponseEdge": "DB50.2500.1",
             "RisingEdge": "DB50.2500.2",
@@ -1232,7 +1213,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.1810.0",
                 "Value": ""
               }
@@ -1240,10 +1221,9 @@
           },
           {
             "Id": "25",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op300_2",
-            
             "RfidRisingEdge": "DB50.2600.0",
             "RfidResponseEdge": "DB50.2600.1",
             "RisingEdge": "DB50.2600.2",
@@ -1263,17 +1243,16 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.2410.0,16"
               }
             ]
           },
           {
             "Id": "26",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op310_1",// 屏蔽
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op310_1", // 屏蔽
             "RfidRisingEdge": "DB50.2700.0",
             "RfidResponseEdge": "DB50.2700.1",
             "RisingEdge": "DB50.2700.2",
@@ -1293,10 +1272,9 @@
           },
           {
             "Id": "27",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op310_2",//屏蔽
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op310_2", //屏蔽
             "RfidRisingEdge": "DB50.2800.0",
             "RfidResponseEdge": "DB50.2800.1",
             "RisingEdge": "DB50.2800.2",
@@ -1316,17 +1294,16 @@
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
-                "SqlColumnName": "未知码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.2810.0,16"
               }
             ]
           },
           {
             "Id": "28",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op320",//螺柱组装
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op320", //螺柱组装
             "RfidRisingEdge": "DB50.2900.0",
             "RfidResponseEdge": "DB50.2900.1",
             "RisingEdge": "DB50.2900.2",
@@ -1360,24 +1337,23 @@
                 "Id": "4",
                 "SeqId": "1",
                 "Sort": "4",
-                "SqlColumnName": "Op320Result",
+                "SqlColumnName": "Op320TorqueResult",
                 "TypeAndDb": "short,DB50.2918.0"
               },
               {
                 "Id": "5",
                 "SeqId": "1",
                 "Sort": "5",
-                "SqlColumnName": "壳体码",
+                "SqlColumnName": "ShellCode",
                 "TypeAndDb": "string,DB50.2920.0,16"
               }
             ]
           },
           {
             "Id": "29",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op330",// 托盘上升沿到了，tcpip 发数据给贴标机
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op330", // 托盘上升沿到了，tcpip 发数据给贴标机
             "RfidRisingEdge": "DB50.3000.0",
             "RfidResponseEdge": "DB50.3000.1",
             "RisingEdge": "DB50.3000.2",
@@ -1397,10 +1373,9 @@
           },
           {
             "Id": "30",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op340",
-            
             "RfidRisingEdge": "DB50.3100.0",
             "RfidResponseEdge": "DB50.3100.1",
             "RisingEdge": "DB50.3100.2",
@@ -1420,10 +1395,9 @@
           },
           {
             "Id": "31",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
-            "SeqName": "Op350",// 人工下料，rfid 壳体码解绑’
-            
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op350", // 人工下料，rfid 壳体码解绑
             "RfidRisingEdge": "DB50.3200.0",
             "RfidResponseEdge": "DB50.3200.1",
             "RisingEdge": "DB50.3200.2",
@@ -1443,10 +1417,9 @@
           },
           {
             "Id": "32",
-            "DeivceId": "1",
-            "DeviceName": "环形1线",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
             "SeqName": "Op360",
-            
             "RfidRisingEdge": "DB50.3300.0",
             "RfidResponseEdge": "DB50.3300.1",
             "RisingEdge": "DB50.3300.2",

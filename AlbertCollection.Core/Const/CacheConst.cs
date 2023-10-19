@@ -99,7 +99,8 @@ namespace AlbertCollection.Core
         #endregion OpenApi
 
         #region DeviceCache
-        public const string ProductModel = "ProductModel";
+        public const string PdmProduct = "PdmProduct";
+        public const string PdmWorkorder = "PdmWorkorder";
         public const string PlcList = "PlcList";
         public const string Craft = "Craft";
         public const string CraftStationList = "CraftStationList";

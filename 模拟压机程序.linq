@@ -29,3 +29,4 @@ async Task Main()
 }
 
 // You can define other methods, fields, classes and namespaces here
+// You cannot have no primary key and no conditions

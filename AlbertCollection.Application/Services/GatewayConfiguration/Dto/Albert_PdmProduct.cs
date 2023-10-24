@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
 {
-    public partial class Albert_PdmProduct
+    public class Albert_PdmProduct
     {
         /// <summary>
        ///产品主键

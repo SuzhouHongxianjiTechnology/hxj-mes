@@ -4,13 +4,13 @@
       {
         "Id": "1",
         "Name": "环形1线",
-        "IpAddress": "127.0.0.1",
-        //"IpAddress": "192.168.1.2",
+        //"IpAddress": "127.0.0.1",
+        "IpAddress": "192.168.1.2",
         "Port": "102",
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
         "SetHeartAddress": "DB50.0.0",
-        "ProductType": "int,DB50.2.0",
+        "ProductType": "short,DB50.2.0",
         "StationSeqs": [
           {
             "Id": "1",
@@ -389,7 +389,7 @@
             "ResponseEdge": "DB50.1400.3",
             "StationAllow": "short,DB50.1402.0",
             "RfidLabel": "short,DB50.1404.0",
-            "SqlOperate": "Update",
+            "SqlOperate": "Ignore",
             "ReadData": [
               {
                 "Id": "1",

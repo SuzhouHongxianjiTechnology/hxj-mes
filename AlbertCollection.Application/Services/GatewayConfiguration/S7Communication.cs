@@ -11,8 +11,6 @@ using AlbertCollection.Core.Enums;
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Application.Cache;
 using static System.Collections.Specialized.BitVector32;
-using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration;
 
@@ -126,9 +124,106 @@ public class S7Communication : BaseCommunication
         }
     }
 
+    /// <summary>
+    /// 获取在制产品
+    /// </summary>
+    /// <returns></returns>
+    private async Task<Albert_PdmProduct> GetPdmProductAsync()
+    {
+        // 1.获取在制产品型号
+        var pdmProduct = _cacheService.Get<Albert_PdmProduct>(CacheConst.PdmProduct);
+
+        if (pdmProduct == null)
+        {
+            // 2.如果缓存中没有，则直接拿第一件产品作为默认的型号
+            pdmProduct = await DbContext.Db.Queryable<Albert_PdmProduct>()
+                .FirstAsync(x => x.ProductPkInt == 1);
+            _cacheService.AddObject(CacheConst.PdmProduct, pdmProduct);
+        }
+
+        return pdmProduct;
+    }
+
+    /// <summary>
+    /// 根据在制产品型号获取使用的工艺
+    /// </summary>
+    /// <returns></returns>
+    private async Task<Albert_Craft> GetCraftAsync()
+    {
+        var craft = _cacheService.Get<Albert_Craft>(CacheConst.Craft);
+
+        if (craft == null)
+        {
+            // 1.获取在制产品型号
+            var pdmProduct = await GetPdmProductAsync();
+
+            // 2.根据产品型号获取工艺，即为在制工艺
+            craft = await DbContext.Db
+                .Queryable<Albert_Craft>()
+                .FirstAsync(x => x.CraftPkInt == pdmProduct.CraftPkInt);
+            _cacheService.AddObject(CacheConst.Craft, craft);
+        }
+
+        return craft;
+    }
+
+    /// <summary>
+    /// 获取在制工艺下的所有工站
+    /// </summary>
+    /// <returns></returns>
+    private async Task<List<Albert_PdmCraftDevice>> GetPdmCraftStationListApi()
+    {
+        // 在制工艺-对应所有设备
+        var craft = await GetCraftAsync();
+
+        if (craft == null)
+        {
+            return null;
+        }
+        else
+        {
+            var craftStationList = _cacheService.Get<List<Albert_PdmCraftDevice>>(CacheConst.CraftStationList);
+
+            if (craftStationList == null)
+            {
+                craftStationList = await DbContext.Db.Queryable<Albert_PdmCraftDevice>()
+                    .Where(x => x.CraftPkInt == craft.CraftPkInt && x.DeviceDBIsUse == "Y")
+                    .OrderBy(x => x.CraftSort)
+                    .ToListAsync();
+                _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
+            }
+
+            return craftStationList;
+        }
+    }
+
+    /// <summary>
+    /// 获取所有 Plc
+    /// </summary>
+    /// <returns></returns>
+    private async Task<List<Albert_DeviceConfigure>> GetPdmDeviceListApiAsync()
+    {
+        // 1. 从缓存中获取所有 PLC
+        var deviceList = _cacheService.Get<List<Albert_DeviceConfigure>>(CacheConst.DeviceList);
+
+        if (deviceList == null)
+        {
+            deviceList = DbContext.Db
+                .Queryable<Albert_DeviceConfigure>()
+                .Where(x => x.DeviceIsUse == "Y")
+                .OrderBy(x => x.DeviceSort)
+                .ToList();
+            _cacheService.AddObject(CacheConst.DeviceList, deviceList);
+        }
+
+        return deviceList;
+    }
+
     private void SendHeartBeat(CancellationToken cancellationToken)
     {
         _device.IsHeartbeatOpen = true;
+        bool firstStart = true;
+
         // 开启心跳
         Task.Run(async () =>
         {
@@ -138,6 +233,7 @@ public class S7Communication : BaseCommunication
                     if (!cancellationToken.IsCancellationRequested)
                     {
                         var result = await _device.SimTcpNet.ReadInt16Async(_device.SetHeartAddress);
+
                         if (result.IsSuccess)
                         {
                             // 一直读 plc 数据，用于给 plc 判断上位机是否连接
@@ -145,31 +241,56 @@ public class S7Communication : BaseCommunication
 
                             ReadData(_device.ProductType, out var productType);
 
-                            if (!string.IsNullOrEmpty(productType))
+                            if (!string.IsNullOrEmpty(productType)&&productType != "0")
                             {
                                 // 1. 从缓存取出当前工艺采取的型号
-                                var pdmProduct = _cacheService.Get<Albert_PdmProduct>(CacheConst.PdmProduct);
+                                var pdmProduct = await GetPdmProductAsync();
 
-                                if (pdmProduct == null)
+                                // 2.1 如果读取的产品型号和缓存中的在制工艺中的产品不一致，则进行切换型号
+                                // 更新数据库，更新缓存
+                                if (pdmProduct.ProductPkInt != productType.ToInt(1))
                                 {
-                                    pdmProduct = DbContext.Db.Queryable<Albert_PdmProduct>()
-                                        .First(x=>x.ProductPkInt == productType.ToInt(1));
-
+                                    // 2.2 切换在制产品
+                                    pdmProduct = await DbContext.Db.Queryable<Albert_PdmProduct>()
+                                        .FirstAsync(x => x.ProductPkInt == productType.ToInt(1));
                                     _cacheService.AddObject(CacheConst.PdmProduct, pdmProduct);
-                                }
-                                else
-                                {
-                                    // 2.如果读取的产品型号和缓存中的在制工艺中的产品不一致，则进行切换型号
-                                    // 更新缓存，更新数据库
-                                    if (pdmProduct.ProductPkInt != productType.ToInt(1))
-                                    {
-                                        pdmProduct = DbContext.Db.Queryable<Albert_PdmProduct>()
-                                            .First(x => x.ProductPkInt == productType.ToInt(1));
+                                    CacheConst.PdmProductUpdate.LogWarning();
 
-                                        _cacheService.AddObject(CacheConst.PdmProduct, pdmProduct);
-                                        "产品切型".LogWarning();
-                                    }
+                                    // 3.切换在制工艺(切换产品的话在制工艺一定会发生切换
+                                    var craft = await DbContext.Db
+                                        .Queryable<Albert_Craft>()
+                                        .FirstAsync(x => x.CraftPkInt == pdmProduct.CraftPkInt);
+                                    _cacheService.AddObject(CacheConst.Craft, craft);
+                                    CacheConst.PdmProductUpdateCraft.LogWarning();
+
+                                    // 4. 切换在制工艺对应的工站列表
+                                    var craftStationList = await DbContext.Db.Queryable<Albert_PdmCraftDevice>()
+                                        .Where(x => x.CraftPkInt == craft.CraftPkInt && x.DeviceDBIsUse == "Y")
+                                        .OrderBy(x => x.CraftSort)
+                                        .ToListAsync();
+
+                                    craftStationList.ForEach(x=>x.DeviceDBStatus ="Y");
+                                    await DbContext.Db.Updateable(craftStationList)
+                                        .WhereColumns(it => new { it.PdmCraftDevicePkInt })
+                                        .ExecuteCommandAsync();
+                                    _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
+                                    CacheConst.PdmProductUpdateCraftStationList.LogWarning();
                                 }
+                            }
+
+                            if (firstStart)
+                            {
+                                var craftStationList = await GetPdmCraftStationListApi();
+                                // 设置工站状态为运行状态
+                                craftStationList.ForEach(x => x.DeviceDBStatus = "Y");
+
+                                await DbContext.Db.Updateable(craftStationList)
+                                    .WhereColumns(it => new { it.PdmCraftDevicePkInt })
+                                    .ExecuteCommandAsync();
+                                _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
+                                firstStart = false;
+                                CacheConst.FirstUpdateStationListStatusY.LogWarning();
+                                _cacheService.LPush(CacheConst.PlcMes,CacheConst.FirstUpdateStationListStatusY);
                             }
                         }
                         else
@@ -178,6 +299,27 @@ public class S7Communication : BaseCommunication
                             {
                                 _device.IsHeartbeatOpen = false;
                                 BackMessage.AddMessage(("HeartBeatOpen" + result.Message + DateTime.Now), LogLevel.Error);
+
+                                // 获取当前 plc
+                                var pdmDeviceList = await GetPdmDeviceListApiAsync();
+                                var device = pdmDeviceList
+                                    .Where(x => x.DevicePkInt == _device.Id);
+
+                                if (device == null)
+                                {
+
+                                }
+
+                                // 设置工站状态为异常状态
+                                var craftStationList = await GetPdmCraftStationListApi();
+                                craftStationList.ForEach(x => x.DeviceDBStatus = "N");
+                                await DbContext.Db.Updateable(craftStationList)
+                                    .WhereColumns(it => new { it.PdmCraftDevicePkInt })
+                                    .ExecuteCommandAsync();
+                                _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
+                                firstStart = true;
+                                CacheConst.FirstUpdateStationListStatusN.LogWarning();
+                                _cacheService.LPush(CacheConst.PlcMes, CacheConst.FirstUpdateStationListStatusN);
                             }   
                         }
 
@@ -429,24 +571,23 @@ public class S7Communication : BaseCommunication
                                             await plc.WriteAsync(deviceSeq.RisingEdge, false);
                                             (deviceSeq.SeqName+"plc-mes 清除了保存数据上升沿").LogInformation();
                                             // 这边分为 批量读-插入数据库 批量读-更新数据库 写入PLC
+                                           
                                             switch (deviceSeq.SqlOperate)
                                             {
                                                 // 读取，Op10 站
                                                 case SqlOperateEnum.None:
-                                                    // 1. 从 Plc 中读取 ReadData 对应的地址填充到 ReadDataDic 中
-                                                    ReadDataFromPlc(deviceSeq, plc);
-                                                    // 2. 读取列表，绑定到 Rfid 上，等到 Op20 的时候再切换绑定
-                                                    await SqlOperateNone(deviceSeq);
+                                                    // 读取列表，绑定到 Rfid 上，等到 Op20 的时候再切换绑定
+                                                    await SqlOperateNone(deviceSeq,plc);
                                                     break;
                                                 // 读取插入
                                                 case SqlOperateEnum.Insert:
-                                                    ReadDataFromPlc(deviceSeq, plc);
-                                                    await SqlOperateInsert(deviceSeq);
+                                                    await SqlOperateInsert(deviceSeq,plc);
                                                     break;
                                                 // 读取更新
                                                 case SqlOperateEnum.Update:
-                                                    ReadDataFromPlc(deviceSeq, plc);
-                                                    await SqlOperateUpdate(deviceSeq);
+                                                    await SqlOperateUpdate(deviceSeq, plc);
+                                                    break;
+                                                case SqlOperateEnum.Ignore:
                                                     break;
                                                 default:
                                                     (deviceSeq.SeqName + "【未走任何分支，请检查配置文件】").LogError();
@@ -579,6 +720,7 @@ public class S7Communication : BaseCommunication
 
     private void RfidAop(Albert_RFID? rfidModel,DeviceSeq deviceSeq)
     {
+
         if (deviceSeq.SeqName == "Op10"||deviceSeq.SeqName =="Op150")
         {
             // 不为 0,表示被占用，直接给出错误和 NG
@@ -586,7 +728,7 @@ public class S7Communication : BaseCommunication
             {
                 // 直接 NG [允许工作1允许，2NG]
                 WriteData(deviceSeq.StationAllow, "2", out _);
-                "【Op10 托盘被占用】，请重新选择，直接给 plc 发送 NG".LogError();
+                $"【Op10 托盘被占用】{rfidModel?.RFID}，请重新选择，直接给 plc 发送 NG".LogError();
                 _cacheService.LPush("MES-PLC 交互", $"【{deviceSeq.SeqName} 托盘被占用】，请重新选择，直接给 plc 发送 NG");
             }
             else
@@ -598,11 +740,16 @@ public class S7Communication : BaseCommunication
         }
         else
         {
+            // 这些可能会被重写
+            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "OK");
+            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "OK");
+
             // 2.2 【一线体】Op10、Op20 不会走该分支，到 Op30 之后会用到 Rfid 表中产品码
             // 根据托盘的产品码去数据库 Albert_DataFirst 表中查询产品码是否存在，如果存在再去线体查找是否可以做
             if (deviceSeq.DeviceId == 1)
             {
-                if (deviceSeq.SeqName == "Op20")
+                // 140 清洗工站直接放行
+                if (deviceSeq.SeqName == "Op20"||deviceSeq.SeqName == "Op140")
                 {
                     // 直接发 1
                     WriteData(deviceSeq.StationAllow, "1", out _);
@@ -618,6 +765,14 @@ public class S7Communication : BaseCommunication
                     {
                         // 如果托盘绑定了产品码，这边直接放入，后面要用到
                         deviceSeq.ReadDataDic.AddOrUpdate("ProductCode", rfidModel.ProductCode);
+
+                        // 如果上一站结果是 NG，下面所有站都会是 NG
+                        if (dataFirst.OpFinalResult == "NG")
+                        {
+                            // 这些可能会被重写
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                        }
 
                         #region 屏蔽工站逻辑(根据 Redis 缓存获取工站列表)
                         // 从缓存中获取数据
@@ -685,6 +840,19 @@ public class S7Communication : BaseCommunication
                     {
                         // 如果托盘绑定了壳体码，这边直接放入，后面要用到
                         deviceSeq.ReadDataDic.AddOrUpdate("ShellCode", rfidModel?.ShellCode);
+
+                        if (dataSecond.OpFinalResult == "NG")
+                        {
+                            // 这些可能会被重写
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                        }
+                        else
+                        {
+                            // 这些可能会被重写
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "OK");
+                            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "OK");
+                        }
 
                         #region 屏蔽工站逻辑(根据 Redis 缓存获取工站列表)
                         // 从缓存中获取数据
@@ -758,8 +926,11 @@ public class S7Communication : BaseCommunication
     /// </summary>
     /// <param name="deviceSeq"></param>
     /// <returns></returns>
-    private async Task SqlOperateNone(DeviceSeq deviceSeq)
+    private async Task SqlOperateNone(DeviceSeq deviceSeq, SiemensS7Net plc)
     {
+        // 1. 从 Plc 中读取 ReadData 对应的地址填充到 ReadDataDic 中
+        ReadDataFromPlc(deviceSeq, plc);
+
         // 用于第一站数据，节拍和加工时间绑定到 rfid 表上，方便 Op20 站搬运数据
         if (deviceSeq.SeqName == "Op10")
         {
@@ -805,8 +976,10 @@ public class S7Communication : BaseCommunication
     /// 将 ReadDataDic 中的表批量插入到数据库中
     /// </summary>
     /// <param name="deviceSeq"></param>
-    private async Task SqlOperateInsert(DeviceSeq deviceSeq)
+    private async Task SqlOperateInsert(DeviceSeq deviceSeq,SiemensS7Net plc)
     {
+        ReadDataFromPlc(deviceSeq, plc);
+
         // OpFinalStation OpFinalDate 两个字段必写
         deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
         deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);
@@ -853,30 +1026,94 @@ public class S7Communication : BaseCommunication
         }
     }
 
-    private async Task SqlOperateUpdate(DeviceSeq deviceSeq)
+    private async Task SqlOperateUpdate(DeviceSeq deviceSeq, SiemensS7Net plc)
     {
         try
         {
-            // 这些必写
-            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
-            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);
-            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Time", DateTime.Now);
-            // 这些可能会被重写
-            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "OK");
-            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "OK");
-
-            await SqlOperateUpdateAop(deviceSeq);
-
             int line = 0;
 
+            // 托盘上肯定绑定了产品码
             if (deviceSeq.DeviceId == 1)
             {
+                if (deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
+                {
+                    var dataFirst = DbContext.Db.Queryable<Albert_DataFirst>()
+                        .First(x => x.ProductCode == productCode.ToString());
+
+                    if (dataFirst != null)
+                    {
+                        // 如果最终结果是 NG，直接不读取数据
+                        if (dataFirst.OpFinalResult == "NG")
+                        {
+                            (deviceSeq.SeqName + "【上一站结果是NG】不更新最终站、不读取数据，直接发 1").LogInformation();
+                        }
+                        // 如果最终结果是 OK，更新最终站+读取数据
+                        else
+                        {
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
+                            ReadDataFromPlc(deviceSeq, plc);
+                        }
+                    }
+                    else
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
+                        ReadDataFromPlc(deviceSeq, plc);
+                    }
+                }
+                else
+                {
+                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
+                    ReadDataFromPlc(deviceSeq, plc);
+                }
+
+                deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);
+                deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Time", DateTime.Now);
+
+                await SqlOperateUpdateAop(deviceSeq);
+
                 // 数据更新,以 ProductCode
                 line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
                     .AS("Albert_DataFirst").WhereColumns("ProductCode").ExecuteCommandAsync();
             }
-            else
+
+            if (deviceSeq.DeviceId == 2)
             {
+                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                {
+                    var dataSecond = DbContext.Db.Queryable<Albert_DataSecond>()
+                        .First(x => x.ShellCode == shellCode.ToString());
+
+                    if (dataSecond != null)
+                    {
+                        // 如果最终结果是 NG，直接不读取数据
+                        if (dataSecond.OpFinalResult == "NG")
+                        {
+                            (deviceSeq.SeqName + "【上一站结果是NG】不更新最终站、不读取数据，直接发 1").LogInformation();
+                        }
+                        // 如果最终结果是 OK，更新最终站+读取数据
+                        else
+                        {
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
+                            ReadDataFromPlc(deviceSeq, plc);
+                        }
+                    }
+                    else
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
+                        ReadDataFromPlc(deviceSeq, plc);
+                    }
+                }
+                else
+                {
+                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
+                    ReadDataFromPlc(deviceSeq, plc);
+                }
+
+                deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);
+                deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Time", DateTime.Now);
+
+                await SqlOperateUpdateAop(deviceSeq);
+
                 // 数据更新,以 ShellCode
                 line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
                     .AS("Albert_DataSecond").WhereColumns("ShellCode").ExecuteCommandAsync();
@@ -894,8 +1131,8 @@ public class S7Communication : BaseCommunication
         }
         catch (Exception ex)
         {
-            $"【更新数据】失败{ex.Message}".LogError();
-            _cacheService.LPush("MES-PLC 交互", $"【更新数据】失败{ex.Message}");
+            $"【出现异常】{ex.Message}".LogError();
+            _cacheService.LPush("MES-PLC 交互", $"【出现异常】{ex.Message}");
         }
        
     }

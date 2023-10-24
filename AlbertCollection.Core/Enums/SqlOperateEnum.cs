@@ -22,6 +22,11 @@ namespace AlbertCollection.Core.Enums
         /// 更新数据
         /// </summary>
         [Description("更新数据")]
-        Update = 2
+        Update = 2,
+        /// <summary>
+        /// 下线
+        /// </summary>
+        [Description("不采集数据")]
+        Ignore = 3,
     }
 }

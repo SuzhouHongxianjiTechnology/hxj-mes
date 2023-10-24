@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Furion.Logging.Extensions;
 
 namespace AlbertCollection.Application.BgWorkers
 {
@@ -37,6 +38,7 @@ namespace AlbertCollection.Application.BgWorkers
         public static void AddMessage(string message, LogLevel logLevel)
         {
             DebugPageMessages.Enqueue(message.FormatOutput(LogLevel.Information));
+            message.LogInformation();
         }
 
         /// <summary>

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
 {
-    public partial class Albert_PdmWorkorder
+    public class Albert_PdmWorkorder
     {
         /// <summary>
        ///工单编码

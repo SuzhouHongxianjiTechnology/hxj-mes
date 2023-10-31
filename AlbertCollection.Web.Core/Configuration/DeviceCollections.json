@@ -410,7 +410,7 @@
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
         "SetHeartAddress": "DB50.0.0",
-        "ProductType": "int,DB50.2.0",
+        "ProductType": "short,DB50.2.0",
         "StationSeqs": [
           {
             "Id": "1",
@@ -431,6 +431,13 @@
                 "Sort": "1",
                 "SqlColumnName": "Op150Beat",
                 "TypeAndDb": "int,DB50.106.0"
+              },
+              {
+                "Id": "2",
+                "SeqId": "1",
+                "Sort": "2",
+                "SqlColumnName": "RunCode",
+                "TypeAndDb": "string,DB50.110.0,38"
               }
             ]
           },
@@ -460,14 +467,14 @@
             "Id": "3",
             "DeviceId": "2",
             "DeviceName": "环形2线",
-            "SeqName": "Op170", // 插入数据，将托盘上 Op150 节拍、Op160 节拍转移到壳体码数据表上
+            "SeqName": "Op170", // 插入数据，将托盘上 Op150 节拍、Op160 节拍转移到壳体码数据表上 壳体码和执行器码绑定
             "RfidRisingEdge": "DB50.300.0",
             "RfidResponseEdge": "DB50.300.1",
             "RisingEdge": "DB50.300.2",
             "ResponseEdge": "DB50.300.3",
             "StationAllow": "short,DB50.302.0",
             "RfidLabel": "short,DB50.304.0",
-            "SqlOperate": "Insert",
+            "SqlOperate": "None",
             "ReadData": [
               {
                 "Id": "1",
@@ -475,13 +482,6 @@
                 "Sort": "1",
                 "SqlColumnName": "Op170Beat",
                 "TypeAndDb": "int,DB50.306.0"
-              },
-              {
-                "Id": "2",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "ShellCode", //跟托盘绑定
-                "TypeAndDb": "string,DB50.306.0,16"
               }
             ]
           },
@@ -496,7 +496,7 @@
             "ResponseEdge": "DB50.400.3",
             "StationAllow": "short,DB50.402.0",
             "RfidLabel": "short,DB50.404.0",
-            "SqlOperate": "Update",
+            "SqlOperate": "None",
             "ReadData": [
               {
                 "Id": "1",
@@ -518,7 +518,7 @@
             "ResponseEdge": "DB50.500.3",
             "StationAllow": "short,DB50.502.0",
             "RfidLabel": "short,DB50.504.0",
-            "SqlOperate": "Update",
+            "SqlOperate": "None",
             "ReadData": [
               {
                 "Id": "2",
@@ -540,7 +540,7 @@
             "ResponseEdge": "DB50.600.3",
             "StationAllow": "short,DB50.602.0",
             "RfidLabel": "short,DB50.604.0",
-            "SqlOperate": "Update",
+            "SqlOperate": "Insert",
             "ReadData": [
               {
                 "Id": "1",
@@ -595,14 +595,14 @@
                 "Id": "8",
                 "SeqId": "1",
                 "Sort": "8",
-                "SqlColumnName": "ProductCode", // 轴承码
+                "SqlColumnName": "ShellCode", // 壳体码 轴承二合一，绑定在一起，数据承载在壳体码上
                 "TypeAndDb": "string,DB50.630.0,16"
               },
               {
                 "Id": "9",
                 "SeqId": "1",
                 "Sort": "9",
-                "SqlColumnName": "ShellCode", // 壳体轴承二合一，绑定在一起，数据承载在壳体码上
+                "SqlColumnName": "ProductCode", // 轴承码
                 "TypeAndDb": "string,DB50.646.0,16"
               }
             ]
@@ -630,32 +630,10 @@
             ]
           },
           {
-            "Id": "8",
-            "DeviceId": "2",
-            "DeviceName": "环形2线",
-            "SeqName": "Op200_1", // 堵帽
-            "RfidRisingEdge": "DB50.800.0",
-            "RfidResponseEdge": "DB50.800.1",
-            "RisingEdge": "DB50.800.2",
-            "ResponseEdge": "DB50.800.3",
-            "StationAllow": "short,DB50.802.0",
-            "RfidLabel": "short,DB50.804.0",
-            "SqlOperate": "Update",
-            "ReadData": [
-              {
-                "Id": "1",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "Op200_1Beat",
-                "TypeAndDb": "int,DB50.806.0"
-              }
-            ]
-          },
-          {
             "Id": "9",
             "DeviceId": "2",
             "DeviceName": "环形2线",
-            "SeqName": "Op200_2",
+            "SeqName": "Op200", // 堵帽
             "RfidRisingEdge": "DB50.900.0",
             "RfidResponseEdge": "DB50.900.1",
             "RisingEdge": "DB50.900.2",
@@ -668,7 +646,7 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op200_2Beat",
+                "SqlColumnName": "Op200Beat",
                 "TypeAndDb": "int,DB50.906.0"
               }
             ]

@@ -72,7 +72,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 }
             }
 
-            if (deviceSeq.SeqName == "Op170")
+            if (deviceSeq.SeqName == "Op180_3")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid)
                     && deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
@@ -409,7 +409,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
             }
 
             // 堵帽组装
-            if (deviceSeq.SeqName == "Op200_1")
+            if (deviceSeq.SeqName == "Op200")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))
                 {

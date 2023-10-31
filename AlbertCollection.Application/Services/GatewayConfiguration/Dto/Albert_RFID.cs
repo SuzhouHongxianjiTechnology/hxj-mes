@@ -43,11 +43,18 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
        [MaxLength(50)]
        [Column(TypeName="nvarchar(50)")]
        public string ShellCode { get; set; }
-
        /// <summary>
-       ///Op10节拍
+       /// 轴承码
        /// </summary>
-       [Display(Name ="Op10节拍")]
+       [Display(Name = "执行器码")]
+       [MaxLength(50)]
+       [Column(TypeName = "nvarchar(50)")]
+       public string RunCode { get; set; }
+
+        /// <summary>
+        ///Op10节拍
+        /// </summary>
+        [Display(Name ="Op10节拍")]
        [MaxLength(10)]
        [Column(TypeName="nvarchar(10)")]
        public string Op10Beat { get; set; }

@@ -525,8 +525,8 @@ public class S7Communication : BaseCommunication
                         {
                             (deviceSeq.SeqName + ex.Message).LogError();
                             _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
-                            deviceSeq.IsOpen = false;
-                            break;
+                            //deviceSeq.IsOpen = false;
+                            //break;
                         }
                     }
                 }, deviceSeq.StopStationTokenSource.Token);
@@ -614,8 +614,8 @@ public class S7Communication : BaseCommunication
                         {
                             (deviceSeq.SeqName+ex.Message).LogError();
                             _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
-                            deviceSeq.IsOpen = false;
-                            break;
+                            // deviceSeq.IsOpen = false;
+                            // break;
                         }
                 }, deviceSeq.StopStationTokenSource.Token);
 
@@ -703,8 +703,8 @@ public class S7Communication : BaseCommunication
                             {
                                 (deviceSeq.SeqName + ex.Message).LogError();
                                 _cacheService.LPush("MES-PLC 交互-压机曲线", (deviceSeq.SeqName + ex.Message));
-                                deviceSeq.IsOpen = false;
-                                break;
+                                //deviceSeq.IsOpen = false;
+                                //break;
                             }
                         }
                     }, deviceSeq.StopStationTokenSource.Token);
@@ -824,7 +824,8 @@ public class S7Communication : BaseCommunication
             else
             {
                 // 二线体 160 直接放行
-                if (deviceSeq.SeqName == "Op160")
+                if (deviceSeq.SeqName == "Op160"|| deviceSeq.SeqName == "Op170"||
+                    deviceSeq.SeqName == "Op180_1" || deviceSeq.SeqName == "Op180_2" || deviceSeq.SeqName == "Op350")
                 {
                     // 直接发 1
                     WriteData(deviceSeq.StationAllow, "1", out _);
@@ -832,7 +833,7 @@ public class S7Communication : BaseCommunication
                 }
                 else
                 {
-                    // Op170(含) 后续每站都需要验证前一站是否 OK  
+                    // Op180_3(含) 后续每站都需要验证前一站是否 OK  
                     var dataSecond = DbContext.Db.Queryable<Albert_DataSecond>()
                         .First(x => x.ShellCode == rfidModel.ShellCode);
 
@@ -855,67 +856,70 @@ public class S7Communication : BaseCommunication
                         }
 
                         #region 屏蔽工站逻辑(根据 Redis 缓存获取工站列表)
-                        // 从缓存中获取数据
-                        var station = _cacheService
-                            .Get<List<Albert_PdmCraftDevice>>(CacheConst.CraftStationList)
-                            ?.Where(x => x.DeviceDBName == deviceSeq.SeqName)
-                            .First();
+                        //// 从缓存中获取数据
+                        //var station = _cacheService
+                        //    .Get<List<Albert_PdmCraftDevice>>(CacheConst.CraftStationList)
+                        //    ?.Where(x => x.DeviceDBName == deviceSeq.SeqName)
+                        //    .First();
 
-                        // 没有缓存从数据库获取
-                        if (station == null)
-                        {
-                            var stationList = DbContext.Db
-                                .Queryable<Albert_PdmCraftDevice>()
-                                .Where(x => x.DeviceDBName ==
-                                    deviceSeq.SeqName);
+                        //// 没有缓存从数据库获取
+                        //if (station == null)
+                        //{
+                        //    var stationList = DbContext.Db
+                        //        .Queryable<Albert_PdmCraftDevice>()
+                        //        .Where(x => x.DeviceDBName ==
+                        //            deviceSeq.SeqName);
 
-                            // 写入缓存中
-                            _cacheService.AddObject(
-                                CacheConst.CraftStationList, stationList);
+                        //    // 写入缓存中
+                        //    _cacheService.AddObject(
+                        //        CacheConst.CraftStationList, stationList);
 
-                            station = stationList.First();
-                        }
+                        //    station = stationList.First();
+                        //}
 
-                        // 工站屏蔽了,直接发 2，让其流出
-                        if (station?.DeviceDBIsUse == "N")
-                        {
-                            // NG 件 [允许工作1允许，2NG]
-                            WriteData(deviceSeq.StationAllow, "2", out _);
-                            $"{deviceSeq.SeqName}【工站屏蔽了,直接 NG 流出】".LogWarning();
-                        }
-                        else
-                        {
-                            // 这边和高品交互的工站(4 站)还需要在发 1 之前，告知 plc 壳体码
-                            if (deviceSeq.SeqName == "Op240_1" ||
-                                deviceSeq.SeqName == "Op250_1"||
-                                deviceSeq.SeqName == "Op290_1" ||
-                                deviceSeq.SeqName == "Op300_1")
-                            {
-                                if (deviceSeq.WriteData.Count > 0)
-                                {
-                                    WriteData(deviceSeq.WriteData[0].TypeAndDb, rfidModel.ShellCode, out _);
-                                }
-                                else
-                                {
-                                    $"{deviceSeq.SeqName}【检查配置文件】写入地址为空".LogError();
-                                    _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}【检查配置文件】写入地址为空");
-                                }
-                            }
+                        //// 工站屏蔽了,直接发 2，让其流出
+                        //if (station?.DeviceDBIsUse == "N")
+                        //{
+                        //    // NG 件 [允许工作1允许，2NG]
+                        //    WriteData(deviceSeq.StationAllow, "2", out _);
+                        //    $"{deviceSeq.SeqName}【工站屏蔽了,直接 NG 流出】".LogWarning();
+                        //}
+                        //else
+                        //{
+                        //    // 这边和高品交互的工站(4 站)还需要在发 1 之前，告知 plc 壳体码
+                        //    // 他们加枪了
+                        //    //if (deviceSeq.SeqName == "Op240_1" ||
+                        //    //    deviceSeq.SeqName == "Op250_1"||
+                        //    //    deviceSeq.SeqName == "Op290_1" ||
+                        //    //    deviceSeq.SeqName == "Op300_1")
+                        //    //{
+                        //    //    if (deviceSeq.WriteData.Count > 0)
+                        //    //    {
+                        //    //        WriteData(deviceSeq.WriteData[0].TypeAndDb, rfidModel.ShellCode, out _);
+                        //    //    }
+                        //    //    else
+                        //    //    {
+                        //    //        $"{deviceSeq.SeqName}【检查配置文件】写入地址为空".LogError();
+                        //    //        _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}【检查配置文件】写入地址为空");
+                        //    //    }
+                        //    //}
 
-                            // 没有屏蔽工站，则按照正常逻辑进行
-                            var finalResult = (dataSecond.OpFinalResult == "OK") ? "1" : "2";
-                            WriteData(deviceSeq.StationAllow, finalResult, out _);
-                            $"{deviceSeq.SeqName}【rfid 标签上升沿反馈】{finalResult}".LogInformation();
-                        }
+                        //    // 没有屏蔽工站，则按照正常逻辑进行
+                        //    var finalResult = (dataSecond.OpFinalResult == "OK") ? "1" : "2";
+                        //    WriteData(deviceSeq.StationAllow, finalResult, out _);
+                        //    $"{deviceSeq.SeqName}【rfid 标签上升沿反馈】{finalResult}".LogInformation();
+                        //}
                         #endregion
                     }
-                    else
-                    {
-                        // 未根据产品码查询到相关数据，直接 NG
-                        WriteData(deviceSeq.StationAllow, "2", out _);
-                        $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
-                        _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG");
-                    }
+                    // ToDo:Debug
+                    WriteData(deviceSeq.StationAllow, "1", out _);
+                    //else
+                    //{
+                    //    // 未根据产品码查询到相关数据，直接 NG
+                    //    WriteData(deviceSeq.StationAllow, "2", out _);
+                    //    $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
+                    //    _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG");
+                    //}
                 }
             }
         }
@@ -957,19 +961,28 @@ public class S7Communication : BaseCommunication
             deviceSeq.ReadDataDic.AddOrUpdate("Op160Result", "OK");
         }
 
-        var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
-            .AS("Albert_RFID").WhereColumns("RFID").ExecuteCommandAsync();
-
-        if (line > 0)
+        if (deviceSeq.SeqName == "Op170"|| deviceSeq.SeqName == "Op180_1" || deviceSeq.SeqName == "Op180_2")
         {
-            // 3. 读取完毕，打印日志
-            (deviceSeq.SeqName + "【RFID 表更新】完成").LogInformation();
+            
         }
         else
         {
-            (deviceSeq.SeqName + "【RFID 表更新】失败").LogError();
-            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【RFID 表更新】失败"));
+            var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
+                .AS("Albert_RFID").WhereColumns("RFID").ExecuteCommandAsync();
+
+            if (line > 0)
+            {
+                // 3. 读取完毕，打印日志
+                (deviceSeq.SeqName + "【RFID 表更新】完成").LogInformation();
+            }
+            else
+            {
+                (deviceSeq.SeqName + "【RFID 表更新】失败").LogError();
+                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【RFID 表更新】失败"));
+            }
         }
+
+       
     }
 
     /// <summary>

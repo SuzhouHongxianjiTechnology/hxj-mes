@@ -72,26 +72,27 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 }
             }
 
+            // 插入数据，将托盘上 Op150、Op160、Op170、Op180_1、Op180_2 等数据转移到壳体码上 壳体码和执行器码绑定
             if (deviceSeq.SeqName == "Op180_3")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid)
-                    && deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                    && deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode)
+                    && deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
                 {
+                    #region  二码合一，取走
                     var rfidModel = DbContext.Db.Queryable<Albert_RFID>().First(x => x.RFID.ToString() == rfid.ToString());
 
                     if (rfidModel != null)
                     {
-                        // 1.更新 RFID 表
-                        // 绑定 Rfid 和 产品码
+                        // 1.更新 Rfid 表：绑定 Rfid 和 产品码，更新绑定关系
                         rfidModel.ShellCode = shellCode.ToString();
+                        rfidModel.ProductCode = productCode.ToString();
 
-                        // 更新绑定关系
                         await DbContext.Db.Updateable(rfidModel)
                             .Where(it => it.RFID == rfid.ToInt(0))
                             .ExecuteCommandAsync();
 
-                        // 2.更新产品表
-                        // 从 _rfidModel 中获取 Op150 Op160 数据
+                        // 2.更新产品表：从 _rfidModel 中获取 Op150 Op160 Op170 Op180_1 Op180_2 数据
                         deviceSeq.ReadDataDic.AddOrUpdate("Op150Beat", rfidModel.Op150Beat);
                         deviceSeq.ReadDataDic.AddOrUpdate("Op150Result", rfidModel.Op150Result);
                         deviceSeq.ReadDataDic.AddOrUpdate("Op150Time", rfidModel.Op150Time);
@@ -99,17 +100,61 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                         deviceSeq.ReadDataDic.AddOrUpdate("Op160Beat", rfidModel.Op160Beat);
                         deviceSeq.ReadDataDic.AddOrUpdate("Op160Result", rfidModel.Op160Result);
                         deviceSeq.ReadDataDic.AddOrUpdate("Op160Time", rfidModel.Op160Time);
+
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op170Beat", rfidModel.Op170Beat);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op170Result", rfidModel.Op170Result);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op170Time", rfidModel.Op170Time);
+
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op180_1Beat", rfidModel.Op180_1Beat);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op180_1Result", rfidModel.Op180_1Result);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op180_1Time", rfidModel.Op180_1Time);
+
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op180_2Beat", rfidModel.Op180_2Beat);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op180_2Result", rfidModel.Op180_2Result);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op180_2Time", rfidModel.Op180_2Time);
                     }
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
                         _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
+                    #endregion
+
+                    #region 数据合格性判定
+                    // 实际数据来判定是否为 NG 件
+                    if (deviceSeq.ReadDataDic.TryGetValue("Op180_3TorqueResult", out var torqueResult))
+                    {
+                        if ((torqueResult.ToString() == "2"))
+                        {
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                        }
+                    }
+                    else
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                    }
+
+                    if (deviceSeq.ReadDataDic.TryGetValue("Op180_3TorqueResult2", out var torqueResult2))
+                    {
+                        if ((torqueResult2.ToString() == "2"))
+                        {
+                            deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                            deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                        }
+                    }
+                    else
+                    {
+                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
+                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                    }
+                    #endregion
                 }
                 else
                 {
-                    (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
+                    (deviceSeq.SeqName + "数据字典未查询到 RFID 或 ShellCode 为空").LogError();
+                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "数据字典未查询到 RFID 或 ShellCode 为空"));
                 }
             }
         }
@@ -249,7 +294,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 }
             }
 
-            // 如果 120 是 NG，也需要解绑
+            // 120 NG，8需要解绑
             if (deviceSeq.SeqName == "Op120")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))
@@ -315,71 +360,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 }
             }
 
-            // 壳体码、轴承码 二码合一
-            if (deviceSeq.SeqName == "Op180_3")
-            {
-                if (deviceSeq.ReadDataDic.TryGetValue("Op180_3TorqueResult", out var torqueResult))
-                {
-                    if ((torqueResult.ToString() == "2"))
-                    {
-                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
-                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
-                    }
-                }
-                else
-                {
-                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
-                    deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
-                }
-
-                if (deviceSeq.ReadDataDic.TryGetValue("Op180_3TorqueResult2", out var torqueResult2))
-                {
-                    if ((torqueResult2.ToString() == "2"))
-                    {
-                        deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
-                        deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
-                    }
-                }
-                else
-                {
-                    deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
-                    deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
-                }
-
-                // 壳体码、轴承码 二码合一
-                if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid)
-                    && deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode)
-                    && deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
-                {
-                    var rfidModel = DbContext.Db.Queryable<Albert_RFID>().First(x => x.RFID.ToString() == rfid.ToString());
-
-                    if (rfidModel != null)
-                    {
-                        // 1.更新 rif 表
-                        // 绑定 Rfid 壳体码 轴承码
-                        rfidModel.ShellCode = shellCode.ToString();
-                        rfidModel.ProductCode = productCode.ToString();
-                        rfidModel.Bearing = "N";
-
-                        // 更新 rfid 绑定关系
-                        await DbContext.Db.Updateable(rfidModel)
-                            .Where(it => it.RFID == rfid.ToInt(0))
-                            .ExecuteCommandAsync();
-                    }
-                    else
-                    {
-                        (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
-                    }
-                }
-                else
-                {
-                    (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
-                }
-            }
-
-            // 球阀组装
+            // 190 球阀组装
             if (deviceSeq.SeqName == "Op190")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))
@@ -388,9 +369,8 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
                     if (rfidModel != null)
                     {
+                        // 球阀组装
                         rfidModel.SteelBall = "N";
-
-                        // 更新 rfid 绑定关系
                         await DbContext.Db.Updateable(rfidModel)
                             .Where(it => it.RFID == rfid.ToInt(0))
                             .ExecuteCommandAsync();
@@ -408,7 +388,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 }
             }
 
-            // 堵帽组装
+            // 200 堵帽组装
             if (deviceSeq.SeqName == "Op200")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))

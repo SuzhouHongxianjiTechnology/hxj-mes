@@ -52,6 +52,14 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
        public string RunCode { get; set; }
 
         /// <summary>
+        /// 最终结果
+        /// </summary>
+        [Display(Name = "最终结果")]
+       [MaxLength(50)]
+       [Column(TypeName = "nvarchar(50)")]
+       public string OpFinalResult { get; set; }
+
+        /// <summary>
         ///Op10节拍
         /// </summary>
         [Display(Name ="Op10节拍")]
@@ -167,5 +175,74 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
        [Display(Name ="Op160加工时间")]
        [Column(TypeName="datetime")]
        public DateTime? Op160Time { get; set; }
+
+        /// <summary>
+        ///Op170节拍
+        /// </summary>
+        [Display(Name = "Op170节拍")]
+       [MaxLength(10)]
+       [Column(TypeName = "nvarchar(10)")]
+       public string Op170Beat { get; set; }
+
+        /// <summary>
+        ///Op170结果
+        /// </summary>
+        [Display(Name = "Op170结果")]
+       [MaxLength(10)]
+       [Column(TypeName = "nvarchar(10)")]
+       public string Op170Result { get; set; }
+
+        /// <summary>
+        ///Op170加工时间
+        /// </summary>
+        [Display(Name = "Op170加工时间")]
+       [Column(TypeName = "datetime")]
+       public DateTime? Op170Time { get; set; }
+
+        /// <summary>
+        ///Op180_1节拍
+        /// </summary>
+        [Display(Name = "Op180_1节拍")]
+        [MaxLength(10)]
+        [Column(TypeName = "nvarchar(10)")]
+        public string Op180_1Beat { get; set; }
+
+        /// <summary>
+        ///Op180_1结果
+        /// </summary>
+        [Display(Name = "Op180_1结果")]
+        [MaxLength(10)]
+        [Column(TypeName = "nvarchar(10)")]
+        public string Op180_1Result { get; set; }
+
+        /// <summary>
+        ///Op180_1加工时间
+        /// </summary>
+        [Display(Name = "Op180_1加工时间")]
+        [Column(TypeName = "datetime")]
+        public DateTime? Op180_1Time { get; set; }
+
+        /// <summary>
+        ///Op180_2节拍
+        /// </summary>
+        [Display(Name = "Op180_2节拍")]
+        [MaxLength(10)]
+        [Column(TypeName = "nvarchar(10)")]
+        public string Op180_2Beat { get; set; }
+
+        /// <summary>
+        ///Op180_2结果
+        /// </summary>
+        [Display(Name = "Op180_2结果")]
+        [MaxLength(10)]
+        [Column(TypeName = "nvarchar(10)")]
+        public string Op180_2Result { get; set; }
+
+        /// <summary>
+        ///Op180_2加工时间
+        /// </summary>
+        [Display(Name = "Op180_2加工时间")]
+        [Column(TypeName = "datetime")]
+        public DateTime? Op180_2Time { get; set; }
     }
 }

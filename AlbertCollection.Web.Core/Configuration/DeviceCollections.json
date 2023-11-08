@@ -406,6 +406,7 @@
         "Id": "2",
         "Name": "环形2线",
         "IpAddress": "192.168.1.5",
+        //"IpAddress": "127.0.0.1",
         "Port": "102",
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
@@ -467,10 +468,10 @@
             "Id": "3",
             "DeviceId": "2",
             "DeviceName": "环形2线",
-            "SeqName": "Op170", // 插入数据，将托盘上 Op150 节拍、Op160 节拍转移到壳体码数据表上 壳体码和执行器码绑定
+            "SeqName": "Op170",
             "RfidRisingEdge": "DB50.300.0",
             "RfidResponseEdge": "DB50.300.1",
-            "RisingEdge": "DB50.300.2",
+            "RisingEdge": "DB50.300.2",  
             "ResponseEdge": "DB50.300.3",
             "StationAllow": "short,DB50.302.0",
             "RfidLabel": "short,DB50.304.0",
@@ -533,6 +534,8 @@
             "Id": "6",
             "DeviceId": "2",
             "DeviceName": "环形2线",
+            // 数据插入，数据绑定  
+            // 插入数据，将托盘上 Op150、Op160、Op170、Op180_1、Op180_2 等数据转移到壳体码上 壳体码和执行器码绑定
             "SeqName": "Op180_3",
             "RfidRisingEdge": "DB50.600.0",
             "RfidResponseEdge": "DB50.600.1",
@@ -691,13 +694,6 @@
                 "Sort": "4",
                 "SqlColumnName": "Op210TorqueResult", // 螺丝枪 1 OK 2 NG
                 "TypeAndDb": "short,DB50.1018.0"
-              },
-              {
-                "Id": "5",
-                "SeqId": "1",
-                "Sort": "5",
-                "SqlColumnName": "ShellCode", // rfid 壳体码绑定
-                "TypeAndDb": "string,DB50.1020.0,16"
               }
             ]
           },
@@ -798,15 +794,22 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op230_3Beat",
-                "TypeAndDb": "int,DB50.1406.0"
+                "SqlColumnName": "Op230_3Result",
+                "TypeAndDb": "short,DB50.1406.0"
               },
               {
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
+                "SqlColumnName": "Op230_3Beat",
+                "TypeAndDb": "int,DB50.1408.0"
+              },
+              {
+                "Id": "3",
+                "SeqId": "1",
+                "Sort": "3",
                 "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1410.0,16"
+                "TypeAndDb": "string,DB50.1412.0,16"
               }
             ]
           },
@@ -827,15 +830,22 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op230_4Beat",
-                "TypeAndDb": "int,DB50.1506.0"
+                "SqlColumnName": "Op230_4Result",
+                "TypeAndDb": "short,DB50.1506.0"
               },
               {
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
+                "SqlColumnName": "Op230_4Beat",
+                "TypeAndDb": "int,DB50.1508.0"
+              },
+              {
+                "Id": "3",
+                "SeqId": "1",
+                "Sort": "3",
                 "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1510.0,16"
+                "TypeAndDb": "string,DB50.1512.0,16"
               }
             ]
           },
@@ -859,16 +869,6 @@
                 "SqlColumnName": "Op230_4Beat",
                 "TypeAndDb": "int,DB50.1606.0"
               }
-            ],
-            "WriteData": [
-              {
-                "Id": "1",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1610.0",
-                "Value": ""
-              }
             ]
           },
           {
@@ -888,15 +888,22 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op240_2Beat",
-                "TypeAndDb": "int,DB50.1706.0"
+                "SqlColumnName": "Op240_2Result",
+                "TypeAndDb": "short,DB50.1706.0"
               },
               {
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
+                "SqlColumnName": "Op240_2Beat",
+                "TypeAndDb": "int,DB50.1708.0"
+              },
+              {
+                "Id": "3",
+                "SeqId": "1",
+                "Sort": "3",
                 "SqlColumnName": "ShellCode", // rfid 壳体码绑定
-                "TypeAndDb": "string,DB50.1710.0,16"
+                "TypeAndDb": "string,DB50.1712.0,16"
               }
             ]
           },
@@ -920,16 +927,6 @@
                 "SqlColumnName": "Op250_1Beat",
                 "TypeAndDb": "int,DB50.1806.0"
               }
-            ],
-            "WriteData": [
-              {
-                "Id": "1",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1810.0",
-                "Value": ""
-              }
             ]
           },
           {
@@ -949,15 +946,22 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op250_2Beat",
-                "TypeAndDb": "int,DB50.1906.0"
+                "SqlColumnName": "Op250_2Result",
+                "TypeAndDb": "short,DB50.1906.0"
               },
               {
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
+                "SqlColumnName": "Op250_2Beat",
+                "TypeAndDb": "int,DB50.1908.0"
+              },
+              {
+                "Id": "3",
+                "SeqId": "1",
+                "Sort": "3",
                 "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1910.0,16"
+                "TypeAndDb": "string,DB50.1912.0,16"
               }
             ]
           },
@@ -1002,13 +1006,6 @@
                 "Sort": "1",
                 "SqlColumnName": "Op270Beat",
                 "TypeAndDb": "int,DB50.2106.0"
-              },
-              {
-                "Id": "2",
-                "SeqId": "1",
-                "Sort": "2",
-                "SqlColumnName": "RunCode", // 三码合一
-                "TypeAndDb": "string,DB50.2110.0,16"
               }
             ]
           },
@@ -1102,6 +1099,16 @@
                 "SqlColumnName": "ShellCode", // 将数据放于壳体上
                 "TypeAndDb": "string,DB50.2240.0,16"
               }
+            ],
+            "WriteData": [
+              {
+                "Id": "1",
+                "SeqId": "1",
+                "Sort": "1",
+                "SqlColumnName": "ShellCode",
+                "TypeAndDb": "string,DB50.1810.0",
+                "Value": "2023110800010001"
+              }
             ]
           },
           {
@@ -1124,16 +1131,6 @@
                 "SqlColumnName": "Op290_1Beat",
                 "TypeAndDb": "int,DB50.2306.0"
               }
-            ],
-            "WriteData": [
-              {
-                "Id": "1",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1810.0",
-                "Value": ""
-              }
             ]
           },
           {
@@ -1153,15 +1150,22 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op290_2Beat",
-                "TypeAndDb": "int,DB50.2406.0"
+                "SqlColumnName": "Op290_2Result",
+                "TypeAndDb": "short,DB50.2406.0"
               },
               {
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
+                "SqlColumnName": "Op290_2Beat",
+                "TypeAndDb": "int,DB50.2408.0"
+              },
+              {
+                "Id": "3",
+                "SeqId": "1",
+                "Sort": "3",
                 "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.2410.0,16"
+                "TypeAndDb": "string,DB50.2412.0,16"
               }
             ]
           },
@@ -1185,16 +1189,6 @@
                 "SqlColumnName": "Op300_1Beat",
                 "TypeAndDb": "int,DB50.2506.0"
               }
-            ],
-            "WriteData": [
-              {
-                "Id": "1",
-                "SeqId": "1",
-                "Sort": "1",
-                "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.1810.0",
-                "Value": ""
-              }
             ]
           },
           {
@@ -1214,15 +1208,22 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op300_2Beat",
-                "TypeAndDb": "int,DB50.2606.0"
+                "SqlColumnName": "Op300_2Result",
+                "TypeAndDb": "short,DB50.2606.0"
               },
               {
                 "Id": "2",
                 "SeqId": "1",
                 "Sort": "2",
+                "SqlColumnName": "Op300_2Beat",
+                "TypeAndDb": "int,DB50.2608.0"
+              },
+              {
+                "Id": "3",
+                "SeqId": "1",
+                "Sort": "3",
                 "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.2410.0,16"
+                "TypeAndDb": "string,DB50.2612.0,16"
               }
             ]
           },

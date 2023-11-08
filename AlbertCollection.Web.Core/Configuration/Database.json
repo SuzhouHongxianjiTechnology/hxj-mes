@@ -5,7 +5,7 @@
     "Sqlsugar": [
       {
         "ConfigId": "Default", //租户ID
-        "ConnectionString": "server=192.168.1.170;Database=mes;Uid=root;Pwd=root;", //连接字符串
+        "ConnectionString": "server=127.0.0.1;Database=mes;Uid=root;Pwd=yt123.;", //连接字符串
         "DbType": "MySql", //数据库类型
         "IsAutoCloseConnection": true, //是否自动释放
         //"IsInitDb": false, //是否初始化数据库,适用于codefirst
@@ -19,7 +19,7 @@
       },
       {
         "ConfigId": "AlbertCollection", //租户ID,必须是这个名字
-        "ConnectionString": "server=192.168.1.170;Database=mes;Uid=root;Pwd=root;", //连接字符串
+        "ConnectionString": "server=127.0.0.1;Database=mes;Uid=root;Pwd=yt123.;", //连接字符串
         "DbType": "MySql", //数据库类型
         "IsAutoCloseConnection": true, //是否自动释放
         //"IsInitDb": false, //是否初始化数据库,适用于codefirst

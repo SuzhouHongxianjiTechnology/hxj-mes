@@ -11,6 +11,8 @@ using AlbertCollection.Core.Enums;
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Application.Cache;
 using static System.Collections.Specialized.BitVector32;
+using TcpClient = TouchSocket.Sockets.TcpClient;
+using TouchSocket.Sockets;
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration;
 
@@ -23,6 +25,8 @@ public class S7Communication : BaseCommunication
 
     private readonly ICacheRedisService _cacheService;
 
+    private TcpClient _tcpClient = new TcpClient();
+
     /// <summary>
     /// 构造函数，初始化西门子读写
     /// </summary>
@@ -31,6 +35,18 @@ public class S7Communication : BaseCommunication
     {
         _device = device;
         _cacheService = cacheService;
+    }
+
+    private void PrintClinetLog(string msg)
+    {
+        try
+        {
+            msg.LogInformation();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 
     #region 设备相关
@@ -502,6 +518,8 @@ public class S7Communication : BaseCommunication
                                                     .First(x => x.RFID.ToString() == rfid);
 
                                                 $"{deviceSeq.SeqName}【Rfid 值】读取完毕{rfid}".LogInformation();
+
+                                                // 这边往字典里面添加了 RFID
                                                 deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
 
                                                 RfidAop(rfidModel, deviceSeq);
@@ -823,17 +841,116 @@ public class S7Communication : BaseCommunication
             }
             else
             {
-                // 二线体 160 直接放行
+                if (deviceSeq.SeqName == "Op330")
+                {
+                    _tcpClient.Connected = (client, e) => { };//成功连接到服务器
+                    _tcpClient.Disconnecting = (client, e) => { };//即将从服务器断开连接。此处仅主动断开才有效。
+                    _tcpClient.Disconnected = (client, e) => { };//从服务器断开连接，当连接不成功时不会触发。
+                    _tcpClient.Received = (client, byteBlock, requestInfo) =>
+                    {
+                        //从服务器收到信息。但是一般byteBlock和requestInfo会根据适配器呈现不同的值。
+                        string mes = Encoding.UTF8.GetString(byteBlock.Buffer, 0, byteBlock.Len);
+                        _tcpClient.Logger.Info($"客户端接收到信息：{mes}");
+                    };
+
+                    //载入配置
+                    _tcpClient.Setup(new TouchSocketConfig()
+                        .SetRemoteIPHost("192.168.1.115:9100")
+                        .ConfigureContainer(a =>
+                        {
+                            // 两种日志方式
+                            a.SetSingletonLogger(new LoggerGroup(new FileLogger(), new EasyLogger(PrintClinetLog)));
+                        }));
+
+                    Result result = _tcpClient.TryConnect();//或者可以调用TryConnect
+                    if (result.IsSuccess())
+                    {
+                        _tcpClient.Logger.Info("客户端成功连接");
+                    }
+                    else
+                    {
+                        _tcpClient.Logger.Info("客户端成功失败");
+                    }
+
+
+                    _tcpClient.Send("~JA");
+                    "贴标完成".LogInformation();
+
+                    var tcpContext = @"^XA
+~TA000
+~JSN
+^LT0
+^MNW
+^MTT
+^PON
+^PMN
+^LH30,30
+^JMA
+^PR4,4
+~SD28
+^JUS
+^LRN
+^CI27
+^PA0,1,1,0
+^XZ
+^XA
+^MMT
+^PW508
+^LL236
+^LS0
+^FT373,212^BQN,2,5
+^FH\^FDLA,20230926044438^FS
+^FO270,197^GFA,137,96,8,:Z64:eJw78P7Hv/6H/xgO+P/9L//xH8ODR9qLN1kpMYS6xjIaCDEx/H//v3GBFBPDgQhexg3iQLr+f+P+T0wMDu5/GeUfMzHAgQMLgwOQYn6+z+KzcgMD42M5gc+PDzAAADCBJL0=:7BA1
+^FO24,62^GFA,209,380,20,:Z64:eJyl0EEKAjEMBdDfUrCIjB1wWaQWL+BudpOA9zLMCeYGXsWjTVqtzsaNBkLIyyYJ8Hs4uPH+iN0Gxz2GiKS2xc5Acu81cc2gagc1PgXiJBNX63G2BmwC6ehtTi3bZvI0ZxG7QDp6WZJi2axtrMaYScvEpuxH1My7lWnDaabgm0kqli9eUtCd7cfKbbdRhmj/eNPXWADbpBz5:E7B0
+^FO24,97^A0N,17,18^FB111,1,4,L^FH\^CI28^FD[0001]^FS^CI27
+^FO24,131^A0N,17,18^FB111,1,4,L^FH\^CI28^FD[2311080001]^FS^CI27
+^SLS,1
+^FT24,177^A0N,17,18
+^FC%,{,#
+^FH\^CI28^FD%d/%m/%Y^FS^CI27
+^FO24,198^A0N,17,18^FB111,1,4,L^FH\^CI28^FD[China]^FS^CI27
+^SLS,1
+^FT146,177^A0N,17,18
+^FC%,{,#
+^FH\^CI28^FD%H:%M^FS^CI27
+^FO24,28^A0N,17,18^FB154,1,4,L^FH\^CI28^FD[A174803]^FS^CI27
+^FO185,28^A0N,17,18^FB154,1,4,L^FH\^CI28^FDZgs^FS^CI27
+^PQ1,,,Y
+^XZ
+";
+
+                    _tcpClient.Send(tcpContext);
+                }
+
+                // 二线体 Op260 Op270 需要解放
                 if (deviceSeq.SeqName == "Op160"|| deviceSeq.SeqName == "Op170"||
-                    deviceSeq.SeqName == "Op180_1" || deviceSeq.SeqName == "Op180_2" || deviceSeq.SeqName == "Op350")
+                    deviceSeq.SeqName == "Op180_1" || deviceSeq.SeqName == "Op180_2" ||
+                    deviceSeq.SeqName == "Op180_3" || deviceSeq.SeqName == "Op350"||
+                    deviceSeq.SeqName == "Op240_1" || deviceSeq.SeqName == "Op240_2"||
+                    deviceSeq.SeqName == "Op250_1" || deviceSeq.SeqName == "Op250_2" ||
+                    deviceSeq.SeqName == "Op290_1" || deviceSeq.SeqName == "Op290_2" ||
+                    deviceSeq.SeqName == "Op300_1" || deviceSeq.SeqName == "Op300_2" ||
+                    deviceSeq.SeqName == "Op260" || deviceSeq.SeqName == "Op270")
                 {
                     // 直接发 1
                     WriteData(deviceSeq.StationAllow, "1", out _);
                     $"{deviceSeq.SeqName}【产品码为空直接放行】-OK".LogInformation();
+
+                    //var mockShellCode = _cacheService.Get("MockShellCode");
+                    //deviceSeq.ReadDataDic.AddOrUpdate("ShellCode", mockShellCode);
                 }
                 else
                 {
-                    // Op180_3(含) 后续每站都需要验证前一站是否 OK  
+                    if (deviceSeq.SeqName == "Op280" && deviceSeq.WriteData.Count > 0)
+                    {
+                        var mockShellCode = _cacheService.Get("MockShellCode");
+                        WriteData(deviceSeq.WriteData[0].TypeAndDb, mockShellCode, out _);
+                        $"【280 站】发送模拟课题码{mockShellCode}".LogInformation();
+
+                        rfidModel.ShellCode = mockShellCode;
+                    }
+
+                    // Op190 后续每站都需要验证前一站是否 OK  
                     var dataSecond = DbContext.Db.Queryable<Albert_DataSecond>()
                         .First(x => x.ShellCode == rfidModel.ShellCode);
 
@@ -911,6 +1028,9 @@ public class S7Communication : BaseCommunication
                         //}
                         #endregion
                     }
+
+                   
+
                     // ToDo:Debug
                     WriteData(deviceSeq.StationAllow, "1", out _);
                     //else
@@ -957,32 +1077,44 @@ public class S7Communication : BaseCommunication
 
         if (deviceSeq.SeqName == "Op160")
         {
+            deviceSeq.ReadDataDic.AddOrUpdate("Bearing", "Y"); // 轴承
             deviceSeq.ReadDataDic.AddOrUpdate("Op160Time", DateTime.Now);
             deviceSeq.ReadDataDic.AddOrUpdate("Op160Result", "OK");
         }
 
-        if (deviceSeq.SeqName == "Op170"|| deviceSeq.SeqName == "Op180_1" || deviceSeq.SeqName == "Op180_2")
+        if (deviceSeq.SeqName == "Op170")
         {
-            
+            deviceSeq.ReadDataDic.AddOrUpdate("Op170Time", DateTime.Now);
+            deviceSeq.ReadDataDic.AddOrUpdate("Op170Result", "OK");
+        }
+
+        if (deviceSeq.SeqName == "Op180_1")
+        {
+            deviceSeq.ReadDataDic.AddOrUpdate("Op180_1Time", DateTime.Now);
+            deviceSeq.ReadDataDic.AddOrUpdate("Op180_1Result", "OK");
+        }
+
+        if (deviceSeq.SeqName == "Op180_2")
+        {
+            deviceSeq.ReadDataDic.AddOrUpdate("Op180_2Time", DateTime.Now);
+            deviceSeq.ReadDataDic.AddOrUpdate("Op180_2Result", "OK");
+        }
+
+        var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
+            .AS("Albert_RFID").WhereColumns("RFID").ExecuteCommandAsync();
+
+        if (line > 0)
+        {
+            // 3. 读取完毕，打印日志
+            (deviceSeq.SeqName + "【RFID 表更新】完成").LogInformation();
         }
         else
         {
-            var line = await DbContext.Db.Updateable(deviceSeq.ReadDataDic)
-                .AS("Albert_RFID").WhereColumns("RFID").ExecuteCommandAsync();
-
-            if (line > 0)
-            {
-                // 3. 读取完毕，打印日志
-                (deviceSeq.SeqName + "【RFID 表更新】完成").LogInformation();
-            }
-            else
-            {
-                (deviceSeq.SeqName + "【RFID 表更新】失败").LogError();
-                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【RFID 表更新】失败"));
-            }
+            (deviceSeq.SeqName + "【RFID 表更新】失败").LogError();
+            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【RFID 表更新】失败"));
         }
 
-       
+
     }
 
     /// <summary>
@@ -1101,7 +1233,7 @@ public class S7Communication : BaseCommunication
                         // 如果最终结果是 NG，直接不读取数据
                         if (dataSecond.OpFinalResult == "NG")
                         {
-                            (deviceSeq.SeqName + "【上一站结果是NG】不更新最终站、不读取数据，直接发 1").LogInformation();
+                            (deviceSeq.SeqName + "【上一站结果是 NG】不更新最终站、不读取数据，直接发 1").LogInformation();
                         }
                         // 如果最终结果是 OK，更新最终站+读取数据
                         else

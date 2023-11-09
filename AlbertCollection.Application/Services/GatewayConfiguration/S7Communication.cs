@@ -941,10 +941,16 @@ public class S7Communication : BaseCommunication
                     // 280 需要我这边给 plc 发送一个壳体码
                     if (deviceSeq.SeqName == "Op280" && deviceSeq.WriteData.Count > 0)
                     {
-                        var mockShellCode = _cacheService.Get("MockShellCode");
-                        WriteData(deviceSeq.WriteData[0].TypeAndDb, mockShellCode, out _);
-                        $"【280 站】发送模拟课题码{mockShellCode}".LogInformation();
-                        //WriteData(deviceSeq.WriteData[0].TypeAndDb, rfidModel?.ShellCode, out _);
+                        if (string.IsNullOrEmpty(rfidModel?.ShellCode))
+                        {
+                            var mockShellCode = _cacheService.Get("MockShellCode");
+                            WriteData(deviceSeq.WriteData[0].TypeAndDb, mockShellCode, out _);
+                            $"【280 站】发送模拟课题码{mockShellCode}".LogInformation();
+                        }
+                        else
+                        {
+                            WriteData(deviceSeq.WriteData[0].TypeAndDb, rfidModel?.ShellCode, out _);
+                        }
                     }
 
                     // Op190 后续每站都需要验证前一站是否 OK  
@@ -1025,9 +1031,6 @@ public class S7Communication : BaseCommunication
                         //}
                         #endregion
                     }
-
-                   
-
                     // ToDo:Debug
                     WriteData(deviceSeq.StationAllow, "1", out _);
                     //else

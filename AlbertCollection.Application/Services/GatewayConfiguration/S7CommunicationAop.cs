@@ -465,7 +465,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
             // 涂油组装
             // 三码合一
-            if (deviceSeq.SeqName == "Op270")
+            if (deviceSeq.SeqName == "Op280")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))
                 {
@@ -474,7 +474,8 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     if (rfidModel != null)
                     {
                         rfidModel.Spring = "N";
-
+                        // 执行器码绑定给产品
+                        deviceSeq.ReadDataDic.AddOrUpdate("RunCode", rfidModel?.RunCode);
                         // 更新 rfid 绑定关系
                         await DbContext.Db.Updateable(rfidModel)
                             .Where(it => it.RFID == rfid.ToInt(0))
@@ -491,10 +492,8 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
                     _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
-            }
 
-            if (deviceSeq.SeqName == "Op280")
-            {
+
                 if (deviceSeq.ReadDataDic.TryGetValue("Op280TorqueResult", out var torqueResult))
                 {
                     if (torqueResult.ToString() == "2")
@@ -535,6 +534,15 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 {
                     deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
                     deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
+                }
+
+                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCodeObj))
+                {
+                    if (shellCodeObj?.ToString()?.Length > 2)
+                    {
+                        var shellCode = shellCodeObj?.ToString()?.Substring(2);
+                        deviceSeq.ReadDataDic.AddOrUpdate("ShellCode", shellCode);
+                    }
                 }
             }
 

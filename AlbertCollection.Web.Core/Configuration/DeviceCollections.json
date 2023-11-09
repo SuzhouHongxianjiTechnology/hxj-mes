@@ -1097,7 +1097,7 @@
                 "SeqId": "1",
                 "Sort": "10",
                 "SqlColumnName": "ShellCode", // 将数据放于壳体上
-                "TypeAndDb": "string,DB50.2240.0,16"
+                "TypeAndDb": "string,DB50.2240.0,18"
               }
             ],
             "WriteData": [
@@ -1106,7 +1106,7 @@
                 "SeqId": "1",
                 "Sort": "1",
                 "SqlColumnName": "ShellCode",
-                "TypeAndDb": "string,DB50.2242.0",
+                "TypeAndDb": "string,DB50.2240.0",
                 "Value": "2023110800010001"
               }
             ]

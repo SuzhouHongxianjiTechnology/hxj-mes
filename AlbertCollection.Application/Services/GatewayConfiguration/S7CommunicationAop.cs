@@ -294,34 +294,26 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 }
             }
 
-            // 120 NG，8需要解绑
+            // 120 直接解绑
             if (deviceSeq.SeqName == "Op120")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))
                 {
-                    if (deviceSeq.ReadDataDic.TryGetValue("OpFinalResult", out var finalResult))
+                    var tempDic = new Dictionary<string, object>();
+                    tempDic.AddOrUpdate("RFID", rfid);
+                    tempDic.AddOrUpdate("RFIDIsUse", 0);
+
+                    var line = await DbContext.Db.Updateable(tempDic)
+                        .AS("Albert_RFID").WhereColumns("RFID").ExecuteCommandAsync();
+
+                    if (line > 0)
                     {
-                        // NG，也需要解绑
-                        if (finalResult.ToString() == "NG")
-                        {
-                            var tempDic = new Dictionary<string, object>();
-                            tempDic.AddOrUpdate("RFID", rfid);
-                            tempDic.AddOrUpdate("RFIDIsUse", 0);
-                            (deviceSeq.SeqName + " NG 件解绑托盘").LogInformation();
-
-                            var line = await DbContext.Db.Updateable(tempDic)
-                                .AS("Albert_RFID").WhereColumns("RFID").ExecuteCommandAsync();
-
-                            if (line > 0)
-                            {
-                                (deviceSeq.SeqName + "【更新数据】完成-RFID 表").LogInformation();
-                            }
-                            else
-                            {
-                                (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
-                                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表"));
-                            }
-                        }
+                        (deviceSeq.SeqName + "【更新数据】完成-RFID 表").LogInformation();
+                    }
+                    else
+                    {
+                        (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
+                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表"));
                     }
                 }
                 else
@@ -331,7 +323,7 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 }
             }
 
-            // 130 解绑 RFID表中的 RFIDIsUse
+            // 130 解绑 RFID表中的 RFIDIsUse（130 再次解绑)
             if (deviceSeq.SeqName == "Op130")
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))

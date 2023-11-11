@@ -10,7 +10,14 @@
 @layout MainLayout
 
 <MRow NoGutters>
-    Device Aop
+    <MButton Dense Color="Color.Primary" Style="margin:5px" OnClick="TestSqlFromBtn">测试数据库搬移</MButton>
 </MRow>
 
+@code
+{
+    public void TestSqlFromBtn()
+    {
+        TestSql.Test();
+    }
+}
 

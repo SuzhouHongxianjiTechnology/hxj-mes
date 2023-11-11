@@ -10,6 +10,7 @@ using AlbertCollection.Core.Entity.Device;
 using AlbertCollection.Core.Enums;
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Application.Cache;
+using AlbertCollection.Application.Services.Driver.Dto;
 using static System.Collections.Specialized.BitVector32;
 using TcpClient = TouchSocket.Sockets.TcpClient;
 using TouchSocket.Sockets;
@@ -841,96 +842,10 @@ public class S7Communication : BaseCommunication
             }
             else
             {
-                if (deviceSeq.SeqName == "Op330")
-                {
-                    _tcpClient.Connected = (client, e) => { };//成功连接到服务器
-                    _tcpClient.Disconnecting = (client, e) => { };//即将从服务器断开连接。此处仅主动断开才有效。
-                    _tcpClient.Disconnected = (client, e) => { };//从服务器断开连接，当连接不成功时不会触发。
-                    _tcpClient.Received = (client, byteBlock, requestInfo) =>
-                    {
-                        //从服务器收到信息。但是一般byteBlock和requestInfo会根据适配器呈现不同的值。
-                        string mes = Encoding.UTF8.GetString(byteBlock.Buffer, 0, byteBlock.Len);
-                        _tcpClient.Logger.Info($"客户端接收到信息：{mes}");
-                    };
-
-                    //载入配置
-                    _tcpClient.Setup(new TouchSocketConfig()
-                        .SetRemoteIPHost("192.168.1.115:9100")
-                        .ConfigureContainer(a =>
-                        {
-                            // 两种日志方式
-                            a.SetSingletonLogger(new LoggerGroup(new FileLogger(), new EasyLogger(PrintClinetLog)));
-                        }));
-
-                    Result result = _tcpClient.TryConnect();//或者可以调用TryConnect
-                    if (result.IsSuccess())
-                    {
-                        _tcpClient.Logger.Info("客户端成功连接");
-                    }
-                    else
-                    {
-                        _tcpClient.Logger.Info("客户端成功失败");
-                    }
-
-
-                    _tcpClient.Send("~JA");
-                    "贴标完成".LogInformation();
-
-                    var tcpContext = @"^XA
-~TA000
-~JSN
-^LT0
-^MNW
-^MTT
-^PON
-^PMN
-^LH30,30
-^JMA
-^PR4,4
-~SD28
-^JUS
-^LRN
-^CI27
-^PA0,1,1,0
-^XZ
-^XA
-^MMT
-^PW508
-^LL236
-^LS0
-^FT373,212^BQN,2,5
-^FH\^FDLA,20230926044438^FS
-^FO270,197^GFA,137,96,8,:Z64:eJw78P7Hv/6H/xgO+P/9L//xH8ODR9qLN1kpMYS6xjIaCDEx/H//v3GBFBPDgQhexg3iQLr+f+P+T0wMDu5/GeUfMzHAgQMLgwOQYn6+z+KzcgMD42M5gc+PDzAAADCBJL0=:7BA1
-^FO24,62^GFA,209,380,20,:Z64:eJyl0EEKAjEMBdDfUrCIjB1wWaQWL+BudpOA9zLMCeYGXsWjTVqtzsaNBkLIyyYJ8Hs4uPH+iN0Gxz2GiKS2xc5Acu81cc2gagc1PgXiJBNX63G2BmwC6ehtTi3bZvI0ZxG7QDp6WZJi2axtrMaYScvEpuxH1My7lWnDaabgm0kqli9eUtCd7cfKbbdRhmj/eNPXWADbpBz5:E7B0
-^FO24,97^A0N,17,18^FB111,1,4,L^FH\^CI28^FD[0001]^FS^CI27
-^FO24,131^A0N,17,18^FB111,1,4,L^FH\^CI28^FD[2311080001]^FS^CI27
-^SLS,1
-^FT24,177^A0N,17,18
-^FC%,{,#
-^FH\^CI28^FD%d/%m/%Y^FS^CI27
-^FO24,198^A0N,17,18^FB111,1,4,L^FH\^CI28^FD[China]^FS^CI27
-^SLS,1
-^FT146,177^A0N,17,18
-^FC%,{,#
-^FH\^CI28^FD%H:%M^FS^CI27
-^FO24,28^A0N,17,18^FB154,1,4,L^FH\^CI28^FD[A174803]^FS^CI27
-^FO185,28^A0N,17,18^FB154,1,4,L^FH\^CI28^FDZgs^FS^CI27
-^PQ1,,,Y
-^XZ
-";
-
-                    _tcpClient.Send(tcpContext);
-                }
-
                 // 二线体 Op260 Op270 需要解放
                 if (deviceSeq.SeqName == "Op160"|| deviceSeq.SeqName == "Op170"||
                     deviceSeq.SeqName == "Op180_1" || deviceSeq.SeqName == "Op180_2" ||
-                    deviceSeq.SeqName == "Op180_3" || deviceSeq.SeqName == "Op350"||
-                    deviceSeq.SeqName == "Op240_1" || deviceSeq.SeqName == "Op240_2"||
-                    deviceSeq.SeqName == "Op250_1" || deviceSeq.SeqName == "Op250_2" ||
-                    deviceSeq.SeqName == "Op290_1" || deviceSeq.SeqName == "Op290_2" ||
-                    deviceSeq.SeqName == "Op300_1" || deviceSeq.SeqName == "Op300_2" ||
-                    deviceSeq.SeqName == "Op260" || deviceSeq.SeqName == "Op270")
+                    deviceSeq.SeqName == "Op180_3" || deviceSeq.SeqName == "Op350")
                 {
                     // 直接发 1
                     WriteData(deviceSeq.StationAllow, "1", out _);
@@ -951,6 +866,11 @@ public class S7Communication : BaseCommunication
                         {
                             WriteData(deviceSeq.WriteData[0].TypeAndDb, rfidModel?.ShellCode, out _);
                         }
+                    }
+
+                    if (deviceSeq.SeqName == "Op330")
+                    {
+                        PrintZpl();
                     }
 
                     // Op190 后续每站都需要验证前一站是否 OK  
@@ -976,73 +896,96 @@ public class S7Communication : BaseCommunication
                         }
 
                         #region 屏蔽工站逻辑(根据 Redis 缓存获取工站列表)
-                        //// 从缓存中获取数据
-                        //var station = _cacheService
-                        //    .Get<List<Albert_PdmCraftDevice>>(CacheConst.CraftStationList)
-                        //    ?.Where(x => x.DeviceDBName == deviceSeq.SeqName)
-                        //    .First();
+                        // 从缓存中获取数据
+                        var station = _cacheService
+                            .Get<List<Albert_PdmCraftDevice>>(CacheConst.CraftStationList)
+                            ?.Where(x => x.DeviceDBName == deviceSeq.SeqName)
+                            .First();
 
-                        //// 没有缓存从数据库获取
-                        //if (station == null)
-                        //{
-                        //    var stationList = DbContext.Db
-                        //        .Queryable<Albert_PdmCraftDevice>()
-                        //        .Where(x => x.DeviceDBName ==
-                        //            deviceSeq.SeqName);
+                        // 没有缓存从数据库获取
+                        if (station == null)
+                        {
+                            var stationList = DbContext.Db
+                                .Queryable<Albert_PdmCraftDevice>()
+                                .Where(x => x.DeviceDBName ==
+                                    deviceSeq.SeqName);
 
-                        //    // 写入缓存中
-                        //    _cacheService.AddObject(
-                        //        CacheConst.CraftStationList, stationList);
+                            // 写入缓存中
+                            _cacheService.AddObject(
+                                CacheConst.CraftStationList, stationList);
 
-                        //    station = stationList.First();
-                        //}
+                            station = stationList.First();
+                        }
 
-                        //// 工站屏蔽了,直接发 2，让其流出
-                        //if (station?.DeviceDBIsUse == "N")
-                        //{
-                        //    // NG 件 [允许工作1允许，2NG]
-                        //    WriteData(deviceSeq.StationAllow, "2", out _);
-                        //    $"{deviceSeq.SeqName}【工站屏蔽了,直接 NG 流出】".LogWarning();
-                        //}
-                        //else
-                        //{
-                        //    // 这边和高品交互的工站(4 站)还需要在发 1 之前，告知 plc 壳体码
-                        //    // 他们加枪了
-                        //    //if (deviceSeq.SeqName == "Op240_1" ||
-                        //    //    deviceSeq.SeqName == "Op250_1"||
-                        //    //    deviceSeq.SeqName == "Op290_1" ||
-                        //    //    deviceSeq.SeqName == "Op300_1")
-                        //    //{
-                        //    //    if (deviceSeq.WriteData.Count > 0)
-                        //    //    {
-                        //    //        WriteData(deviceSeq.WriteData[0].TypeAndDb, rfidModel.ShellCode, out _);
-                        //    //    }
-                        //    //    else
-                        //    //    {
-                        //    //        $"{deviceSeq.SeqName}【检查配置文件】写入地址为空".LogError();
-                        //    //        _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}【检查配置文件】写入地址为空");
-                        //    //    }
-                        //    //}
-
-                        //    // 没有屏蔽工站，则按照正常逻辑进行
-                        //    var finalResult = (dataSecond.OpFinalResult == "OK") ? "1" : "2";
-                        //    WriteData(deviceSeq.StationAllow, finalResult, out _);
-                        //    $"{deviceSeq.SeqName}【rfid 标签上升沿反馈】{finalResult}".LogInformation();
-                        //}
+                        // 工站屏蔽了,直接发 2，让其流出
+                        if (station?.DeviceDBIsUse == "N")
+                        {
+                            // NG 件 [允许工作1允许，2NG]
+                            WriteData(deviceSeq.StationAllow, "2", out _);
+                            $"{deviceSeq.SeqName}【工站屏蔽了,直接 NG 流出】".LogWarning();
+                        }
+                        else
+                        {
+                            // 没有屏蔽工站，则按照正常逻辑进行
+                            var finalResult = (dataSecond.OpFinalResult == "OK") ? "1" : "2";
+                            WriteData(deviceSeq.StationAllow, finalResult, out _);
+                            $"{deviceSeq.SeqName}【rfid 标签上升沿反馈】{finalResult}".LogInformation();
+                        }
                         #endregion
                     }
-                    // ToDo:Debug
-                    WriteData(deviceSeq.StationAllow, "1", out _);
-                    //else
-                    //{
-                    //    // 未根据产品码查询到相关数据，直接 NG
-                    //    WriteData(deviceSeq.StationAllow, "2", out _);
-                    //    $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
-                    //    _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG");
-                    //}
+                    // ToDo:Debug 测试时放开
+                    // WriteData(deviceSeq.StationAllow, "1", out _);
+                    else
+                    {
+                        // 未根据产品码查询到相关数据，直接 NG
+                        WriteData(deviceSeq.StationAllow, "2", out _);
+                        $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
+                        _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG");
+                    }
                 }
+
+               
             }
         }
+    }
+
+    private void PrintZpl()
+    {
+        var zpl = _cacheService.Get("Zpl");
+
+        _tcpClient.Connected = (client, e) => { };//成功连接到服务器
+        _tcpClient.Disconnecting = (client, e) => { };//即将从服务器断开连接。此处仅主动断开才有效。
+        _tcpClient.Disconnected = (client, e) => { };//从服务器断开连接，当连接不成功时不会触发。
+        _tcpClient.Received = (client, byteBlock, requestInfo) =>
+        {
+            //从服务器收到信息。但是一般byteBlock和requestInfo会根据适配器呈现不同的值。
+            string mes = Encoding.UTF8.GetString(byteBlock.Buffer, 0, byteBlock.Len);
+            _tcpClient.Logger.Info($"客户端接收到信息：{mes}");
+        };
+
+        //载入配置
+        _tcpClient.Setup(new TouchSocketConfig()
+            .SetRemoteIPHost("192.168.1.115:9100")
+            .ConfigureContainer(a =>
+            {
+                // 两种日志方式
+                a.SetSingletonLogger(new LoggerGroup(new FileLogger(), new EasyLogger(PrintClinetLog)));
+            }));
+
+        Result result = _tcpClient.TryConnect();//或者可以调用TryConnect
+        if (result.IsSuccess())
+        {
+            _tcpClient.Logger.Info("客户端成功连接");
+        }
+        else
+        {
+            _tcpClient.Logger.Info("客户端成功失败");
+        }
+
+        // 清除贴标
+        //_tcpClient.Send("~JA");
+        _tcpClient.Send(zpl);
+        "贴标完成".LogInformation();
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using AlbertCollection.Application.Cache;
+using AlbertCollection.Application.Services.Driver.Dto;
 using AlbertCollection.Application.Services.GatewayConfiguration.Dto;
 using AlbertCollection.Core.Entity.Device;
 using Furion.Logging.Extensions;
@@ -24,9 +25,6 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
             _device = device;
             _cacheService = cacheService;
         }
-
-        // 这种用来切换租户 ID
-        // var test = DbContext.Db.GetConnectionScope("019").Queryable<object>().AS("app_transaction").ToList();
 
         /// <summary>
         /// 插入拦截器
@@ -455,6 +453,64 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
             }
 
+            if (deviceSeq.SeqName == "Op240_2")
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                {
+                    // 这种用来切换租户 ID
+                    var op240Data = await DbContext.Db
+                        .GetConnectionScope("Op240")
+                        .Queryable<tbl_record_data_240>()
+                        .AS("tbl_record_data")
+                        .Where(x => x.Barcode == shellCode.ToString())
+                        .FirstAsync();
+
+                    var line = DbContext.Db.Insertable(op240Data).ExecuteCommand();
+
+                    if (line > 0)
+                    {
+                        $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                    }
+                    else
+                    {
+                        $"{deviceSeq.SeqName}数据搬运失败".LogError();
+                    }
+                }
+                else
+                {
+                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
+                }
+            }
+
+            if (deviceSeq.SeqName == "Op250_2")
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                {
+                    // 这种用来切换租户 ID
+                    var op250Data = await DbContext.Db
+                        .GetConnectionScope("Op250")
+                        .Queryable<tbl_record_data_250>()
+                        .AS("tbl_record_data")
+                        .Where(x => x.Barcode == shellCode.ToString())
+                        .FirstAsync();
+
+                    var line = DbContext.Db.Insertable(op250Data).ExecuteCommand();
+
+                    if (line > 0)
+                    {
+                        $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                    }
+                    else
+                    {
+                        $"{deviceSeq.SeqName}数据搬运失败".LogError();
+                    }
+                }
+                else
+                {
+                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
+                }
+            }
+
             // 涂油组装
             // 三码合一
             if (deviceSeq.SeqName == "Op280")
@@ -535,6 +591,74 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                         var shellCode = shellCodeObj?.ToString()?.Substring(2);
                         deviceSeq.ReadDataDic.AddOrUpdate("ShellCode", shellCode);
                     }
+                }
+            }
+
+            if (deviceSeq.SeqName == "Op290_2")
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                {
+                    // 这种用来切换租户 ID
+                    var op290Data = await DbContext.Db
+                        .GetConnectionScope("Op290")
+                        .Queryable<tbl_record_data_290>()
+                        .AS("tbl_record_data")
+                        .Where(x => x.Barcode == shellCode.ToString())
+                        .FirstAsync();
+
+                    var line = DbContext.Db.Insertable(op290Data).ExecuteCommand();
+
+                    if (line > 0)
+                    {
+                        $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                    }
+                    else
+                    {
+                        $"{deviceSeq.SeqName}数据搬运失败".LogError();
+                    }
+                }
+                else
+                {
+                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
+                }
+            }
+
+            if (deviceSeq.SeqName == "Op300_2")
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                {
+                    // 这种用来切换租户 ID
+                    var op300Data = await DbContext.Db
+                        .GetConnectionScope("Op300")
+                        .Queryable<tbl_record_data_300>()
+                        .AS("tbl_record_data")
+                        .Where(x => x.Barcode == shellCode.ToString())
+                        .FirstAsync();
+
+                    if (op300Data != null)
+                    {
+                        var line = DbContext.Db.Insertable(op300Data).ExecuteCommand();
+
+                        if (line > 0)
+                        {
+                            $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                        }
+                        else
+                        {
+                            $"{deviceSeq.SeqName} 数据搬运失败".LogError();
+                        }
+                    }
+                    else
+                    {
+                        $"{deviceSeq.SeqName}为查询到相关数据".LogError();
+                    }
+                    
+
+                    
+                }
+                else
+                {
+                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
                 }
             }
 

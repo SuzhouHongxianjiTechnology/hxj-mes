@@ -1,0 +1,15 @@
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\bin\Debug\net6.0\VOL.Core.deps.json
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\bin\Debug\net6.0\VOL.Core.dll
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\bin\Debug\net6.0\VOL.Core.pdb
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\bin\Debug\net6.0\VOL.Entity.dll
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\bin\Debug\net6.0\VOL.Entity.pdb
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.csproj.AssemblyReference.cache
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.AssemblyInfoInputs.cache
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.AssemblyInfo.cs
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.csproj.CoreCompileInputs.cache
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.csproj.CopyComplete
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.dll
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\refint\VOL.Core.dll
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\VOL.Core.pdb
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.Core\obj\Debug\net6.0\ref\VOL.Core.dll

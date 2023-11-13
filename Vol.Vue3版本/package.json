@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "@kjgl77/datav-vue3": "^1.7.1",
     "@microsoft/signalr": "^6.0.4",
     "ali-oss": "^6.17.1",
     "axios": "^0.21.1",

@@ -3,7 +3,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-12 22:31:41
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-13 19:57:39
+ * @LastEditTime: 2023-11-14 00:17:54
 -->
 <template>
   <div class="screenRoot">
@@ -19,13 +19,13 @@
           <dv-decoration8  :reverse="true" style="width:100%;height:50%;" :key="indexKey"/>
         </div>
         <div class="center-title">
-          MES可视化大屏
+          <span>MES可视化大屏</span>
         </div>
       </div>
       <div class="middle">
         <div style="width: 10%;height: 18%;box-sizing:border-box;" v-for="item in 10" :key="item">
             <dv-border-box12 :key="indexKey">
-                <span style="color: #fff">123</span>
+                <span class="middleText">123</span>
             </dv-border-box12>
         </div>
       </div>
@@ -34,25 +34,28 @@
 </template>
 
 <script>
+import { onMounted, ref, nextTick } from 'vue'
 export default {
-  data() {
-    return {
-      indexKey: 0
-    }
-  },
-  mounted() {
-    window.addEventListener("resize",() => {
-      this.$nextTick(() => {
-        this.indexKey++
+  setup() {
+    const indexKey = ref(0)
+    onMounted(() => {
+      window.addEventListener("resize",() => {
+        nextTick(() => {
+          indexKey.value++
+        })
       })
     })
+    return {
+      indexKey
+    }
   }
 }
 </script>
 
 <style lang="less">
 .screenRoot {
-  font-size: 16px;
+  --white: #fff;
+  // font-size: 16px;
   height: 100%;
   width: 100%;
   background-color: black;
@@ -65,9 +68,9 @@ export default {
     width: 100%;
     justify-content: space-between;
     .center-title {
-      font-size: 2em;
+      font-size: 1.5rem;
       position: absolute;
-      color: #fff;
+      color: var(--white);
       left: 50%;
       top: 30%;
       transform: translate(-50%,-50%);
@@ -82,6 +85,10 @@ export default {
     flex-wrap: wrap;
     justify-content: space-between;
     align-content:space-between;
+    .middleText{
+      font-size: 1.5rem;
+      color: var(--white);
+    }
   }
   .border-box-content {
     display: flex;

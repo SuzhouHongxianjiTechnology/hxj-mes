@@ -3,7 +3,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-12 22:24:58
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-13 18:44:45
+ * @LastEditTime: 2023-11-14 00:17:12
  */
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -20,7 +20,8 @@ import http from './api/http'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // 注册datav
 import DataVVue3 from '@kjgl77/datav-vue3';
-
+// 导入rem.js
+import "./libs/rem"
 import permission from './api/permission'
 import viewgird from './components/basic/ViewGrid';
 const app = createApp(App);

@@ -30,85 +30,47 @@
         "IsUnderLine": false, //是否驼峰转下划线
         "IsSeedData": true, //是否初始化种子数据
         "IsUpdateSeedData": true
-      },
-      {
-        "ConfigId": "Op240", //租户ID,必须是这个名字
-        "ConnectionString": "server=192.168.1.183;Database=lv2211_op320_records;Uid=root;Pwd=admin;", //连接字符串
-        "DbType": "MySql", //数据库类型
-        "IsAutoCloseConnection": true, //是否自动释放
-        //"IsInitDb": false, //是否初始化数据库,适用于codefirst
-        //"IsUnderLine": false, //是否驼峰转下划线
-        //"IsSeedData": false, //是否初始化种子数据
-        //"IsUpdateSeedData": false,
-        "IsInitDb": true, //是否初始化数据库,适用于codefirst
-        "IsUnderLine": false, //是否驼峰转下划线
-        "IsSeedData": true, //是否初始化种子数据
-        "IsUpdateSeedData": true
-      },
-      {
-        "ConfigId": "Op250", //租户ID,必须是这个名字
-        "ConnectionString": "server=192.168.1.191;Database=lv2211_op320_records;Uid=root;Pwd=admin;", //连接字符串
-        "DbType": "MySql", //数据库类型
-        "IsAutoCloseConnection": true, //是否自动释放
-        //"IsInitDb": false, //是否初始化数据库,适用于codefirst
-        //"IsUnderLine": false, //是否驼峰转下划线
-        //"IsSeedData": false, //是否初始化种子数据
-        //"IsUpdateSeedData": false,
-        "IsInitDb": true, //是否初始化数据库,适用于codefirst
-        "IsUnderLine": false, //是否驼峰转下划线
-        "IsSeedData": true, //是否初始化种子数据
-        "IsUpdateSeedData": true
-      },
-      {
-        "ConfigId": "Op290", //租户ID,必须是这个名字
-        "ConnectionString": "server=192.168.1.198;Database=lvtemplate_records;Uid=root;Pwd=admin;", //连接字符串
-        "DbType": "MySql", //数据库类型
-        "IsAutoCloseConnection": true, //是否自动释放
-        //"IsInitDb": false, //是否初始化数据库,适用于codefirst
-        //"IsUnderLine": false, //是否驼峰转下划线
-        //"IsSeedData": false, //是否初始化种子数据
-        //"IsUpdateSeedData": false,
-        "IsInitDb": true, //是否初始化数据库,适用于codefirst
-        "IsUnderLine": false, //是否驼峰转下划线
-        "IsSeedData": true, //是否初始化种子数据
-        "IsUpdateSeedData": true
-      },
-      {
-        "ConfigId": "Op300", //租户ID,必须是这个名字
-        "ConnectionString": "server=192.168.1.204;Database=lvtemplate_records;Uid=root;Pwd=admin;", //连接字符串
-        "DbType": "MySql", //数据库类型
-        "IsAutoCloseConnection": true, //是否自动释放
-        //"IsInitDb": false, //是否初始化数据库,适用于codefirst
-        //"IsUnderLine": false, //是否驼峰转下划线
-        //"IsSeedData": false, //是否初始化种子数据
-        //"IsUpdateSeedData": false,
-        "IsInitDb": true, //是否初始化数据库,适用于codefirst
-        "IsUnderLine": false, //是否驼峰转下划线
-        "IsSeedData": true, //是否初始化种子数据
-        "IsUpdateSeedData": true
       }
+      //{
+      //  "ConfigId": "Op240", //租户ID,必须是这个名字
+      //  "ConnectionString": "server=192.168.1.183;Database=lv2211_op320_records;Uid=root;Pwd=admin;", //连接字符串
+      //  "DbType": "MySql", //数据库类型
+      //  "IsAutoCloseConnection": true, //是否自动释放
+      //  "IsInitDb": false, //是否初始化数据库,适用于codefirst
+      //  "IsUnderLine": false, //是否驼峰转下划线
+      //  "IsSeedData": false, //是否初始化种子数据
+      //  "IsUpdateSeedData": false
+      //},
+      //{
+      //  "ConfigId": "Op250", //租户ID,必须是这个名字
+      //  "ConnectionString": "server=192.168.1.191;Database=lv2211_op320_records;Uid=root;Pwd=admin;", //连接字符串
+      //  "DbType": "MySql", //数据库类型
+      //  "IsAutoCloseConnection": true, //是否自动释放
+      //  "IsInitDb": false, //是否初始化数据库,适用于codefirst
+      //  "IsUnderLine": false, //是否驼峰转下划线
+      //  "IsSeedData": false, //是否初始化种子数据
+      //  "IsUpdateSeedData": false
+      //},
+      //{
+      //  "ConfigId": "Op290", //租户ID,必须是这个名字
+      //  "ConnectionString": "server=192.168.1.198;Database=lvtemplate_records;Uid=root;Pwd=admin;", //连接字符串
+      //  "DbType": "MySql", //数据库类型
+      //  "IsAutoCloseConnection": true, //是否自动释放
+      //  "IsInitDb": false, //是否初始化数据库,适用于codefirst
+      //  "IsUnderLine": false, //是否驼峰转下划线
+      //  "IsSeedData": false, //是否初始化种子数据
+      //  "IsUpdateSeedData": false
+      //},
+      //{
+      //  "ConfigId": "Op300", //租户ID,必须是这个名字
+      //  "ConnectionString": "server=192.168.1.204;Database=lvtemplate_records;Uid=root;Pwd=admin;", //连接字符串
+      //  "DbType": "MySql", //数据库类型
+      //  "IsAutoCloseConnection": true, //是否自动释放
+      //  "IsInitDb": false, //是否初始化数据库,适用于codefirst
+      //  "IsUnderLine": false, //是否驼峰转下划线
+      //  "IsSeedData": false, //是否初始化种子数据
+      //  "IsUpdateSeedData": false
+      //}
     ]
-    //"Sqlsugar": [
-    //  {
-    //    "ConfigId": "Default", //租户ID
-    //    "ConnectionString": "Data Source=Default.db;", //连接字符串
-    //    "DbType": "Sqlite", //数据库类型
-    //    "IsAutoCloseConnection": true, //是否自动释放
-    //    "IsInitDb": true, //是否初始化数据库,适用于codefirst
-    //    "IsUnderLine": false, //是否驼峰转下划线
-    //    "IsSeedData": true, //是否初始化种子数据
-    //    "IsUpdateSeedData": false
-    //  },
-    //  {
-    //    "ConfigId": "AlbertCollection", //租户ID
-    //    "ConnectionString": "Data Source=AlbertCollection.db", //连接字符串
-    //    "DbType": "Sqlite", //数据库类型
-    //    "IsAutoCloseConnection": true, //是否自动释放
-    //    "IsInitDb": true, //是否初始化数据库,适用于codefirst
-    //    "IsUnderLine": false, //是否驼峰转下划线
-    //    "IsSeedData": true, //是否初始化种子数据
-    //    "IsUpdateSeedData": false
-    //  }
-    //]
   }
 }

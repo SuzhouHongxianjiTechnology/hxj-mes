@@ -100,6 +100,7 @@ namespace AlbertCollection.Core
 
         #region DeviceCache
         public const string PdmProduct = "PdmProduct";
+        public const string PdmProductType = "产品型号";
         public const string PdmProductUpdate = "产品切型-更新在制产品";
         public const string PdmProductUpdateCraft = "产品切型-更新在制工艺";
         public const string PdmProductUpdateCraftStationList = "产品切型-更新在制工艺工站列表";
@@ -107,8 +108,21 @@ namespace AlbertCollection.Core
         public const string Craft = "Craft";
         public const string CraftStationList = "CraftStationList";
         public const string PlcMes = "MES-PLC 交互";
+        public const string RfidUp = "收到来自[Rfid]的上升沿";
+        public const string RfidDown = "置位来自[Rfid]的上升沿";
+        public const string RfidResponseUp = "发出[Rfid]的响应上升沿";
+        public const string RfidReadError = "Rfid 未读取到";
+        public const string RfidIsUse = "Rfid 被占用，如需重试请点击恢复占用";
+        public const string SaveDataUp = "收到来自[保存数据]的上升沿";
+        public const string SaveDataDown = "置位来自[保存数据]的上升沿";
+        public const string SaveDataResponseUp = "发出[保存数据]的响应上升沿";
         public const string FirstUpdateStationListStatusY = "初次通讯-更新工站状态为 Y";
         public const string FirstUpdateStationListStatusN = "更新工站状态为 N";
+        public const string OtherSql240 = "Op240";
+        public const string OtherSql250 = "Op250";
+        public const string OtherSql290 = "Op290";
+        public const string OtherSql300 = "Op300";
+
         #endregion
     }
 }

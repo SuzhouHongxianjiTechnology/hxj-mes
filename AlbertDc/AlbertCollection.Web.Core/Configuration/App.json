@@ -41,5 +41,6 @@
   "Redis": {
     "RedisConnectStr": "127.0.0.1:6379,SyncTimeout=15000",
     "IsUseRedis": true
-  }
+  },
+  "OpenOther": false
 }

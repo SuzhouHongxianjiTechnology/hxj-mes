@@ -33,7 +33,7 @@ namespace AlbertCollection.Application.Cache
 
         public void LPush(string key, string val)
         {
-            RedisHelper.LPush(key, val);
+            RedisHelper.LPush(key, val+";"+DateTime.Now);
         }
 
         public void RPush(string key, string val)

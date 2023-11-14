@@ -9,15 +9,34 @@
 @inject UserResoures UserResoures
 @layout MainLayout
 
-<MRow NoGutters>
-    <MButton Dense Color="Color.Primary" Style="margin:5px" OnClick="TestSqlFromBtn">测试数据库搬移</MButton>
-</MRow>
 
-@code
-{
-    public void TestSqlFromBtn()
+<MCol Md="10" Class="d-flex flex-row mb-8 flex-wrap">
+    @if (DbContext.DbConfigs != null)
     {
-        TestSql.Test();
+        @foreach (var item in DbContext.DbConfigs)
+        {
+            <MCard Class="mx-auto my-12" MaxWidth="300">
+                <ProgressContent>
+                    <MProgressLinear Color="deep-purple" Height="10" Indeterminate />
+                </ProgressContent>
+
+                <ChildContent>
+                     <MCardTitle>@item.ConfigId</MCardTitle>
+
+                    <MCardText>
+                        <div style="padding-bottom:8px">
+                            <div>@(item.ConnectionString)</div>
+                            <div>@(item.DbType)</div>
+                        </div>
+                    </MCardText>
+                    <MDivider Class="mx-4"></MDivider>
+                    <MCardTitle>迁移数据</MCardTitle>
+                    <MCardText>
+                        <MButton Color="green" OnClick="StartRemove" Disabled="@RemoveFinish"><MIcon>mdi-clock-start</MIcon></MButton>
+                    </MCardText>
+                </ChildContent>
+            </MCard>
+        }
     }
-}
+</MCol>
 

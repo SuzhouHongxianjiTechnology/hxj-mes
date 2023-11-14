@@ -60,13 +60,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName+"【数据字典未查询到】RFID 或产品码").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
             }
 
@@ -114,7 +112,6 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
                     #endregion
 
@@ -152,7 +149,6 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 else
                 {
                     (deviceSeq.SeqName + "数据字典未查询到 RFID 或 ShellCode 为空").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "数据字典未查询到 RFID 或 ShellCode 为空"));
                 }
             }
         }
@@ -205,8 +201,6 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 else
                 {
                     (deviceSeq.SeqName+ "【字典数据未查询到】产品码，无法重命名压机文件").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】产品码，无法重命名压机文件"));
-
                     deviceSeq.ReadDataDic.AddOrUpdate("OpFinalResult", "NG");
                     deviceSeq.ReadDataDic.AddOrUpdate(deviceSeq.SeqName + "Result", "NG");
                 }
@@ -233,13 +227,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表--80 解绑-第一次会报错，无需关心"));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【字典数据未查询到】RFID or ProductCode").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】RFID or ProductCode"));
                 }
             }
 
@@ -311,13 +303,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表"));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【字典数据未查询到】 RFID").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】 RFID"));
                 }
             }
 
@@ -340,13 +330,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表"));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【字典数据未查询到】 RFID").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】 RFID"));
                 }
             }
 
@@ -368,13 +356,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
             }
 
@@ -397,13 +383,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
             }
 
@@ -455,60 +439,12 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
             if (deviceSeq.SeqName == "Op240_2")
             {
-                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
-                {
-                    // 这种用来切换租户 ID
-                    var op240Data = await DbContext.Db
-                        .GetConnectionScope("Op240")
-                        .Queryable<tbl_record_data_240>()
-                        .AS("tbl_record_data")
-                        .Where(x => x.Barcode == shellCode.ToString())
-                        .FirstAsync();
-
-                    var line = DbContext.Db.Insertable(op240Data).ExecuteCommand();
-
-                    if (line > 0)
-                    {
-                        $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
-                    }
-                    else
-                    {
-                        $"{deviceSeq.SeqName}数据搬运失败".LogError();
-                    }
-                }
-                else
-                {
-                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
-                }
+                RemoveOtherData(deviceSeq, "Op240");
             }
 
             if (deviceSeq.SeqName == "Op250_2")
             {
-                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
-                {
-                    // 这种用来切换租户 ID
-                    var op250Data = await DbContext.Db
-                        .GetConnectionScope("Op250")
-                        .Queryable<tbl_record_data_250>()
-                        .AS("tbl_record_data")
-                        .Where(x => x.Barcode == shellCode.ToString())
-                        .FirstAsync();
-
-                    var line = DbContext.Db.Insertable(op250Data).ExecuteCommand();
-
-                    if (line > 0)
-                    {
-                        $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
-                    }
-                    else
-                    {
-                        $"{deviceSeq.SeqName}数据搬运失败".LogError();
-                    }
-                }
-                else
-                {
-                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
-                }
+                RemoveOtherData(deviceSeq,"Op250");
             }
 
             // 涂油组装
@@ -532,13 +468,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
 
 
@@ -596,70 +530,12 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
             if (deviceSeq.SeqName == "Op290_2")
             {
-                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
-                {
-                    // 这种用来切换租户 ID
-                    var op290Data = await DbContext.Db
-                        .GetConnectionScope("Op290")
-                        .Queryable<tbl_record_data_290>()
-                        .AS("tbl_record_data")
-                        .Where(x => x.Barcode == shellCode.ToString())
-                        .FirstAsync();
-
-                    var line = DbContext.Db.Insertable(op290Data).ExecuteCommand();
-
-                    if (line > 0)
-                    {
-                        $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
-                    }
-                    else
-                    {
-                        $"{deviceSeq.SeqName}数据搬运失败".LogError();
-                    }
-                }
-                else
-                {
-                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
-                }
+                RemoveOtherData(deviceSeq, "Op290");
             }
 
             if (deviceSeq.SeqName == "Op300_2")
             {
-                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
-                {
-                    // 这种用来切换租户 ID
-                    var op300Data = await DbContext.Db
-                        .GetConnectionScope("Op300")
-                        .Queryable<tbl_record_data_300>()
-                        .AS("tbl_record_data")
-                        .Where(x => x.Barcode == shellCode.ToString())
-                        .FirstAsync();
-
-                    if (op300Data != null)
-                    {
-                        var line = DbContext.Db.Insertable(op300Data).ExecuteCommand();
-
-                        if (line > 0)
-                        {
-                            $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
-                        }
-                        else
-                        {
-                            $"{deviceSeq.SeqName} 数据搬运失败".LogError();
-                        }
-                    }
-                    else
-                    {
-                        $"{deviceSeq.SeqName}为查询到相关数据".LogError();
-                    }
-                    
-
-                    
-                }
-                else
-                {
-                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
-                }
+                RemoveOtherData(deviceSeq, "Op300");
             }
 
             // 螺柱组装
@@ -681,13 +557,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()).LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据库未查询到】RFID - " + rfid.ToString()));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【数据字典未查询到】RFID 或产品码"));
                 }
 
                 if (deviceSeq.ReadDataDic.TryGetValue("Op320TorqueResult", out var torqueResult))
@@ -724,13 +598,140 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                     else
                     {
                         (deviceSeq.SeqName + "【更新数据】失败-RFID 表").LogError();
-                        _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败-RFID 表"));
                     }
                 }
                 else
                 {
                     (deviceSeq.SeqName + "【字典数据未查询到】 RFID").LogError();
-                    _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【字典数据未查询到】 RFID"));
+                }
+            }
+        }
+
+        private async Task RemoveOtherData(DeviceSeq deviceSeq,string station)
+        {
+            if (App.GetConfig<bool>("OpenOther"))
+            {
+                if (deviceSeq.ReadDataDic.TryGetValue("ShellCode", out var shellCode))
+                {
+                    switch (station)
+                    {
+                        case "Op240":
+
+                            // 这种用来切换租户 ID
+                            var op240Data = await DbContext.Db
+                                .GetConnectionScope("Op240")
+                                .Queryable<tbl_record_data_240>()
+                                .AS("tbl_record_data")
+                                .Where(x => x.Barcode == shellCode.ToString())
+                                .FirstAsync();
+
+                            if (op240Data != null)
+                            {
+                                var line = DbContext.Db.Insertable(op240Data).ExecuteCommand();
+
+                                if (line > 0)
+                                {
+                                    $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                                }
+                                else
+                                {
+                                    $"{deviceSeq.SeqName}数据搬运失败".LogError();
+                                }
+                            }
+                            else
+                            {
+                                $"{deviceSeq.SeqName}为查询到相关数据".LogError();
+                            }
+
+                            break;
+                        case "Op250":
+                            // 这种用来切换租户 ID
+                            var op250Data = await DbContext.Db
+                                .GetConnectionScope("Op250")
+                                .Queryable<tbl_record_data_250>()
+                                .AS("tbl_record_data")
+                                .Where(x => x.Barcode == shellCode.ToString())
+                                .FirstAsync();
+
+                            if (op250Data != null)
+                            {
+                                var line = DbContext.Db.Insertable(op250Data).ExecuteCommand();
+
+                                if (line > 0)
+                                {
+                                    $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                                }
+                                else
+                                {
+                                    $"{deviceSeq.SeqName}数据搬运失败".LogError();
+                                }
+                            }
+                            else
+                            {
+                                $"{deviceSeq.SeqName}为查询到相关数据".LogError();
+                            }
+                            break;
+                        case "Op290":
+                            // 这种用来切换租户 ID
+                            var op290Data = await DbContext.Db
+                                .GetConnectionScope("Op290")
+                                .Queryable<tbl_record_data_290>()
+                                .AS("tbl_record_data")
+                                .Where(x => x.Barcode == shellCode.ToString())
+                                .FirstAsync();
+
+                            if (op290Data != null)
+                            {
+                                var line = DbContext.Db.Insertable(op290Data).ExecuteCommand();
+
+                                if (line > 0)
+                                {
+                                    $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                                }
+                                else
+                                {
+                                    $"{deviceSeq.SeqName}数据搬运失败".LogError();
+                                }
+                            }
+                            else
+                            {
+                                $"{deviceSeq.SeqName}为查询到相关数据".LogError();
+                            }
+                            break;
+                        case "Op300":
+                            // 这种用来切换租户 ID
+                            var op300Data = await DbContext.Db
+                                .GetConnectionScope("Op300")
+                                .Queryable<tbl_record_data_300>()
+                                .AS("tbl_record_data")
+                                .Where(x => x.Barcode == shellCode.ToString())
+                                .FirstAsync();
+
+                            if (op300Data != null)
+                            {
+                                var line = DbContext.Db.Insertable(op300Data).ExecuteCommand();
+
+                                if (line > 0)
+                                {
+                                    $"{deviceSeq.SeqName}数据搬运成功".LogInformation();
+                                }
+                                else
+                                {
+                                    $"{deviceSeq.SeqName} 数据搬运失败".LogError();
+                                }
+                            }
+                            else
+                            {
+                                $"{deviceSeq.SeqName}为查询到相关数据".LogError();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    $"{deviceSeq.SeqName}电气未给产品码".LogInformation();
                 }
             }
         }
@@ -759,7 +760,6 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 else
                 {
                     "【压机文件重命名】失败，目录中没有文件.".LogError();
-                    _cacheService.LPush("MES-PLC 交互", "【压机文件重命名】失败，目录中没有文件.");
                     return "";
                 }
             }

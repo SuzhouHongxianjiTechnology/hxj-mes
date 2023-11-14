@@ -14,6 +14,7 @@ using AlbertCollection.Application.Services.Driver.Dto;
 using static System.Collections.Specialized.BitVector32;
 using TcpClient = TouchSocket.Sockets.TcpClient;
 using TouchSocket.Sockets;
+// ReSharper disable AsyncApostle.ConfigureAwaitHighlighting
 
 namespace AlbertCollection.Application.Services.GatewayConfiguration;
 
@@ -61,14 +62,12 @@ public class S7Communication : BaseCommunication
         if (!CmdPing(_device.IpAddress, out var strErr))
         {
             strErr.LogError();
-            _cacheService.LPush("MES-PLC 交互", strErr);
             return this;
         }
 
         if (_device == null)
         {
             "初始化设备为空".LogError();
-            _cacheService.LPush("MES-PLC 交互", "初始化设备为空");
             return this;
         }
 
@@ -256,58 +255,63 @@ public class S7Communication : BaseCommunication
                             // 一直读 plc 数据，用于给 plc 判断上位机是否连接
                             ("HeartBeatOpen" +result.Content+ DateTime.Now).LogDebug();
 
-                            ReadData(_device.ProductType, out var productType);
-
-                            if (!string.IsNullOrEmpty(productType)&&productType != "0")
+                            // 以二线体切型为准
+                            if (_device.Id == 2)
                             {
-                                // 1. 从缓存取出当前工艺采取的型号
-                                var pdmProduct = await GetPdmProductAsync();
+                                ReadData(_device.ProductType, out var productType);
 
-                                // 2.1 如果读取的产品型号和缓存中的在制工艺中的产品不一致，则进行切换型号
-                                // 更新数据库，更新缓存
-                                if (pdmProduct.ProductPkInt != productType.ToInt(1))
+                                if ((!string.IsNullOrEmpty(productType)) && (productType != "0"))
                                 {
-                                    // 2.2 切换在制产品
-                                    pdmProduct = await DbContext.Db.Queryable<Albert_PdmProduct>()
-                                        .FirstAsync(x => x.ProductPkInt == productType.ToInt(1));
-                                    _cacheService.AddObject(CacheConst.PdmProduct, pdmProduct);
-                                    CacheConst.PdmProductUpdate.LogWarning();
+                                    // 1. 从缓存取出当前工艺采取的型号
+                                    var pdmProduct = await GetPdmProductAsync();
 
-                                    // 3.切换在制工艺(切换产品的话在制工艺一定会发生切换
-                                    var craft = await DbContext.Db
-                                        .Queryable<Albert_Craft>()
-                                        .FirstAsync(x => x.CraftPkInt == pdmProduct.CraftPkInt);
-                                    _cacheService.AddObject(CacheConst.Craft, craft);
-                                    CacheConst.PdmProductUpdateCraft.LogWarning();
+                                    // 2.1 如果读取的产品型号和缓存中的在制工艺中的产品不一致，则进行切换型号
+                                    // 更新数据库，更新缓存
+                                    if (pdmProduct.ProductPkInt != productType.ToInt(1))
+                                    {
+                                        // 2.2 切换在制产品
+                                        // ReSharper disable once AsyncApostle.ConfigureAwaitHighlighting
+                                        pdmProduct = await DbContext.Db.Queryable<Albert_PdmProduct>()
+                                            .FirstAsync(x => x.ProductPkInt == productType.ToInt(1));
+                                        _cacheService.AddObject(CacheConst.PdmProductType, productType);
+                                        _cacheService.AddObject(CacheConst.PdmProduct, pdmProduct);
+                                        CacheConst.PdmProductUpdate.LogWarning();
 
-                                    // 4. 切换在制工艺对应的工站列表
-                                    var craftStationList = await DbContext.Db.Queryable<Albert_PdmCraftDevice>()
-                                        .Where(x => x.CraftPkInt == craft.CraftPkInt && x.DeviceDBIsUse == "Y")
-                                        .OrderBy(x => x.CraftSort)
-                                        .ToListAsync();
+                                        // 3.切换在制工艺(切换产品的话在制工艺一定会发生切换
+                                        var craft = await DbContext.Db
+                                            .Queryable<Albert_Craft>()
+                                            .FirstAsync(x => x.CraftPkInt == pdmProduct.CraftPkInt);
+                                        _cacheService.AddObject(CacheConst.Craft, craft);
+                                        CacheConst.PdmProductUpdateCraft.LogWarning();
 
-                                    craftStationList.ForEach(x=>x.DeviceDBStatus ="Y");
+                                        // 4. 切换在制工艺对应的工站列表
+                                        var craftStationList = await DbContext.Db.Queryable<Albert_PdmCraftDevice>()
+                                            .Where(x => x.CraftPkInt == craft.CraftPkInt && x.DeviceDBIsUse == "Y")
+                                            .OrderBy(x => x.CraftSort)
+                                            .ToListAsync();
+
+                                        craftStationList.ForEach(x => x.DeviceDBStatus = "Y");
+                                        await DbContext.Db.Updateable(craftStationList)
+                                            .WhereColumns(it => new { it.PdmCraftDevicePkInt })
+                                            .ExecuteCommandAsync();
+                                        _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
+                                        CacheConst.PdmProductUpdateCraftStationList.LogWarning();
+                                    }
+                                }
+
+                                if (firstStart)
+                                {
+                                    var craftStationList = await GetPdmCraftStationListApi();
+                                    // 设置工站状态为运行状态
+                                    craftStationList.ForEach(x => x.DeviceDBStatus = "Y");
+
                                     await DbContext.Db.Updateable(craftStationList)
                                         .WhereColumns(it => new { it.PdmCraftDevicePkInt })
                                         .ExecuteCommandAsync();
                                     _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
-                                    CacheConst.PdmProductUpdateCraftStationList.LogWarning();
+                                    firstStart = false;
+                                    CacheConst.FirstUpdateStationListStatusY.LogWarning();
                                 }
-                            }
-
-                            if (firstStart)
-                            {
-                                var craftStationList = await GetPdmCraftStationListApi();
-                                // 设置工站状态为运行状态
-                                craftStationList.ForEach(x => x.DeviceDBStatus = "Y");
-
-                                await DbContext.Db.Updateable(craftStationList)
-                                    .WhereColumns(it => new { it.PdmCraftDevicePkInt })
-                                    .ExecuteCommandAsync();
-                                _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
-                                firstStart = false;
-                                CacheConst.FirstUpdateStationListStatusY.LogWarning();
-                                _cacheService.LPush(CacheConst.PlcMes,CacheConst.FirstUpdateStationListStatusY);
                             }
                         }
                         else
@@ -336,7 +340,6 @@ public class S7Communication : BaseCommunication
                                 _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
                                 firstStart = true;
                                 CacheConst.FirstUpdateStationListStatusN.LogWarning();
-                                _cacheService.LPush(CacheConst.PlcMes, CacheConst.FirstUpdateStationListStatusN);
                             }   
                         }
 
@@ -352,7 +355,6 @@ public class S7Communication : BaseCommunication
                 catch (Exception ex)
                 {
                     ex.ToString().LogError();
-                    _cacheService.LPush("MES-PLC 交互", ex.ToString());
                     _device.IsHeartbeatOpen = false;
                 }
         }, cancellationToken);
@@ -368,7 +370,6 @@ public class S7Communication : BaseCommunication
         catch (Exception ex)
         {
             ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message).LogError();
-            _cacheService.LPush("MES-PLC 交互", ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message));
         }
     }
 
@@ -426,15 +427,11 @@ public class S7Communication : BaseCommunication
             if (!connect.IsSuccess)
                 ("型号：" + _device.SimPlcType.ToString() + " PLC连接失败！IP：" + _device.IpAddress + " Port:" + port)
                     .LogError();
-            _cacheService.LPush("MES-PLC 交互",
-                ("型号：" + _device.SimPlcType.ToString() + " PLC连接失败！IP：" + _device.IpAddress + " Port:" + port));
             return connect.IsSuccess;
         }
         catch (Exception ex)
         {
             ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message).LogError();
-            _cacheService.LPush("MES-PLC 交互",
-                ("型号：" + _device.SimPlcType.ToString() + " IP：" + _device.IpAddress + " PLC连接异常：" + ex.Message));
         }
 
         return false;
@@ -498,20 +495,20 @@ public class S7Communication : BaseCommunication
                                     {
                                         if (read.Content && oldValue == 0)
                                         {
-                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】开始").LogInformation();
+                                            $"{deviceSeq.SeqName}--{CacheConst.RfidUp}".LogInformation();
+                                            _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.RfidUp}");
                                             // 发生了上升沿，需要完成两步
                                             // 1. 读取 Rfid
                                             ReadData(deviceSeq.RfidLabel, out var rfid);
                                             // 发生了上升沿，两步交互逻辑
                                             // 读成功写两步.1.上升沿写 false，响应地址写 true
                                             await plc.WriteAsync(deviceSeq.RfidRisingEdge, false);
-                                            (deviceSeq.SeqName + "【plc-mes 标签上升沿】结束").LogInformation();
+                                            $"{deviceSeq.SeqName}--{CacheConst.RfidDown}".LogInformation();
+                                            _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.RfidDown}");
 
                                             if (string.IsNullOrEmpty(rfid))
                                             {
-                                                (deviceSeq.SeqName + "rfid 未读取到").LogError();
-                                                _cacheService.LPush("MES-PLC 交互",
-                                                    (deviceSeq.SeqName + "rfid 未读取到"));
+                                                $"{deviceSeq.SeqName}--{CacheConst.RfidReadError}".LogError();
                                             }
                                             else
                                             {
@@ -519,7 +516,7 @@ public class S7Communication : BaseCommunication
                                                     .First(x => x.RFID.ToString() == rfid);
 
                                                 $"{deviceSeq.SeqName}【Rfid 值】读取完毕{rfid}".LogInformation();
-
+                                                _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--【Rfid 值】读取完毕{rfid}");
                                                 // 这边往字典里面添加了 RFID
                                                 deviceSeq.ReadDataDic.AddOrUpdate("RFID", rfid);
 
@@ -528,7 +525,8 @@ public class S7Communication : BaseCommunication
 
                                             // 读成功写两步.上升沿写 false，2.响应地址写 true
                                             await plc.WriteAsync(deviceSeq.RfidResponseEdge, true);
-                                            (deviceSeq.SeqName + "MES-PLC 标签结束 true").LogInformation();
+                                            $"{deviceSeq.SeqName}--{CacheConst.RfidResponseUp}".LogInformation();
+                                            _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.RfidResponseUp}");
                                         }
 
                                         // 更新历史的值
@@ -543,7 +541,6 @@ public class S7Communication : BaseCommunication
                         catch (Exception ex)
                         {
                             (deviceSeq.SeqName + ex.Message).LogError();
-                            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
                             //deviceSeq.IsOpen = false;
                             //break;
                         }
@@ -585,12 +582,15 @@ public class S7Communication : BaseCommunication
                                         if (read.Content && oldValue == 0)
                                         {
                                             // 发生了上升沿，进入到业务处理模块
-                                            (deviceSeq.SeqName + "plc-mes 保存数据上升沿开始").LogInformation();
+                                            $"{deviceSeq.SeqName}--{CacheConst.SaveDataUp}".LogInformation();
+                                            _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.SaveDataUp}");
+
                                             // 读成功写两步.上升沿写 false，响应地址写 true
                                             await plc.WriteAsync(deviceSeq.RisingEdge, false);
                                             (deviceSeq.SeqName+"plc-mes 清除了保存数据上升沿").LogInformation();
+                                            _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.SaveDataDown}");
                                             // 这边分为 批量读-插入数据库 批量读-更新数据库 写入PLC
-                                           
+
                                             switch (deviceSeq.SqlOperate)
                                             {
                                                 // 读取，Op10 站
@@ -610,15 +610,14 @@ public class S7Communication : BaseCommunication
                                                     break;
                                                 default:
                                                     (deviceSeq.SeqName + "【未走任何分支，请检查配置文件】").LogError();
-                                                    _cacheService.LPush("MES-PLC 交互",
-                                                        (deviceSeq.SeqName + "【未走任何分支，请检查配置文件】"));
                                                     break;
                                             }
 
                                             (deviceSeq.SeqName + "【mes-plc 保存数据结束】完成").LogInformation();
                                             // 读成功写两步.上升沿写 false，响应地址写 true
                                             await plc.WriteAsync(deviceSeq.ResponseEdge, true);
-                                            (deviceSeq.SeqName + "【mes-plc 保存数据结束】置位").LogInformation();
+                                            $"{deviceSeq.SeqName}--{CacheConst.SaveDataResponseUp}".LogInformation();
+                                            _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.SaveDataResponseUp}");
                                         }
                                         // 更新历史的值
                                         oldValue = read.Content ? 1 : 0; 
@@ -632,7 +631,6 @@ public class S7Communication : BaseCommunication
                         catch (Exception ex)
                         {
                             (deviceSeq.SeqName+ex.Message).LogError();
-                            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + ex.Message));
                             // deviceSeq.IsOpen = false;
                             // break;
                         }
@@ -698,20 +696,16 @@ public class S7Communication : BaseCommunication
                                             if (line > 0)
                                             {
                                                 (deviceSeq.SeqName + "压机曲线更新成功").LogInformation();
-                                                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "压机曲线更新成功"));
-
                                                 await Task.Delay(1000);
                                             }
                                             else
                                             {
                                                 (deviceSeq.SeqName + "压机曲线更新失败").LogError();
-                                                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "压机曲线更新失败"));
                                             }
                                         }
                                         else
                                         {
                                             (deviceSeq.SeqName + "压机曲线未获取到任何数据").LogError();
-                                            _cacheService.LPush("MES-PLC 交互-压机曲线", (deviceSeq.SeqName + "压机曲线未获取到任何数据"));
                                         }
                                     }
 
@@ -721,7 +715,6 @@ public class S7Communication : BaseCommunication
                             catch (Exception ex)
                             {
                                 (deviceSeq.SeqName + ex.Message).LogError();
-                                _cacheService.LPush("MES-PLC 交互-压机曲线", (deviceSeq.SeqName + ex.Message));
                                 //deviceSeq.IsOpen = false;
                                 //break;
                             }
@@ -747,12 +740,12 @@ public class S7Communication : BaseCommunication
             {
                 // 直接 NG [允许工作1允许，2NG]
                 WriteData(deviceSeq.StationAllow, "2", out _);
-                $"【Op10 托盘被占用】{rfidModel?.RFID}，请重新选择，直接给 plc 发送 NG".LogError();
-                _cacheService.LPush("MES-PLC 交互", $"【{deviceSeq.SeqName} 托盘被占用】，请重新选择，直接给 plc 发送 NG");
+                $"{deviceSeq.SeqName}--{CacheConst.RfidIsUse}--{rfidModel?.RFID} 直接给 plc {deviceSeq.StationAllow} 发 2".LogError();
+                _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.RfidIsUse}--{rfidModel?.RFID} 直接给 plc {deviceSeq.StationAllow}发 2");
             }
             else
             {
-                // 如果没被占用直接发1
+                // 如果没被占用直接发 1
                 WriteData(deviceSeq.StationAllow, "1", out _);
                 $"{deviceSeq.SeqName}【产品码为空直接放行】-OK".LogInformation();
             }
@@ -836,7 +829,6 @@ public class S7Communication : BaseCommunication
                         // 未根据产品码查询到相关数据，直接 NG
                         WriteData(deviceSeq.StationAllow, "2", out _);
                         $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
-                        _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG");
                     }
                 }
             }
@@ -940,7 +932,6 @@ public class S7Communication : BaseCommunication
                         // 未根据产品码查询到相关数据，直接 NG
                         WriteData(deviceSeq.StationAllow, "2", out _);
                         $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG".LogError();
-                        _cacheService.LPush("MES-PLC 交互", $"{deviceSeq.SeqName}未根据产品码查询到相关数据，直接 NG");
                     }
                 }
 
@@ -1054,7 +1045,6 @@ public class S7Communication : BaseCommunication
         else
         {
             (deviceSeq.SeqName + "【RFID 表更新】失败").LogError();
-            _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【RFID 表更新】失败"));
         }
 
 
@@ -1110,7 +1100,6 @@ public class S7Communication : BaseCommunication
         catch (Exception ex)
         {
             $"【插入数据】失败{ex.Message}".LogError();
-            _cacheService.LPush("MES-PLC 交互", $"【插入数据】失败{ex.Message}");
         }
     }
 
@@ -1214,13 +1203,11 @@ public class S7Communication : BaseCommunication
             else
             {
                 (deviceSeq.SeqName + "【更新数据】失败").LogError();
-                _cacheService.LPush("MES-PLC 交互", (deviceSeq.SeqName + "【更新数据】失败"));
             }
         }
         catch (Exception ex)
         {
             $"【出现异常】{ex.Message}".LogError();
-            _cacheService.LPush("MES-PLC 交互", $"【出现异常】{ex.Message}");
         }
        
     }
@@ -1512,7 +1499,6 @@ public class S7Communication : BaseCommunication
         else
         {
             (address + " 读取失败-原因：" + result.ToMessageShowString()).LogError();
-            _cacheService.LPush("MES-PLC 交互", (address + " 读取失败-原因：" + result.ToMessageShowString()));
             return "";
         }
     }

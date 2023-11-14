@@ -1,3 +1,10 @@
+/*
+ * @Description: 入口文件
+ * @Author: AlanGao
+ * @Date: 2023-11-12 22:24:58
+ * @LastEditors: AlanGao
+ * @LastEditTime: 2023-11-14 00:17:12
+ */
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -11,15 +18,17 @@ import http from './api/http'
 // import 'dayjs/locale/zh-cn'
 // import locale from 'element-plus/lib/locale/lang/zh-cn'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
-
-
+// 注册datav
+import DataVVue3 from '@kjgl77/datav-vue3';
+// 导入rem.js
+import "./libs/rem"
 import permission from './api/permission'
 import viewgird from './components/basic/ViewGrid';
 const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
+app.use(DataVVue3);
 app.config.globalProperties.base = base;
 app.config.globalProperties.http = http;
 app.config.globalProperties.$tabs = {};

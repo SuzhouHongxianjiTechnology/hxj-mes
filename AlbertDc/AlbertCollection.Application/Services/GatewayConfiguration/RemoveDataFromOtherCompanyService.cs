@@ -1,39 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AlbertCollection.Application.Cache;
+﻿using AlbertCollection.Application.Cache;
 using AlbertCollection.Application.Services.Driver.Dto;
-using Furion.DynamicApiController;
 using Furion.Logging.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
 
-namespace AlbertCollection.Application.Services.GatewayConfiguration
+namespace AlbertCollection.Application.Services.GatewayConfiguration;
+
+/// <summary>
+/// 移动数据
+/// </summary>
+public class RemoveDataFromOtherCompanyService: ISingleton
 {
-    [ApiDescriptionSettings(CateGoryConst.ThingsGatewayCore, Order = 200)]
-    [Route("Swagger")]
-    [AllowAnonymous]
-    public class RemoveDataFromOtherCompanyService: IDynamicApiController
+
+    private readonly ICacheRedisService _cacheService;
+
+    /// <summary>
+    /// 移动数据
+    /// </summary>
+    /// <param name="cacheService"></param>
+    public RemoveDataFromOtherCompanyService(ICacheRedisService cacheService)
     {
-        private readonly ICacheRedisService _cacheService;
+        _cacheService = cacheService;
+    }
 
-        public RemoveDataFromOtherCompanyService(ICacheRedisService cacheService)
+    /// <summary>
+    /// 开始搬移数据，会有一个版本号
+    /// </summary>
+    /// <returns></returns>
+    public async Task RemoveData(string otherSqlName)
+    {
+        // 1. 先拿到缓存的最大自增 id，这些数据是需要全部放入到数据库中的
+        var maxId = _cacheService?.Get(otherSqlName);
+        int line = 0;
+
+        try
         {
-            _cacheService = cacheService;
-        }
-
-        /// <summary>
-        /// 开始搬移数据，会有一个版本号
-        /// </summary>
-        /// <returns></returns>
-        public async Task RemoveData(string otherSqlName)
-        {
-            // 1. 先拿到缓存的最大自增 id，这些数据是需要全部放入到数据库中的
-            var maxId = _cacheService?.Get(otherSqlName);
-            int line = 0;
-
             switch (otherSqlName)
             {
                 case CacheConst.OtherSql240:
@@ -41,11 +40,11 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                         .GetConnectionScope(otherSqlName)
                         .Queryable<tbl_record_data_240>()
                         .AS("tbl_record_data")
-                        .Where(x=>x.ID > maxId.ToInt(1))
+                        .Where(x => x.ID > maxId.ToInt(1))
                         .ToList();
 
                     // 2. 更新数据到本地数据库
-                    line = DbContext.Db.Insertable<tbl_record_data_240>(op240Data).ExecuteCommand();
+                   line = DbContext.Db.Insertable(op240Data).ExecuteCommand();
 
                     if (line > 0)
                     {
@@ -127,8 +126,10 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
                 default:
                     break;
             }
-
-            
+        }
+        catch (Exception ex)
+        {
+           ex.Message.LogError();
         }
     }
 }

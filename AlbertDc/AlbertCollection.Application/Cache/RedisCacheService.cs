@@ -12,7 +12,6 @@ namespace AlbertCollection.Application.Cache
     {
         public RedisCacheService()
         {
-            
             var csredis = new CSRedisClient(App.GetConfig<string>("Redis:RedisConnectStr"));
             RedisHelper.Initialization(csredis);
         }
@@ -113,6 +112,14 @@ namespace AlbertCollection.Application.Cache
         {
             return RedisHelper.Get(key);
         }
+
+        public string[] GetList(string key)
+        {
+            var values = RedisHelper.LRange(key, 0, -1);
+
+            return values;
+        }
+
         public void Dispose()
         {
         }

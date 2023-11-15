@@ -439,12 +439,12 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
             if (deviceSeq.SeqName == "Op240_2")
             {
-                RemoveOtherData(deviceSeq, "Op240");
+                //RemoveOtherData(deviceSeq, "Op240");
             }
 
             if (deviceSeq.SeqName == "Op250_2")
             {
-                RemoveOtherData(deviceSeq,"Op250");
+                //RemoveOtherData(deviceSeq,"Op250");
             }
 
             // 涂油组装
@@ -530,12 +530,12 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
             if (deviceSeq.SeqName == "Op290_2")
             {
-                RemoveOtherData(deviceSeq, "Op290");
+                //RemoveOtherData(deviceSeq, "Op290");
             }
 
             if (deviceSeq.SeqName == "Op300_2")
             {
-                RemoveOtherData(deviceSeq, "Op300");
+                //RemoveOtherData(deviceSeq, "Op300");
             }
 
             // 螺柱组装

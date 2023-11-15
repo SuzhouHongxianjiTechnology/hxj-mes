@@ -739,8 +739,8 @@ public class S7Communication : BaseCommunication
             if (rfidModel?.RFIDIsUse != 0)
             {
                 // 直接 NG [允许工作1允许，2NG]
-                WriteData(deviceSeq.StationAllow, "2", out _);
-                $"{deviceSeq.SeqName}--{CacheConst.RfidIsUse}--{rfidModel?.RFID} 直接给 plc {deviceSeq.StationAllow} 发 2".LogError();
+                WriteData(deviceSeq.StationAllow, "4", out _);
+                $"{deviceSeq.SeqName}--{CacheConst.RfidIsUse}--{rfidModel?.RFID} 直接给 plc {deviceSeq.StationAllow} 发 4".LogError();
                 _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.RfidIsUse}--{rfidModel?.RFID} 直接给 plc {deviceSeq.StationAllow}发 2");
             }
             else

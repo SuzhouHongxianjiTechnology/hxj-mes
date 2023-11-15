@@ -1,0 +1,231 @@
+﻿@page "/gwruntime/realalarm"
+@attribute [Authorize]
+@attribute [RolePermission]
+@using AlbertCollection.Application.Cache
+@using AlbertCollection.Application.Services.GatewayConfiguration.Dto
+@using System.Threading
+@inherits CultureComponentBase
+@inject ICacheRedisService _cacheService
+
+@layout MainLayout
+
+<MRow NoGutters>
+    <MButton OnClick="OpenRefresh" Disabled="@_refresh">实时刷新开启</MButton>
+    <MButton OnClick="CloseRefresh" Disabled="@(!_refresh)">实时刷新关闭</MButton>
+    <MButton OnClick="ForceRefresh">手动刷新</MButton>
+    <MButton OnClick="ClearPlcInfo">清除所有通讯信息</MButton>
+    <MTabs>
+        <MTab Value="1">一线体
+            <MTabItem Value="1">
+                <MRow NoGutters Class="my-1" Justify="JustifyTypes.SpaceBetween">
+                    @foreach (var station in GetPdmCraftStationListApi().Result.Where(x => x.DevicePkInt == 1))
+                    {
+                        <MCard Class="mx-auto my-12" MaxWidth="500">
+                            <ProgressContent>
+                                <MProgressLinear Color="deep-purple" Height="10" Indeterminate/>
+                            </ProgressContent>
+
+                            <ChildContent>
+                                <MCardTitle>@station.DeviceDBName</MCardTitle>
+
+                                <MCardText>
+                                    @foreach (var item in GetPlcSignalAsync(station.DeviceDBName))
+                                    {
+                                        <div>
+                                            @item
+                                        </div>
+                                        <br>
+                                    }
+                                </MCardText>
+                            </ChildContent>
+                        </MCard>
+                    }
+                </MRow>
+
+            </MTabItem>
+        </MTab>
+
+        <MTab Value="2">二线体
+            <MTabItem Value="2">
+                <MRow NoGutters Class="my-1" Justify="JustifyTypes.SpaceBetween">
+                    @foreach (var station in GetPdmCraftStationListApi().Result.Where(x => x.DevicePkInt == 2))
+                    {
+                        <MCard Class="mx-auto my-12" MaxWidth="500">
+                            <ProgressContent>
+                                <MProgressLinear Color="deep-purple" Height="10" Indeterminate />
+                             </ProgressContent>
+
+                             <ChildContent>
+                                 <MCardTitle>@station.DeviceDBName</MCardTitle>
+
+                                 <MCardText>
+                                     @foreach (var item in GetPlcSignalAsync(station.DeviceDBName))
+                                    {
+                                        <div>
+                                            @item
+                                        </div>
+                                        <br>
+                                    }
+                                </MCardText>
+                            </ChildContent>
+                        </MCard>
+                    }
+                </MRow>
+            </MTabItem>
+        </MTab>
+    </MTabs>
+</MRow>
+
+
+@code {
+    private Timer timer;
+    private bool _refresh = false;
+
+    private async Task OpenRefresh()
+    {
+        _refresh = true;
+
+        if (timer == null)
+        {
+            timer = new System.Threading.Timer(
+                async (e) => await OpenRefresh(),
+                null,
+                TimeSpan.Zero,
+                TimeSpan.FromSeconds(1)
+                );
+        }
+
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private async Task CloseRefresh()
+    {
+        _refresh = false;
+
+        timer?.Dispose();
+
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private async Task ForceRefresh()
+    {
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private async Task ClearPlcInfo()
+    {
+        _cacheService.Remove(CacheConst.PlcMes);
+
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private List<string> GetPlcSignalAsync(string stationName)
+    {
+        try
+        {
+            var plcSignal = _cacheService.GetList(CacheConst.PlcMes);
+            var plcSignalFilter = plcSignal
+                .Where(a => a.Contains(stationName))
+                .Take(10)
+                .ToList();
+            return plcSignalFilter;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+
+    /// <summary>
+    /// 获取在制工艺下的所有工站
+    /// </summary>
+    /// <returns></returns>
+    private async Task<List<Albert_PdmCraftDevice>> GetPdmCraftStationListApi()
+    {
+    // 在制工艺-对应所有设备
+        var craft = await GetCraftAsync();
+
+        if (craft == null)
+        {
+            return null;
+        }
+        else
+        {
+            var craftStationList = _cacheService.Get<List<Albert_PdmCraftDevice>>(CacheConst.CraftStationList);
+
+            if (craftStationList == null)
+            {
+                try
+                {
+                    craftStationList = DbContext.Db.Queryable<Albert_PdmCraftDevice>()
+                        .Where(x => x.CraftPkInt == craft.CraftPkInt && x.DeviceDBIsUse == "Y")
+                        .OrderBy(x => x.CraftSort)
+                        .ToList();
+                    _cacheService.AddObject(CacheConst.CraftStationList, craftStationList);
+                }
+                catch (Exception e)
+                {
+                }
+               
+            }
+
+            return craftStationList;
+        }
+    }
+
+    /// <summary>
+    /// 根据在制产品型号获取使用的工艺
+    /// </summary>
+    /// <returns></returns>
+    private async Task<Albert_Craft> GetCraftAsync()
+    {
+        var craft = _cacheService.Get<Albert_Craft>(CacheConst.Craft);
+
+        if (craft == null)
+        {
+    // 1.获取在制产品型号
+            var pdmProduct = await GetPdmProductAsync();
+
+    // 2.根据产品型号获取工艺，即为在制工艺
+            craft = await DbContext.Db
+                .Queryable<Albert_Craft>()
+                .FirstAsync(x => x.CraftPkInt == pdmProduct.CraftPkInt);
+            _cacheService.AddObject(CacheConst.Craft, craft);
+        }
+
+        return craft;
+    }
+
+    /// <summary>
+    /// 获取在制产品
+    /// </summary>
+    /// <returns></returns>
+    private async Task<Albert_PdmProduct> GetPdmProductAsync()
+    {
+    // 1.获取在制产品型号
+        var pdmProduct = _cacheService.Get<Albert_PdmProduct>(CacheConst.PdmProduct);
+
+        if (pdmProduct == null)
+        {
+    // 2.如果缓存中没有，则直接拿第一件产品作为默认的型号
+            pdmProduct = await DbContext.Db.Queryable<Albert_PdmProduct>()
+                .FirstAsync(x => x.ProductPkInt == 1);
+            _cacheService.AddObject(CacheConst.PdmProduct, pdmProduct);
+        }
+
+        return pdmProduct;
+    }
+}

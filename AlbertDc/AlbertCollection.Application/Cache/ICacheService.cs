@@ -89,5 +89,7 @@ namespace AlbertCollection.Application.Cache
         /// <param name="key">缓存Key</param>
         /// <returns></returns>
         string Get(string key);
+
+        string[] GetList(string key);
     }
 }

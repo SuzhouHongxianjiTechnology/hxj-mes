@@ -557,7 +557,7 @@
     },
     {
       "Id": "200001001",
-      "Title": "plc采集",
+      "Title": "采集数据",
       "Icon": "mdi-database-cog-outline",
       "Name": "tgCollectDevice",
       "Component": "/gwconfig/collectdevice",
@@ -605,7 +605,7 @@
     },
     {
       "Id": "200001003",
-      "Title": "切面配置",
+      "Title": "迁移数据",
       "Icon": "mdi-database-cog-outline",
       "Name": "gwvariable",
       "Component": "/gwconfig/deviceaop",

@@ -23,7 +23,7 @@ namespace AlbertCollection.Web.Rcl.Page.GatewayConfiguration.CommonPage
         {
             await InvokeAsync(async () =>
             {
-                await GlobalDeviceData.TryAddAndInitDevice(Device,false);
+                await GlobalDeviceData.TryAddAndInitDeviceAndStartAllStation(Device,false);
                 StateHasChanged();
             });
             _connectDisable = true;

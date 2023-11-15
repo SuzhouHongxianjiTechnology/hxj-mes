@@ -38,10 +38,10 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="SeedData\Json\sys_relation_ac.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="SeedData\Json\sys_resource_ac.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="SeedData\Json\sys_role_ac.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

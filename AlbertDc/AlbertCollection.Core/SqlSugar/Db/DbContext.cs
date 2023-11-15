@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using System.Linq;
 
 using AlbertCollection.Core.Utils;
+using Furion.Logging.Extensions;
 
 namespace AlbertCollection.Core
 {
@@ -35,22 +36,29 @@ namespace AlbertCollection.Core
 
         static DbContext()
         {
-            Db = new(
-            DbConfigs.Adapt<List<ConnectionConfig>>()
-            , db =>
+            try
             {
-                //遍历配置的数据库
-                DbConfigs.ForEach(it =>
-                {
-                    var sqlsugarScope = db.GetConnectionScope(it.ConfigId);//获取当前库
-                    MoreSetting(sqlsugarScope);//更多设置
-                    ExternalServicesSetting(sqlsugarScope, it);//实体拓展配置
-                    AopSetting(sqlsugarScope);//aop配置
-                    FilterSetting(sqlsugarScope);//过滤器配置
-                });
-            });
-            //注入sqlsugar服务
-            SqlSugarSetup.InitSqlSugar();
+                Db = new(
+                    DbConfigs.Adapt<List<ConnectionConfig>>()
+                    , db =>
+                    {
+                        //遍历配置的数据库
+                        DbConfigs.ForEach(it =>
+                        {
+                            var sqlsugarScope = db.GetConnectionScope(it.ConfigId);//获取当前库
+                            MoreSetting(sqlsugarScope);//更多设置
+                            ExternalServicesSetting(sqlsugarScope, it);//实体拓展配置
+                            AopSetting(sqlsugarScope);//aop配置
+                            FilterSetting(sqlsugarScope);//过滤器配置
+                        });
+                    });
+                //注入sqlsugar服务
+                SqlSugarSetup.InitSqlSugar();
+            }
+            catch (Exception ex)
+            {
+                ex.Message.LogError();
+            }
         }
 
         /// <summary>

@@ -4,6 +4,8 @@ using AlbertCollection.Core.Const;
 using System.Collections.Concurrent;
 using AlbertCollection.Application.Cache;
 using AlbertCollection.Core.Entity.Device;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace AlbertCollection.Application.GlobalData
 {
@@ -87,6 +89,31 @@ namespace AlbertCollection.Application.GlobalData
                 var s7InstanceNew = new S7CommunicationAop(device,_cacheService);
                 s7InstanceNew.Init(singleCollect);
                 _globalDeviceDic.TryAdd(device.Name,s7InstanceNew);
+            }
+            else
+            {
+                // 1. close 调心跳
+                await s7Instance.StopDeviceAsync();
+                // 2. 更新 device 的 ip 和 port， 重新初始化
+                s7Instance.UpdateDevice(device).Init(singleCollect);
+            }
+        }
+
+        public async Task TryAddAndInitDeviceAndStartAllStation(DeviceCollection device, bool singleCollect)
+        {
+            _globalDeviceDic.TryGetValue(device.Name, out var s7Instance);
+
+            if (s7Instance == null)
+            {
+                TryAddOrUpdateDevice(device);
+                var s7InstanceNew = new S7CommunicationAop(device, _cacheService);
+                s7InstanceNew.Init(singleCollect);
+                _globalDeviceDic.TryAdd(device.Name, s7InstanceNew);
+
+                foreach (var station in device.StationSeqs)
+                {
+                    StartStationSeq(device.Name,station.SeqName);
+                }
             }
             else
             {

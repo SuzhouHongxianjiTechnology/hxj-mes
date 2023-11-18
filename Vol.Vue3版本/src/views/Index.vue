@@ -23,6 +23,7 @@
         <div class="project-name">Vol开发框架Vue3版本</div>
         <div class="header-text">
           <div class="h-link">
+            <router-link :to="screenPath.path" target="_blank">{{screenPath.text}}</router-link>
             <a
               href="javascript:void(0)"
               @click="to(item)"
@@ -244,13 +245,14 @@ export default defineComponent({
       { name: "green2", color: "rgb(25, 190, 107)", leftColor: "#019e4f" },
       { name: "white", color: "#fff" },
     ]);
+    const screenPath = ref({ text: "大屏数据", path: "/bigdata", id: -3 })
     const links = ref([
       {
         text: "框架视频",
         path: "https://www.cctalk.com/m/group/90268531",
         id: -3,
       },
-      { text: "大屏数据", path: "/bigdata", id: -3 },
+      // { text: "大屏数据", path: "/bigdata", id: -3 },
       {
         text: "框架文档",
         path: "http://v2.volcore.xyz/document/guide",
@@ -628,6 +630,7 @@ export default defineComponent({
       selectMenuIndex,
       navigation,
       links,
+      screenPath,
       onSelect,
       openTabsMenu,
       selectNav,

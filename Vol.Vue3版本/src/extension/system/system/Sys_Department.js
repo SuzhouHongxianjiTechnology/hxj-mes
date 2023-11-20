@@ -63,49 +63,48 @@ let extension = {
         fixed: 'right',
         align: 'center',
         render: (h, { row, column, index }) => {
-          return (<
-                        div >
-            <
-              el - button onClick = {
-              ($e) => {
-                this.addBtnClick(row)
-              }
-            }
-            type = "primary"
-            link v - show = {hasAdd}
-                        icon = "Plus" >
-            <
-                        /el-button> <
-              el - button onClick = {
-              ($e) => {
-                this.edit(row);
-              }
-            }
-            type = "success"
-            link v - show = {hasUpdate}
-                        icon = "Edit" >
-            <
-                        /el-button> <
-              el - tooltip class = "box-item"
-            effect = "dark"
-            content = "删除"
-                        placement = "top" >
-            <
-              el - button link onClick = {
-              ($e) => {
-                this.del(row);
-              }
-            }
-            v - show = {hasDel}
-            type = "danger"
-                        icon = "Delete" >
-            <
-                        /el-button> <
-                        /el-tooltip> <
-                        /div>
+          return (<div>
+            <el-button
+            onClick={($e) => {
+              this.addBtnClick(row)
+            }}
+            type="primary"
+            link
+            v-show={hasAdd}
+            icon="Plus"
+            >
+            </el-button>
+            <el-button
+            onClick={($e) => {
+              this.edit(row);
+            }}
+            type="success"
+            link
+            v-show={hasUpdate}
+            icon="Edit"
+            >
+            </el-button>
+            <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="删除"
+            placement="top"
+            >
+            <el-button
+            link
+            onClick={($e) => {
+              this.del(row);
+            }}
+            v-show={hasDel}
+            type="danger"
+            icon="Delete"
+            >
+            </el-button>
+            </el-tooltip>
+            </div>
             );
-                }
-            });
+          }
+        });
         },
             addBtnClick(row) {
               //这里是动态addCurrnetRow属性记录当前点击的行数据,下面modelOpenAfter设置默认值

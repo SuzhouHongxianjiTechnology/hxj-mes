@@ -498,7 +498,7 @@ public class S7Communication : BaseCommunication
                                             $"{deviceSeq.SeqName}--{CacheConst.RfidUp}".LogInformation();
                                             _cacheService.LPush(CacheConst.PlcMes, $"{deviceSeq.SeqName}--{CacheConst.RfidUp}");
                                             // 发生了上升沿，需要完成两步
-                                            // 1. 读取 Rfid
+                                            // 1. 读取 Rfid 
                                             ReadData(deviceSeq.RfidLabel, out var rfid);
                                             // 发生了上升沿，两步交互逻辑
                                             // 读成功写两步.1.上升沿写 false，响应地址写 true

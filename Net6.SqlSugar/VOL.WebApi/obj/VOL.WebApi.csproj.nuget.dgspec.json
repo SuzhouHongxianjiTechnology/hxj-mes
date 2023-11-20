@@ -10,14 +10,14 @@
         "projectUniqueName": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
         "projectName": "VOL.Builder",
         "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
-        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\AlbertZhao\\.nuget\\packages\\",
         "outputPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Builder\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AlbertZhao\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -86,14 +86,14 @@
         "projectUniqueName": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
         "projectName": "VOL.Core",
         "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
-        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\AlbertZhao\\.nuget\\packages\\",
         "outputPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AlbertZhao\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -213,20 +213,87 @@
         }
       }
     },
+    "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj",
+        "projectName": "VOL.DeviceManager",
+        "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj",
+        "packagesPath": "C:\\Users\\AlbertZhao\\.nuget\\packages\\",
+        "outputPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.DeviceManager\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\AlbertZhao\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
+                "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
+              },
+              "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
         "projectName": "VOL.Entity",
         "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
-        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\AlbertZhao\\.nuget\\packages\\",
         "outputPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AlbertZhao\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -296,14 +363,14 @@
         "projectUniqueName": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj",
         "projectName": "VOL.System",
         "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj",
-        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\AlbertZhao\\.nuget\\packages\\",
         "outputPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.System\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AlbertZhao\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -376,14 +443,14 @@
         "projectUniqueName": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj",
         "projectName": "VOL.WebApi",
         "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj",
-        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\AlbertZhao\\.nuget\\packages\\",
         "outputPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AlbertZhao\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -404,6 +471,9 @@
               },
               "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
                 "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
+              },
+              "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj": {
+                "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj"
               },
               "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
                 "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"

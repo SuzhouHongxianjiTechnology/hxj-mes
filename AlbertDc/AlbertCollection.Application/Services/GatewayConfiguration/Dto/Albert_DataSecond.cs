@@ -298,30 +298,61 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration.Dto
        /// <summary>
        ///Op200_1加工结果
        /// </summary>
-       [Display(Name ="Op200加工结果")]
+       [Display(Name = "Op200_1加工结果")]
        [MaxLength(5)]
        [Column(TypeName="nvarchar(5)")]
-       public string Op200Result { get; set; }
+       public string Op200_1Result { get; set; }
 
        /// <summary>
        ///Op200_1加工时间
        /// </summary>
-       [Display(Name ="Op200加工时间")]
+       [Display(Name = "Op200_1加工时间")]
        [Column(TypeName="datetime")]
-       public DateTime? Op200Time { get; set; }
+       public DateTime? Op200_1Time { get; set; }
 
        /// <summary>
        ///Op200_1节拍
        /// </summary>
-       [Display(Name ="Op200节拍")]
+       [Display(Name = "Op200_1节拍")]
        [DisplayFormat(DataFormatString="20,6")]
        [Column(TypeName="decimal")]
-       public decimal? Op200Beat { get; set; }
+       public decimal? Op200_1Beat { get; set; }
 
        /// <summary>
-       ///Op210加工结果
+       ///Op200_2加工结果
        /// </summary>
-       [Display(Name ="Op210加工结果")]
+       [Display(Name = "Op200_2加工结果")]
+       [MaxLength(5)]
+       [Column(TypeName = "nvarchar(5)")]
+       public string Op200_2Result { get; set; }
+
+       /// <summary>
+       ///Op200_2加工时间
+       /// </summary>
+       [Display(Name = "Op200_2加工时间")]
+       [Column(TypeName = "datetime")]
+       public DateTime? Op200_2Time { get; set; }
+
+       /// <summary>
+       ///Op200_2节拍
+       /// </summary>
+       [Display(Name = "Op200_2节拍")]
+       [DisplayFormat(DataFormatString = "20,6")]
+       [Column(TypeName = "decimal")]
+       public decimal? Op200_2Beat { get; set; }
+
+        /// <summary>
+        ///Op200_2IV3结果
+        /// </summary>
+        [Display(Name = "Op200_2IV3结果")]
+       [MaxLength(50)]
+       [Column(TypeName = "nvarchar(50)")]
+       public string Op200_2IV3Result { get; set; }
+        
+        /// <summary>
+        ///Op210加工结果
+        /// </summary>
+        [Display(Name ="Op210加工结果")]
        [MaxLength(5)]
        [Column(TypeName="nvarchar(5)")]
        public string Op210Result { get; set; }

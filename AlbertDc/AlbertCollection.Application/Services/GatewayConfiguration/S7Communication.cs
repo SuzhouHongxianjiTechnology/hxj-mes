@@ -636,91 +636,93 @@ public class S7Communication : BaseCommunication
                         }
                 }, deviceSeq.StopStationTokenSource.Token);
 
+                #region 这边是采集压机曲线
                 // 这边是采集压机曲线
-                if (deviceSeq.SeqName == "Op120")
-                {
-                    // Rfid 上升延 这边有一个特殊情况 Op120 工站要根据 1200.4 bool false结束 true开启
-                    // Op120Torque float,DB50.1210.0
-                    Task.Run(async () =>
-                    {
-                        // 用于判断是否是第一次
-                        var plc = _device.SimTcpNet;
-                        var torqueList = new List<string>();
+                //if (deviceSeq.SeqName == "Op120")
+                //{
+                //    Rfid 上升延 这边有一个特殊情况 Op120 工站要根据 1200.4 bool false结束 true开启
+                //    Op120Torque float, DB50.1210.0
+                //    Task.Run(async () =>
+                //    {
+                //        用于判断是否是第一次
+                //       var plc = _device.SimTcpNet;
+                //        var torqueList = new List<string>();
 
-                        while (true)
-                        {
-                            try
-                            {
-                                // 异步任务取消分支
-                                if (deviceSeq.StopStationTokenSource.IsCancellationRequested)
-                                {
-                                    deviceSeq.IsOpen = false;
-                                    $"{deviceSeq.SeqName}--停止采集".LogWarning();
-                                    break;
-                                }
-                                else
-                                {
-                                    torqueList.Clear();
-                                    // 读取压机上升沿信号，如果是 1，则直接循环采集 50 个点
-                                    var torqueUp = await plc.ReadBoolAsync("DB50.1200.4");
+                //        while (true)
+                //        {
+                //            try
+                //            {
+                //                异步任务取消分支
+                //                if (deviceSeq.StopStationTokenSource.IsCancellationRequested)
+                //                {
+                //                    deviceSeq.IsOpen = false;
+                //                    $"{deviceSeq.SeqName}--停止采集".LogWarning();
+                //                    break;
+                //                }
+                //                else
+                //                {
+                //                    torqueList.Clear();
+                //                    读取压机上升沿信号，如果是 1，则直接循环采集 50 个点
+                //                   var torqueUp = await plc.ReadBoolAsync("DB50.1200.4");
 
-                                    if (torqueUp.Content)
-                                    {
-                                        // ToDo;和 plc 商量，读取完后我来写 0
-                                        // 同时读取 rfid ，rfid 表上面有产品码，根据产品码将读取到的压机曲线数据插入到数据库
-                                        ReadData(deviceSeq.RfidLabel, out var rfid);
-                                        for (int i = 0; i < 50; i++)
-                                        {
-                                            ReadData("float,DB50.1210.0", out var torque);
-                                            // 用来防止 plc 读取的位数过长
-                                            string subTorque = torque.Length >= 4 ? torque.Substring(0, 4) : torque;
-                                            torqueList.Add(subTorque);
-                                            await Task.Delay(20);
-                                        }
+                //                    if (torqueUp.Content)
+                //                    {
+                //                        ToDo; 和 plc 商量，读取完后我来写 0
+                //                         同时读取 rfid ，rfid 表上面有产品码，根据产品码将读取到的压机曲线数据插入到数据库
+                //                        ReadData(deviceSeq.RfidLabel, out var rfid);
+                //                        for (int i = 0; i < 50; i++)
+                //                        {
+                //                            ReadData("float,DB50.1210.0", out var torque);
+                //                            用来防止 plc 读取的位数过长
+                //                            string subTorque = torque.Length >= 4 ? torque.Substring(0, 4) : torque;
+                //                            torqueList.Add(subTorque);
+                //                            await Task.Delay(20);
+                //                        }
 
-                                        // 将 torqueList 中的数据插入到数据库中
-                                        if (torqueList.Count > 0)
-                                        {
-                                            string op120TorqueList = string.Join(",", torqueList);
+                //                        将 torqueList 中的数据插入到数据库中
+                //                        if (torqueList.Count > 0)
+                //                        {
+                //                            string op120TorqueList = string.Join(",", torqueList);
 
-                                            var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
-                                                .First(x => x.RFID.ToString() == rfid);
+                //                            var rfidModel = DbContext.Db.Queryable<Albert_RFID>()
+                //                                .First(x => x.RFID.ToString() == rfid);
 
-                                            var tempDic = new Dictionary<string, object>();
-                                            tempDic.AddOrUpdate("ProductCode", rfidModel.ProductCode);
-                                            tempDic.AddOrUpdate("Op120TorqueList", op120TorqueList);
+                //                            var tempDic = new Dictionary<string, object>();
+                //                            tempDic.AddOrUpdate("ProductCode", rfidModel.ProductCode);
+                //                            tempDic.AddOrUpdate("Op120TorqueList", op120TorqueList);
 
-                                            var line = await DbContext.Db.Updateable(tempDic)
-                                                .AS("Albert_DataFirst").WhereColumns("ProductCode").ExecuteCommandAsync();
+                //                            var line = await DbContext.Db.Updateable(tempDic)
+                //                                .AS("Albert_DataFirst").WhereColumns("ProductCode").ExecuteCommandAsync();
 
-                                            if (line > 0)
-                                            {
-                                                (deviceSeq.SeqName + "压机曲线更新成功").LogInformation();
-                                                await Task.Delay(1000);
-                                            }
-                                            else
-                                            {
-                                                (deviceSeq.SeqName + "压机曲线更新失败").LogError();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            (deviceSeq.SeqName + "压机曲线未获取到任何数据").LogError();
-                                        }
-                                    }
+                //                            if (line > 0)
+                //                            {
+                //                                (deviceSeq.SeqName + "压机曲线更新成功").LogInformation();
+                //                                await Task.Delay(1000);
+                //                            }
+                //                            else
+                //                            {
+                //                                (deviceSeq.SeqName + "压机曲线更新失败").LogError();
+                //                            }
+                //                        }
+                //                        else
+                //                        {
+                //                            (deviceSeq.SeqName + "压机曲线未获取到任何数据").LogError();
+                //                        }
+                //                    }
 
-                                    await Task.Delay(50);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                (deviceSeq.SeqName + ex.Message).LogError();
-                                //deviceSeq.IsOpen = false;
-                                //break;
-                            }
-                        }
-                    }, deviceSeq.StopStationTokenSource.Token);
-                }
+                //                    await Task.Delay(50);
+                //                }
+                //            }
+                //            catch (Exception ex)
+                //            {
+                //                (deviceSeq.SeqName + ex.Message).LogError();
+                //                deviceSeq.IsOpen = false;
+                //                break;
+                //            }
+                //        }
+                //    }, deviceSeq.StopStationTokenSource.Token);
+                //}
+                #endregion
             }
         }
         else
@@ -1141,6 +1143,22 @@ public class S7Communication : BaseCommunication
                 {
                     deviceSeq.ReadDataDic.AddOrUpdate("OpFinalStation", deviceSeq.SeqName);
                     ReadDataFromPlc(deviceSeq, plc);
+                }
+
+                // 需要批量读取扭矩数据
+                if (deviceSeq.SeqName == "Op120")
+                {
+                    var torqueArrResult =await plc.ReadFloatAsync("DB50.1600.0", 50);
+
+                    if (torqueArrResult.IsSuccess)
+                    {
+                        var op120TorqueList = string.Join(",",torqueArrResult.Content);
+                        deviceSeq.ReadDataDic.AddOrUpdate("Op120TorqueList", op120TorqueList);
+                    }
+                    else
+                    {
+                        $"{deviceSeq.SeqName}批量读取扭矩失败".LogError();
+                    }
                 }
 
                 deviceSeq.ReadDataDic.AddOrUpdate("OpFinalDate", DateTime.Now);

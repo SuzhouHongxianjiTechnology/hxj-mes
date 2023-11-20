@@ -136,6 +136,18 @@
             <param name="swaggerDoc"></param>
             <param name="context"></param>
         </member>
+        <member name="M:VOL.DeviceManager.Controllers.dv_machinery_typeController.GetTreeTableRootData(VOL.Entity.DomainModels.PageDataOptions)">
+            <summary>
+            treetable 获取子节点数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VOL.DeviceManager.Controllers.dv_machinery_typeController.GetTreeTableChildrenData(System.Int64)">
+             <summary>
+            treetable 获取子节点数据
+             </summary>
+             <returns></returns>
+        </member>
         <member name="M:VOL.System.Controllers.FormDesignOptionsController.GetFormOptions(System.Guid)">
             <summary>
             

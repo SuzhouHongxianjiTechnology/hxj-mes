@@ -165,10 +165,14 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
             {
                 if (deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
                 {
-                    // 如果影响产品节拍改为异步
+                    // op60 压机文件：如果影响产品节拍改为异步
                     var srcFolder = App.GetConfig<string>("Op60PressFolder");
                     var filePath = RemoveFile(srcFolder, productCode.ToString());
                     deviceSeq.ReadDataDic.AddOrUpdate("Op60PressureFile",filePath);
+
+                    // op60 IX055 文件
+                    var srcFolderOp60Ix = App.GetConfig<string>("Op60IX055");
+                    var filePathOp60Ix = RemoveFile(srcFolderOp60Ix, productCode.ToString());
 
                     if (deviceSeq.ReadDataDic.TryGetValue("Op60Pressure", out var pressure))
                     {
@@ -238,6 +242,13 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
             // Op90 站位移判断
             if (deviceSeq.SeqName == "Op90")
             {
+                if (deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
+                {
+                    // op60 IX055 文件
+                    var srcFolderOp90Iv3 = App.GetConfig<string>("Op90IV3");
+                    var filePathOp90Iv3 = RemoveFile(srcFolderOp90Iv3, productCode.ToString());
+                }
+
                 if (deviceSeq.ReadDataDic.TryGetValue("Op90DisplaceResult", out var displace))
                 {
                     if ((displace.ToString() == "2"))
@@ -287,6 +298,13 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
             // 120 直接解绑
             if (deviceSeq.SeqName == "Op120")
             {
+                if (deviceSeq.ReadDataDic.TryGetValue("ProductCode", out var productCode))
+                {
+                    // op60 IX055 文件
+                    var srcFolderOp120Iv3 = App.GetConfig<string>("Op120IV3");
+                    var filePathOp120Iv3 = RemoveFile(srcFolderOp120Iv3, productCode.ToString());
+                }
+
                 if (deviceSeq.ReadDataDic.TryGetValue("RFID", out var rfid))
                 {
                     var tempDic = new Dictionary<string, object>();
@@ -754,12 +772,12 @@ namespace AlbertCollection.Application.Services.GatewayConfiguration
 
                     File.Move(latestFileName, Path.Combine(srcFolder, newFileName));
 
-                    $"【压机文件重命名】已将文件 {latestFileName} 重命名为 {newFileName}.".LogInformation();
+                    $"【文件重命名】已将文件 {latestFileName} 重命名为 {newFileName}.".LogInformation();
                     return srcFolder +"\\"+ newFileName;
                 }
                 else
                 {
-                    "【压机文件重命名】失败，目录中没有文件.".LogError();
+                    "【文件重命名】失败，目录中没有文件.".LogError();
                     return "";
                 }
             }

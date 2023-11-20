@@ -10354,7 +10354,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\szdxz\\.nuget\\packages\\": {},
+    "C:\\Users\\AlbertZhao\\.nuget\\packages\\": {},
     "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -10363,14 +10363,14 @@
       "projectUniqueName": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
       "projectName": "VOL.Builder",
       "projectPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
-      "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\AlbertZhao\\.nuget\\packages\\",
       "outputPath": "E:\\00_Repo\\AlbertDc\\Net6.SqlSugar\\VOL.Builder\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\AlbertZhao\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

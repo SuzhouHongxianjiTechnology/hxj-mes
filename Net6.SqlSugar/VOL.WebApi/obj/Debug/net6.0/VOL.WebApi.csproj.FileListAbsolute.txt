@@ -325,3 +325,5 @@ D:\code\AlbertDC\Net6.SqlSugar\VOL.WebApi\obj\Debug\net6.0\refint\VOL.WebApi.dll
 D:\code\AlbertDC\Net6.SqlSugar\VOL.WebApi\obj\Debug\net6.0\VOL.WebApi.pdb
 D:\code\AlbertDC\Net6.SqlSugar\VOL.WebApi\obj\Debug\net6.0\VOL.WebApi.genruntimeconfig.cache
 D:\code\AlbertDC\Net6.SqlSugar\VOL.WebApi\obj\Debug\net6.0\ref\VOL.WebApi.dll
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.WebApi\bin\Debug\netcoreapp6.0\net6.0\VOL.DeviceManager.dll
+E:\00_Repo\AlbertDc\Net6.SqlSugar\VOL.WebApi\bin\Debug\netcoreapp6.0\net6.0\VOL.DeviceManager.pdb

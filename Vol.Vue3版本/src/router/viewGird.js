@@ -129,6 +129,14 @@ let viewgird = [
         path: '/Sys_Department',
         name: 'Sys_Department',
         component: () => import('@/views/system/system/Sys_Department.vue')
+    }    ,{
+        path: '/dv_machinery_type',
+        name: 'dv_machinery_type',
+        component: () => import('@/views/devicemanager/dv_machinery_type/dv_machinery_type.vue')
+    }    ,{
+        path: '/dv_machinery',
+        name: 'dv_machinery',
+        component: () => import('@/views/devicemanager/dv_machinery/dv_machinery.vue')
     }]
 
 export default viewgird

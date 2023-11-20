@@ -4,8 +4,8 @@
       {
         "Id": "1",
         "Name": "环形1线",
-        "IpAddress": "127.0.0.1",
-        //"IpAddress": "192.168.1.2",
+        //"IpAddress": "127.0.0.1",
+        "IpAddress": "192.168.1.2",
         "Port": "102",
         "ConnectTimeOut": "3000",
         "ReceiveTimeOut": "3000",
@@ -471,7 +471,7 @@
             "SeqName": "Op170",
             "RfidRisingEdge": "DB50.300.0",
             "RfidResponseEdge": "DB50.300.1",
-            "RisingEdge": "DB50.300.2",  
+            "RisingEdge": "DB50.300.2",
             "ResponseEdge": "DB50.300.3",
             "StationAllow": "short,DB50.302.0",
             "RfidLabel": "short,DB50.304.0",
@@ -633,10 +633,32 @@
             ]
           },
           {
+            "Id": "8",
+            "DeviceId": "2",
+            "DeviceName": "环形2线",
+            "SeqName": "Op200_1", // 堵帽
+            "RfidRisingEdge": "DB50.800.0",
+            "RfidResponseEdge": "DB50.800.1",
+            "RisingEdge": "DB50.800.2",
+            "ResponseEdge": "DB50.800.3",
+            "StationAllow": "short,DB50.802.0",
+            "RfidLabel": "short,DB50.804.0",
+            "SqlOperate": "Update",
+            "ReadData": [
+              {
+                "Id": "1",
+                "SeqId": "1",
+                "Sort": "1",
+                "SqlColumnName": "Op200_1Beat",
+                "TypeAndDb": "int,DB50.806.0"
+              }
+            ]
+          },
+          {
             "Id": "9",
             "DeviceId": "2",
             "DeviceName": "环形2线",
-            "SeqName": "Op200", // 堵帽
+            "SeqName": "Op200_2", // 堵帽
             "RfidRisingEdge": "DB50.900.0",
             "RfidResponseEdge": "DB50.900.1",
             "RisingEdge": "DB50.900.2",
@@ -649,8 +671,15 @@
                 "Id": "1",
                 "SeqId": "1",
                 "Sort": "1",
-                "SqlColumnName": "Op200Beat",
+                "SqlColumnName": "Op200_2Beat",
                 "TypeAndDb": "int,DB50.906.0"
+              },
+              {
+                "Id": "2",
+                "SeqId": "1",
+                "Sort": "2",
+                "SqlColumnName": "Op200_2IV3Result",
+                "TypeAndDb": "float,DB50.910.0"
               }
             ]
           },

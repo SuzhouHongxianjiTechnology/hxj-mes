@@ -16,6 +16,7 @@
           "Swashbuckle.AspNetCore": "6.0.0",
           "VOL.Builder": "1.0.0",
           "VOL.Core": "1.0.0",
+          "VOL.DeviceManager": "1.0.0",
           "VOL.Entity": "1.0.0",
           "VOL.System": "1.0.0"
         },
@@ -2281,6 +2282,15 @@
           "VOL.Core.dll": {}
         }
       },
+      "VOL.DeviceManager/1.0.0": {
+        "dependencies": {
+          "VOL.Core": "1.0.0",
+          "VOL.Entity": "1.0.0"
+        },
+        "runtime": {
+          "VOL.DeviceManager.dll": {}
+        }
+      },
       "VOL.Entity/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "6.0.0",
@@ -3730,6 +3740,11 @@
       "sha512": ""
     },
     "VOL.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "VOL.DeviceManager/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

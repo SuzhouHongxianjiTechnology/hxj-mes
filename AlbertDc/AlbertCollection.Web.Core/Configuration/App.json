@@ -38,6 +38,9 @@
     "SignalRSupport": true // 启用 SignalR 跨域支持
   },
   "Op60PressFolder": "D:\\op60", //压机文件路径
+  "Op60IX055": "D:\\op60IX055",
+  "Op90IV3": "D:\\op90IV3",
+  "Op120IV3": "D:\\op120IV3",
   "Redis": {
     "RedisConnectStr": "127.0.0.1:6379,SyncTimeout=15000",
     "IsUseRedis": true

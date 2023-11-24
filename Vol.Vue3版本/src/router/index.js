@@ -24,6 +24,11 @@ const routes = [
         name: 'home',
         component: () => import('@/views/Home.vue')
       }, {
+        path: '/readJson',
+        name: 'readJson',
+        component: () =>
+          import('@/views/devicemanager/readJson/ReadJson.vue')
+      }, {
         path: '/UserInfo',
         name: 'UserInfo',
         component: () => import('@/views/system/UserInfo.vue')

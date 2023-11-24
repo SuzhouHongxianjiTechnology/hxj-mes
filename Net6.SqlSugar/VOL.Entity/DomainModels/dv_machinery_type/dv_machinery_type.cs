@@ -110,21 +110,33 @@ namespace VOL.Entity.DomainModels
        public int? attr4 { get; set; }
 
        /// <summary>
+       ///创建者ID
+       /// </summary>
+       [Display(Name ="创建者ID")]
+       [Column(TypeName="int")]
+       public int? CreateID { get; set; }
+
+       /// <summary>
        ///创建者
        /// </summary>
        [Display(Name ="创建者")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
-       public string create_by { get; set; }
+       public string Creator { get; set; }
 
        /// <summary>
        ///创建时间
        /// </summary>
        [Display(Name ="创建时间")]
        [Column(TypeName="datetime")]
-       [Editable(true)]
-       public DateTime? create_time { get; set; }
+       public DateTime? CreateDate { get; set; }
+
+       /// <summary>
+       ///更新者ID
+       /// </summary>
+       [Display(Name ="更新者ID")]
+       [Column(TypeName="int")]
+       public int? ModifyID { get; set; }
 
        /// <summary>
        ///更新者
@@ -132,16 +144,14 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="更新者")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
-       public string update_by { get; set; }
+       public string Modifier { get; set; }
 
        /// <summary>
        ///更新时间
        /// </summary>
        [Display(Name ="更新时间")]
        [Column(TypeName="datetime")]
-       [Editable(true)]
-       public DateTime? update_time { get; set; }
+       public DateTime? ModifyDate { get; set; }
 
        
     }

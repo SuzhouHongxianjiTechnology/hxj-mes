@@ -137,6 +137,18 @@ let viewgird = [
         path: '/dv_machinery',
         name: 'dv_machinery',
         component: () => import('@/views/devicemanager/dv_machinery/dv_machinery.vue')
+    }    ,{
+        path: '/dv_repair',
+        name: 'dv_repair',
+        component: () => import('@/views/devicemanager/dv_repair/dv_repair.vue')
+    }    ,{
+        path: '/dv_dss_record',
+        name: 'dv_dss_record',
+        component: () => import('@/views/devicemanager/dv_dss_record/dv_dss_record.vue')
+    }    ,{
+        path: '/tm_tool',
+        name: 'tm_tool',
+        component: () => import('@/views/devicemanager/tm_tool/tm_tool.vue')
     }]
 
 export default viewgird

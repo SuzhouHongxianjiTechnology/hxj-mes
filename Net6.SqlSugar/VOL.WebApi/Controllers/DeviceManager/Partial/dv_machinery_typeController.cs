@@ -70,10 +70,10 @@ namespace VOL.DeviceManager.Controllers
                     s.parent_type_id,
                     s.enable_flag,
                     s.remark,
-                    s.create_by,
-                    s.create_time,
-                    s.update_by,
-                    s.update_time,
+                    s.Creator,
+                    s.CreateDate,
+                    s.Modifier,
+                    s.ModifyDate,
                     hasChildren = SqlFunc.Subqueryable<dv_machinery_type>().Where(x => x.parent_type_id == s.machinery_type_id).Any()
                 }).ToListAsync();
             return JsonNormal(new { total = await query.CountAsync(), rows });
@@ -98,10 +98,10 @@ namespace VOL.DeviceManager.Controllers
                     s.parent_type_id,
                     s.enable_flag,
                     s.remark,
-                    s.create_by,
-                    s.create_time,
-                    s.update_by,
-                    s.update_time,
+                    s.Creator,
+                    s.CreateDate,
+                    s.Modifier,
+                    s.ModifyDate,
                     hasChildren = SqlFunc.Subqueryable<dv_machinery_type>().Where(x => x.parent_type_id == s.machinery_type_id).Any()
                 }).ToListAsync();
             return JsonNormal(new { rows });

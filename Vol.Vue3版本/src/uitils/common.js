@@ -255,15 +255,15 @@ let base = {
       data = JSON.parse(JSON.stringify(data));
     }
     data.forEach((x) => {
-      if (x.id === x.parentId) {
+      if (x.id == x.parentId) {
         x.parentId = 0;
-      } else if (data.some((c) => c.parentId === x.id && c.id === x.parentId)) {
+      } else if (data.some((c) => c.parentId == x.id && c.id == x.parentId)) {
         x.parentId = 0;
       }
     });
 
     var _child = data.find((x) => {
-      return x.id === id;
+      return x.id == id;
     });
     if (!_child) {
       return [];
@@ -272,7 +272,7 @@ let base = {
     var _parentIds = [_child.parentId];
     for (let index = 0; index < _parentIds.length; index++) {
       var _node = data.find((x) => {
-        return x.id === _parentIds[index] && x.id !== x.parentId;
+        return x.id == _parentIds[index] && x.id !== x.parentId;
       });
       if (!_node) {
         return nodes;

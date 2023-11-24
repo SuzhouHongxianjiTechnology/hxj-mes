@@ -14,10 +14,12 @@ create table tm_tool_type (
   attr2                       varchar(255)    default null               comment '预留字段2',
   attr3                       int(11)         default 0                  comment '预留字段3',
   attr4                       int(11)         default 0                  comment '预留字段4',
-  create_by                   varchar(64)     default ''                 comment '创建者',
-  create_time 	              datetime                                   comment '创建时间',
-  update_by                   varchar(64)     default ''                 comment '更新者',
-  update_time                 datetime                                   comment '更新时间',
+  CreateID                    int(11)                                    comment '创建者ID',
+  Creator                     varchar(64)     default ''                 comment '创建者',
+  CreateDate 	               datetime                                   comment '创建时间',
+  ModifyID                    int(11)                                    comment '创建者ID',
+  Modifier                    varchar(64)     default ''                 comment '更新者',
+  ModifyDate                  datetime                                   comment '更新时间',
   primary key (tool_type_id)
 ) engine=innodb auto_increment=200 comment = '工装夹具类型表';
 
@@ -48,9 +50,11 @@ create table tm_tool (
   attr2                       varchar(255)    default null               comment '预留字段2',
   attr3                       int(11)         default 0                  comment '预留字段3',
   attr4                       int(11)         default 0                  comment '预留字段4',
-  create_by                   varchar(64)     default ''                 comment '创建者',
-  create_time 	              datetime                                   comment '创建时间',
-  update_by                   varchar(64)     default ''                 comment '更新者',
-  update_time                 datetime                                   comment '更新时间',
+  CreateID                    int(11)                                    comment '创建者ID',
+  Creator                     varchar(64)     default ''                 comment '创建者',
+  CreateDate 	               datetime                                   comment '创建时间',
+  ModifyID                    int(11)                                    comment '创建者ID',
+  Modifier                    varchar(64)     default ''                 comment '更新者',
+  ModifyDate                  datetime                                   comment '更新时间',
   primary key (tool_id)
 ) engine=innodb auto_increment=200 comment = '工装夹具清单表';

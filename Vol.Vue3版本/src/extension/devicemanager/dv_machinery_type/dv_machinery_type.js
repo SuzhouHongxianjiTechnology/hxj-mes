@@ -160,14 +160,14 @@ let extension = {
           let data = [];
           this.editFormOptions.forEach(options => {
             options.forEach(option => {
-              if (option.field == 'ParentId') {
+              if (option.field == 'parent_type_id') {
                 data = option.orginData;
               }
             })
           })
-          let parentIds = this.base.getTreeAllParent(this.addCurrnetRow.DepartmentId, data).map(x => { return x.id });
+          let parentIds = this.base.getTreeAllParent(this.addCurrnetRow.machinery_type_id, data).map(x => { return x.id });
           //设置编辑表单上级组织的默认值
-          this.editFormFields.ParentId = parentIds;
+          this.editFormFields.parent_type_id = parentIds;
           this.addCurrnetRow = null;
           
         }

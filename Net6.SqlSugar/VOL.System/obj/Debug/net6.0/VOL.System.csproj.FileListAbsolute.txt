@@ -32,6 +32,7 @@ D:\code\AlbertDC\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.dll
 D:\code\AlbertDC\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\refint\VOL.System.dll
 D:\code\AlbertDC\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.pdb
 D:\code\AlbertDC\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\ref\VOL.System.dll
+<<<<<<< HEAD
 D:\code\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.System.deps.json
 D:\code\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.System.dll
 D:\code\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.System.pdb
@@ -49,3 +50,22 @@ D:\code\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.dll
 D:\code\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\refint\VOL.System.dll
 D:\code\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.pdb
 D:\code\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\ref\VOL.System.dll
+=======
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.System.deps.json
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.System.dll
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.System.pdb
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.Core.dll
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.Entity.dll
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.Core.pdb
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\bin\Debug\net6.0\VOL.Entity.pdb
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.csproj.AssemblyReference.cache
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.GeneratedMSBuildEditorConfig.editorconfig
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.AssemblyInfoInputs.cache
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.AssemblyInfo.cs
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.csproj.CoreCompileInputs.cache
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.csproj.CopyComplete
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.dll
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\refint\VOL.System.dll
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\VOL.System.pdb
+E:\00_Repo\hxj-mes\Net6.SqlSugar\VOL.System\obj\Debug\net6.0\ref\VOL.System.dll
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117

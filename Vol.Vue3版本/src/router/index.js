@@ -27,6 +27,11 @@ const routes = [
           keepAlive:true
         }
       }, {
+        path: '/readJson',
+        name: 'readJson',
+        component: () =>
+          import('@/views/devicemanager/readJson/ReadJson.vue')
+      }, {
         path: '/UserInfo',
         name: 'UserInfo',
         component: () => import('@/views/system/UserInfo.vue')

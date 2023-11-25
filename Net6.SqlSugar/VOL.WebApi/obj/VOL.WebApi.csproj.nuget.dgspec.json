@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj": {}
   },
   "projects": {
@@ -12,25 +13,53 @@
         "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\obj\\",
+=======
+    "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj": {}
+  },
+  "projects": {
+    "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
+        "projectName": "VOL.Builder",
+        "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
+        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "outputPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\obj\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
               },
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+=======
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
+              },
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
               }
             }
           }
@@ -69,10 +98,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -81,22 +111,44 @@
         "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\obj\\",
+=======
+    "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
+        "projectName": "VOL.Core",
+        "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
+        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "outputPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\obj\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+=======
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
               }
             }
           }
@@ -195,10 +247,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -207,25 +260,50 @@
         "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\obj\\",
+=======
+    "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj",
+        "projectName": "VOL.DeviceManager",
+        "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj",
+        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "outputPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\obj\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
               },
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+=======
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
+              },
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
               }
             }
           }
@@ -255,10 +333,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -267,14 +346,31 @@
         "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\obj\\",
+=======
+    "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
+        "projectName": "VOL.Entity",
+        "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
+        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "outputPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\obj\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -325,10 +421,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -337,25 +434,50 @@
         "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.System\\obj\\",
+=======
+    "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj",
+        "projectName": "VOL.System",
+        "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj",
+        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "outputPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.System\\obj\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
               },
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+=======
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
+              },
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
               }
             }
           }
@@ -398,10 +520,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -410,20 +533,38 @@
         "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
         "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\obj\\",
+=======
+    "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj",
+        "projectName": "VOL.WebApi",
+        "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\VOL.WebApi.csproj",
+        "packagesPath": "C:\\Users\\szdxz\\.nuget\\packages\\",
+        "outputPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\obj\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\szdxz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj"
               },
@@ -438,6 +579,22 @@
               },
               "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj": {
                 "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj"
+=======
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj"
+              },
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj"
+              },
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.DeviceManager\\VOL.DeviceManager.csproj"
+              },
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+              },
+              "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj": {
+                "projectPath": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.System\\VOL.System.csproj"
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
               }
             }
           }
@@ -496,7 +653,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.406\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

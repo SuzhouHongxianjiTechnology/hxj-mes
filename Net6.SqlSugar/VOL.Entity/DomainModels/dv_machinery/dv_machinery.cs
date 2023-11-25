@@ -18,20 +18,19 @@ namespace VOL.Entity.DomainModels
     public partial class dv_machinery:BaseEntity
     {
         /// <summary>
-       ///设备类型ID
+       ///设备ID
        /// </summary>
        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
        [Key]
-       [Display(Name ="设备类型ID")]
+       [Display(Name ="设备ID")]
        [Column(TypeName="bigint")]
-       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public long machinery_id { get; set; }
 
        /// <summary>
-       ///设备类型编码
+       ///设备编码
        /// </summary>
-       [Display(Name ="设备类型编码")]
+       [Display(Name ="设备编码")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
        [Editable(true)]
@@ -39,9 +38,9 @@ namespace VOL.Entity.DomainModels
        public string machinery_code { get; set; }
 
        /// <summary>
-       ///设备类型名称
+       ///设备名称
        /// </summary>
-       [Display(Name ="设备类型名称")]
+       [Display(Name ="设备名称")]
        [MaxLength(255)]
        [Column(TypeName="nvarchar(255)")]
        [Editable(true)]
@@ -81,7 +80,6 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="设备类型编码")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
        public string machinery_type_code { get; set; }
 
        /// <summary>
@@ -116,7 +114,6 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="所属车间ID")]
        [Column(TypeName="bigint")]
-       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public long workshop_id { get; set; }
 
@@ -126,7 +123,6 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="所属车间编码")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
        public string workshop_code { get; set; }
 
        /// <summary>
@@ -144,7 +140,6 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="设备状态")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string status { get; set; }
 
@@ -163,7 +158,6 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="预留字段1")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
        public string attr1 { get; set; }
 
        /// <summary>
@@ -172,7 +166,6 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="预留字段2")]
        [MaxLength(255)]
        [Column(TypeName="nvarchar(255)")]
-       [Editable(true)]
        public string attr2 { get; set; }
 
        /// <summary>
@@ -180,8 +173,14 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="预留字段3")]
        [Column(TypeName="int")]
-       [Editable(true)]
        public int? attr3 { get; set; }
+
+       /// <summary>
+       ///创建者ID
+       /// </summary>
+       [Display(Name ="创建者ID")]
+       [Column(TypeName="int")]
+       public int? CreateID { get; set; }
 
        /// <summary>
        ///创建者
@@ -189,16 +188,21 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="创建者")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
-       public string create_by { get; set; }
+       public string Creator { get; set; }
 
        /// <summary>
        ///创建时间
        /// </summary>
        [Display(Name ="创建时间")]
        [Column(TypeName="datetime")]
-       [Editable(true)]
-       public DateTime? create_time { get; set; }
+       public DateTime? CreateDate { get; set; }
+
+       /// <summary>
+       ///更新者ID
+       /// </summary>
+       [Display(Name ="更新者ID")]
+       [Column(TypeName="int")]
+       public int? ModifyID { get; set; }
 
        /// <summary>
        ///更新者
@@ -206,16 +210,14 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="更新者")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
-       public string update_by { get; set; }
+       public string Modifier { get; set; }
 
        /// <summary>
        ///更新时间
        /// </summary>
        [Display(Name ="更新时间")]
        [Column(TypeName="datetime")]
-       [Editable(true)]
-       public DateTime? update_time { get; set; }
+       public DateTime? ModifyDate { get; set; }
 
        
     }

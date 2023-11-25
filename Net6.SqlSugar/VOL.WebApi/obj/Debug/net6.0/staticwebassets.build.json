@@ -1,6 +1,10 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "Hash": "dtMymMzFHvItfTmPtMGKFkoQ8WrJPuMWi7Qdbr2fLUE=",
+=======
+  "Hash": "8am0HvXKuAm6MOzx4nJSNqDK8A+ByPCUBUoXq6G9Jho=",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
   "Source": "VOL.WebApi",
   "BasePath": "_content/VOL.WebApi",
   "Mode": "Default",
@@ -10,13 +14,18 @@
     {
       "Name": "VOL.WebApi\\wwwroot",
       "Source": "VOL.WebApi",
+<<<<<<< HEAD
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\新建文本文档.txt",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
@@ -38,6 +47,12 @@
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\css\\site.css",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -51,10 +66,17 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\favicon.ico",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\favicon.ico",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -68,10 +90,17 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\js\\site.js",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\js\\site.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -85,6 +114,7 @@
       "OriginalItemSpec": "wwwroot\\js\\site.js"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
@@ -225,6 +255,12 @@
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetKind": "All",
@@ -238,10 +274,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetKind": "All",
@@ -255,10 +298,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
       "AssetKind": "All",
@@ -272,10 +322,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -289,10 +346,153 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -306,10 +506,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -323,10 +530,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -340,10 +554,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -357,10 +578,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -374,10 +602,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -391,10 +626,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -408,10 +650,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -425,10 +674,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\LICENSE",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -442,6 +698,7 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\LICENSE"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
@@ -582,6 +839,12 @@
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/jquery/dist/jquery.js",
       "AssetKind": "All",
@@ -595,10 +858,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.js"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
       "AssetKind": "All",
@@ -612,10 +882,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
       "AssetKind": "All",
@@ -629,10 +906,17 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "lib/jquery/LICENSE.txt",
       "AssetKind": "All",
@@ -646,10 +930,153 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\test.txt",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation/LICENSE.md",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\test.txt",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "test.txt",
       "AssetKind": "All",
@@ -663,10 +1090,17 @@
       "OriginalItemSpec": "wwwroot\\test.txt"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_News\\202204200018378581\\img02.png",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_News\\202204200018378581\\img02.png",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "Upload/Tables/App_News/202204200018378581/img02.png",
       "AssetKind": "All",
@@ -680,10 +1114,17 @@
       "OriginalItemSpec": "wwwroot\\Upload\\Tables\\App_News\\202204200018378581\\img02.png"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_Transaction\\202204172225478035\\img03.png",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_Transaction\\202204172225478035\\img03.png",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "Upload/Tables/App_Transaction/202204172225478035/img03.png",
       "AssetKind": "All",
@@ -697,10 +1138,17 @@
       "OriginalItemSpec": "wwwroot\\Upload\\Tables\\App_Transaction\\202204172225478035\\img03.png"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_Transaction\\202204172225587342\\img01.png",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_Transaction\\202204172225587342\\img01.png",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "Upload/Tables/App_Transaction/202204172225587342/img01.png",
       "AssetKind": "All",
@@ -714,10 +1162,17 @@
       "OriginalItemSpec": "wwwroot\\Upload\\Tables\\App_Transaction\\202204172225587342\\img01.png"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_Transaction\\202204172226012098\\img04.png",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\App_Transaction\\202204172226012098\\img04.png",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "Upload/Tables/App_Transaction/202204172226012098/img04.png",
       "AssetKind": "All",
@@ -731,10 +1186,17 @@
       "OriginalItemSpec": "wwwroot\\Upload\\Tables\\App_Transaction\\202204172226012098\\img04.png"
     },
     {
+<<<<<<< HEAD
       "Identity": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\Sys_User\\202204130014502760\\2.png",
       "SourceId": "VOL.WebApi",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+=======
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\Upload\\Tables\\Sys_User\\202204130014502760\\2.png",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+>>>>>>> 5be2b4e827bdf9f6dede94b1754cf83d94b99117
       "BasePath": "_content/VOL.WebApi",
       "RelativePath": "Upload/Tables/Sys_User/202204130014502760/2.png",
       "AssetKind": "All",
@@ -746,6 +1208,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Upload\\Tables\\Sys_User\\202204130014502760\\2.png"
+    },
+    {
+      "Identity": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\新建文本文档.txt",
+      "SourceId": "VOL.WebApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\00_Repo\\hxj-mes\\Net6.SqlSugar\\VOL.WebApi\\wwwroot\\",
+      "BasePath": "_content/VOL.WebApi",
+      "RelativePath": "新建文本文档.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\新建文本文档.txt"
     }
   ]
 }

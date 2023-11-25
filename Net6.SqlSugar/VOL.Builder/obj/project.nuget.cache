@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "C9Q42tGla6XNvo+4EcggfuQ+WzLcUd9a3Sw99gjoiW05ydu88+Z6EstPvJ31+qtqZMy1T272vp49g2GlCyy6XQ==",
+  "dgSpecHash": "vrn8SYpkFxdgXGpITbaSsVFS5lqifXnamEjXF2uWAV8uIf82S3Kfqmux74n4M+qHrRCmpGhCtvJnvYXNF3jlPg==",
   "success": true,
-  "projectFilePath": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
+  "projectFilePath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Builder\\VOL.Builder.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\autofac\\6.0.0\\autofac.6.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\autofac.extensions.dependencyinjection\\6.0.0\\autofac.extensions.dependencyinjection.6.0.0.nupkg.sha512",

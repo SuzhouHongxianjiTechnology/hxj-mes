@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {}
+    "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {}
   },
   "projects": {
-    "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
+    "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
+        "projectUniqueName": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
         "projectName": "VOL.Core",
-        "projectPath": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
+        "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\VOL.Core.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Core\\obj\\",
+        "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
-                "projectPath": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
+              "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+                "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj"
               }
             }
           }
@@ -130,14 +130,14 @@
         }
       }
     },
-    "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
+    "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
+        "projectUniqueName": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
         "projectName": "VOL.Entity",
-        "projectPath": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
+        "projectPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\VOL.Entity.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "D:\\code\\AlbertDC\\Net6.SqlSugar\\VOL.Entity\\obj\\",
+        "outputPath": "D:\\code\\hxj-mes\\Net6.SqlSugar\\VOL.Entity\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"

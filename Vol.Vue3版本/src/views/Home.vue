@@ -3,27 +3,32 @@
  * @Author: AlanGao
  * @Date: 2023-11-12 21:40:02
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-22 02:18:16
+ * @LastEditTime: 2023-11-25 17:03:29
 -->
 <template>
 <scaleBoxVue>
-<div class="container">
+  <div class="container">
     <!-- header -->
     <div class="header">
       <dv-decoration5 :dur="2" style="width:100%;height:100%;" />
-      <span class="center_title">MES 首页</span>
+      <span class="center_title">MES首页</span>
     </div>
     <div class="main">
       <el-row class="mianRow">
         <el-col :span="6" class="leftCol">
           <div class="leftUnifiedStyle">
             <dv-border-box12 class="borderBox12" style="width:100%;">
-              <div class="borderContent" id="weekEchart"></div>
+              <div class="borderContent">
+                <div class="borderDiv">一周不良统计</div>
+                <div id="weekEchart" style="height: calc(100% - 32px)"></div>
+              </div>
             </dv-border-box12>
           </div>
           <div class="leftUnifiedStyle">
             <dv-border-box12 class="borderBox12" style="width:50%;">
-              <div class="borderContent" id="processEchart">
+              <div class="borderContent">
+                <div class="borderDiv">关键工序</div>
+                <div id="processEchart" style="height: calc(100% - 32px)"></div>
               </div>
             </dv-border-box12>
             <dv-border-box12 class="borderBox12" style="width:50%;">
@@ -38,7 +43,10 @@
           </div>
           <div class="leftUnifiedStyle">
             <dv-border-box12 class="borderBox12" style="width:100%;">
-              <div class="borderContent" id="scheduleEchart"></div>
+              <div class="borderContent">
+                <div class="borderDiv">一周产量均差</div>
+                <div id="scheduleEchart" style="height: calc(100% - 32px)"></div>
+              </div>
             </dv-border-box12>
           </div>
         </el-col>
@@ -65,7 +73,7 @@
             <dv-border-box12 class="borderBox12" style="width:100%;">
               <div class="borderContent">
                 <div class="borderDiv">近期生产计划列表</div>
-                <el-table :data="tableData" border style="width: 100%" class="borderEcharts">
+                <el-table :data="tableData" border style="width: 100%" class="borderEcharts" ref="planListTable" :header-cell-style="{color: '#276AB2'}" :row-style="rowStyle">
                   <el-table-column prop="date" label="Date" />
                   <el-table-column prop="name" label="Name" />
                   <el-table-column prop="address" label="Address" />
@@ -87,7 +95,7 @@
             <dv-border-box12 class="borderBox12" style="width:100%;">
               <div class="borderContent">
                 <div class="borderDiv">最近生产产品列表</div>
-                <el-table :data="tableData" border style="width: 100%" class="borderEcharts">
+                <el-table :data="tableData" border style="width: 100%" class="borderEcharts" ref="productTable" :header-cell-style="{color: '#276AB2'}" :row-style="rowStyle">
                   <el-table-column prop="date" label="Date" />
                   <el-table-column prop="name" label="Name" />
                   <el-table-column prop="address" label="Address" show-overflow-tooltip/>
@@ -105,7 +113,8 @@
 
 <script setup>
   import * as echarts from 'echarts'
-  import { onBeforeUnmount, onMounted,ref } from 'vue'
+  import { onBeforeUnmount, onMounted, ref,watch } from 'vue'
+  import { onBeforeRouteLeave, useRoute } from 'vue-router'
   import scaleBoxVue from '../components/scaleBox.vue'
   /**
    * @description: 获取一周不良统计图表数据
@@ -114,14 +123,9 @@
     const weekEchart = echarts.init(document.getElementById('weekEchart'))
     // 一周不良统计数据
     let weekOption = {
-      title: {
-        text: "一周不良统计",
-        textStyle: {
-          fontSize: 24
-        },
-      },
       grid: {
-        bottom: '10%'
+        bottom: '10%',
+        top: '10%'
       },
       xAxis: {
         type: 'category',
@@ -148,12 +152,6 @@
     const processEchart = echarts.init(document.getElementById('processEchart'))
     // 关键工序
     let processOption = {
-      title: {
-        text: "关键工序",
-        textStyle: {
-          fontSize: 24
-        },
-      },
       grid: {
         bottom: '10%'
       },
@@ -193,14 +191,9 @@
     const scheduleEchart = echarts.init(document.getElementById('scheduleEchart'))
     // 一周不良统计数据
     let scheduleOption = {
-      title: {
-        text: "一周产量均差",
-        textStyle: {
-          fontSize: 24
-        },
-      },
       grid: {
-        bottom: '10%'
+        bottom: '10%',
+        top: '10%'
       },
       xAxis: {
         type: 'category',
@@ -327,6 +320,36 @@
       address: 'No. 189, Grove St, Los Angeles',
     },
     {
+      date: '2016-05-03',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+      date: '2016-05-02',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+      date: '2016-05-03',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+      date: '2016-05-02',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+      date: '2016-05-03',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
+      date: '2016-05-02',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+    },
+    {
       date: '2016-05-04',
       name: 'Tom',
       address: 'No. 189, Grove St, Los Angeles',
@@ -377,15 +400,84 @@
       address: 'No. 189, Grove St, Los Angeles',
     },
   ]
+  // 近期生产计划列表ref 
+  const planListTable = ref()
+  /**
+   * @description: 获取近期生产计划列表数据
+   */  
+  const getPlanListTableData = () => {
+    scroll(planListTable.value.$refs.bodyWrapper)
+  }
+  // 表格ref
+  const productTable = ref()
+  /**
+   * @description: 获取生产产品列表
+   * @return {*}
+   */  
+  const getproductTableData = () => {
+    scroll(productTable.value.$refs.bodyWrapper)
+  }
+  
+  // 统一管理定时器
+  let timers = ref([])
+  /**
+  * @description: 定时滚动表格数据
+  * @param {*} tableBody(bodyWrapper)
+  */  
+  const scroll = (tableBody) => {
+    let isScroll = true
+    const dom = tableBody.getElementsByClassName("el-scrollbar__wrap")[0]
+    dom.addEventListener("mouseover", () => {
+      isScroll = false
+    })
+    dom.addEventListener("mouseout", () => {
+      isScroll = true
+    })
+    let timer = setInterval(() => {
+      if(isScroll) {
+        dom.scrollTop += 40
+        if(dom.clientHeight + dom.scrollTop >= dom.scrollHeight) {
+          dom.scrollTop = 0
+        }
+      }
+    },1000)
+    timers.value.push(timer)
+  }
+  /**
+   * @description: 表格斑马线行样式
+   * @param {*} row
+   * @param {*} rowIndex
+   * @return {*} color
+   */  
+  const rowStyle =({row,rowIndex}) => {
+    if(rowIndex % 2 != 0) {
+      return {
+        background: '#0C2854'
+      }
+    }
+  }
+  //获取route
+  const route  = useRoute()
+  /**
+   * @description: 监听离开home，取消定时器
+   * @return {*}
+   */  
+  watch(route,(newVal)=> {
+    if(newVal.path != '/home') {
+      timers.value.forEach(timer => {
+        clearInterval(timer)
+      })
+    }
+  },{immediate: true})
+  
   onMounted(() => {
     getweekEcharts()
     getProcessEcharts()
     getScheduleEcharts()
     getOverallOrderEcharts()
     getTodayOrderEcharts()
-  })
-  onBeforeUnmount(() => {
-
+    getPlanListTableData()
+    getproductTableData()
   })
 </script>
 
@@ -394,8 +486,17 @@
 ::v-deep.el-table td.el-table__cell div {
   white-space: nowrap !important;
 }
-.el-table {
-  overflow: hidden;
+// 表格背景色透明
+::v-deep .el-table {
+  background: transparent;
+}
+::v-deep .el-table th,::v-deep .el-table tr,::v-deep .el-table td {
+  background-color: transparent;
+  color: #fff;
+}
+// 纵向滚动条
+::v-deep .el-scrollbar__bar.is-vertical {
+  width: 0px !important;
 }
 // 小标题样式
 .borderDiv {
@@ -406,6 +507,8 @@
 // 表或者图标的高度
 .borderEcharts {
   height:calc(100% - 32px);
+  --el-table-border-color: rgb(46,96,153);
+  --el-table-row-hover-bg-color: rgba(255,255,255,0.05);
 }
 .borderBox12{
   height:100%;
@@ -416,8 +519,10 @@
   }
 }
 .container {
+  color: #fff;
   height: 100%;
   width: 100%;
+  background: url("/static/home.png");
   // 头部样式
   .header{
     height: 8%;

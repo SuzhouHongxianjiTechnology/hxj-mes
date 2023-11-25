@@ -22,7 +22,10 @@ const routes = [
       {
         path: '/home',
         name: 'home',
-        component: () => import('@/views/Home.vue')
+        component: () => import('@/views/Home.vue'),
+        meta:{
+          keepAlive:true
+        }
       }, {
         path: '/UserInfo',
         name: 'UserInfo',

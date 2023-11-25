@@ -1,12 +1,12 @@
-/*****************************************************************************************
-**  Author:jxx 2022
-**  QQ:283591387
-**完整文档见：http://v2.volcore.xyz/document/api 【代码生成页面ViewGrid】
-**常用示例见：http://v2.volcore.xyz/document/vueDev
-**后台操作见：http://v2.volcore.xyz/document/netCoreDev
-*****************************************************************************************/
-//此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
+import { fa } from "element-plus/es/locale";
 
+/*
+ * @Description: 
+ * @Author: AlanGao
+ * @Date: 2023-11-22 23:29:49
+ * @LastEditors: AlanGao
+ * @LastEditTime: 2023-11-25 23:59:42
+ */
 let extension = {
   components: {
     //查询界面扩展组件
@@ -69,6 +69,22 @@ let extension = {
       //(3)this.editFormFields.字段='xxx';
       //如果需要给下拉框设置默认值，请遍历this.editFormOptions找到字段配置对应data属性的key值
       //看不懂就把输出看：console.log(this.editFormOptions)
+      // 新增弹出框赋值
+      if (this.currentAction == 'Add') {
+        this.editFormFields.status = "STOP"
+        this.editFormFields.machinery_ip = "127.0.0.1:102" 
+      }
+      console.log(this.editFormOptions)
+      this.editFormOptions.forEach(item => {
+        item.forEach(x => {
+          if (x.field == 'machinery_code') {
+            x.placeholder = '请输入，忽略将自动生成'
+          }
+          if(x.field == 'machinery_type_name') {
+            x.multiple = false
+          }
+        });
+      });
     }
   }
 };

@@ -136,7 +136,7 @@ let viewgird = [
     }    ,{
         path: '/dv_machinery',
         name: 'dv_machinery',
-        component: () => import('@/views/devicemanager/dv_machinery/dv_machinery.vue')
+        component: () => import('@/views/devicemanager/dv_machinery/dv_machineryTree.vue')
     }    ,{
         path: '/dv_repair',
         name: 'dv_repair',

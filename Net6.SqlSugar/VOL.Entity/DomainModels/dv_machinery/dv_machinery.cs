@@ -70,7 +70,6 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="设备类型ID")]
        [Column(TypeName="bigint")]
-       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public long machinery_type_id { get; set; }
 
@@ -140,6 +139,7 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="设备状态")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
+       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string status { get; set; }
 

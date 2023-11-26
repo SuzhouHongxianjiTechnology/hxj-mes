@@ -30,7 +30,7 @@
                 sortName: "machinery_type_id"
             });
             const editFormFields = ref({"machinery_type_code":"","machinery_type_name":"","parent_type_id":[],"enable_flag":"","remark":""});
-            const editFormOptions = ref([[{"title":"设备类型编码","required":true,"field":"machinery_type_code"},
+            const editFormOptions = ref([[{"title":"设备类型编码","field":"machinery_type_code"},
                                {"title":"设备类型名称","required":true,"field":"machinery_type_name"}],
                               [{"dataKey":"设备类型级联","data":[],"title":"父类型ID","field":"parent_type_id","type":"cascader"},
                                {"dataKey":"enable","data":[],"title":"是否启用","required":true,"field":"enable_flag","type":"select"}],
@@ -38,7 +38,7 @@
             const searchFormFields = ref({"machinery_type_code":"","machinery_type_name":"","enable_flag":""});
             const searchFormOptions = ref([[{"title":"设备类型编码","field":"machinery_type_code","type":"like"},{"title":"设备类型名称","field":"machinery_type_name","type":"like"},{"dataKey":"enable","data":[],"title":"是否启用","field":"enable_flag","type":"select"}]]);
             const columns = ref([{field:'machinery_type_id',title:'设备类型ID',type:'bigint',width:110,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'machinery_type_code',title:'设备类型编码',type:'string',width:120,require:true,align:'left',sort:true},
+                       {field:'machinery_type_code',title:'设备类型编码',type:'string',width:120,align:'left',sort:true},
                        {field:'machinery_type_name',title:'设备类型名称',type:'string',width:220,require:true,align:'left'},
                        {field:'parent_type_id',title:'父类型ID',type:'bigint',bind:{ key:'设备类型级联',data:[]},width:110,hidden:true,align:'left'},
                        {field:'enable_flag',title:'是否启用',type:'string',bind:{ key:'enable',data:[]},width:110,require:true,align:'left'},

@@ -24,6 +24,7 @@ namespace VOL.DeviceManager.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Idv_machinery_typeRepository _repository;//访问数据库
+        private WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
         public dv_machinery_typeService(
@@ -36,6 +37,33 @@ namespace VOL.DeviceManager.Services
             _repository = dbRepository;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
+        }
+
+        /// <summary>
+        /// 获取所有设备类型节点树
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WebResponseContent> GetAllMachineryTypeTreeAsync()
+        {
+            try
+            {
+                var data = await _repository.FindAsIQueryable(x => true)
+                    .Select(d => new
+                    {
+                        d.machinery_type_id,
+                        d.parent_type_id,
+                        d.machinery_type_code,
+                        d.machinery_type_name
+                    })
+                    .ToListAsync();
+                webResponse.Data = data;
+                return webResponse.OK();
+
+            }
+            catch (Exception e)
+            {
+                return webResponse.Error();
+            }
         }
   }
 }

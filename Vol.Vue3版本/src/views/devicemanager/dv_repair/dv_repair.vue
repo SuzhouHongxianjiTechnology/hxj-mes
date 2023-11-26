@@ -30,8 +30,8 @@
                 sortName: "repair_id"
             });
             const editFormFields = ref({"repair_code":"","repair_name":"","machinery_code":"","machinery_name":"","require_date":"","finish_date":"","confirm_date":"","repair_result":"","accepted_by":"","confirm_by":"","remark":""});
-            const editFormOptions = ref([[{"title":"维修单编号","required":true,"field":"repair_code","type":"text"},
-                               {"title":"维修单名称","field":"repair_name","type":"text"}],
+            const editFormOptions = ref([[{"title":"维修单编号","field":"repair_code","type":"text"},
+                               {"title":"维修单名称","required":true,"field":"repair_name","type":"text"}],
                               [{"title":"设备编码","required":true,"field":"machinery_code","type":"text"},
                                {"title":"设备名称","required":true,"field":"machinery_name","type":"text"}],
                               [{"title":"报修日期","field":"require_date","type":"datetime"},
@@ -44,8 +44,8 @@
             const searchFormFields = ref({"repair_code":"","repair_name":"","machinery_code":"","machinery_name":"","repair_result":"","accepted_by":""});
             const searchFormOptions = ref([[{"title":"维修单编号","field":"repair_code","type":"like"},{"title":"维修单名称","field":"repair_name","type":"text"},{"title":"设备编码","field":"machinery_code","type":"text"},{"title":"设备名称","field":"machinery_name","type":"text"}],[{"dataKey":"维修结果","data":[],"title":"维修结果","field":"repair_result","type":"select"},{"title":"维修人员","field":"accepted_by","type":"text"}]]);
             const columns = ref([{field:'repair_id',title:'维修单ID',type:'bigint',width:110,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'repair_code',title:'维修单编号',type:'string',width:120,require:true,align:'left',sort:true},
-                       {field:'repair_name',title:'维修单名称',type:'string',width:220,align:'left'},
+                       {field:'repair_code',title:'维修单编号',type:'string',width:120,align:'left',sort:true},
+                       {field:'repair_name',title:'维修单名称',type:'string',width:220,require:true,align:'left'},
                        {field:'machinery_id',title:'设备ID',type:'bigint',width:110,hidden:true,require:true,align:'left'},
                        {field:'machinery_code',title:'设备编码',type:'string',width:120,require:true,align:'left'},
                        {field:'machinery_name',title:'设备名称',type:'string',width:220,require:true,align:'left'},

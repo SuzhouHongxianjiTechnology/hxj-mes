@@ -9,5 +9,6 @@ namespace VOL.DeviceManager.IServices
 {
     public partial interface Idv_machinery_typeService
     {
+        Task<WebResponseContent> GetAllMachineryTypeTreeAsync();
     }
  }

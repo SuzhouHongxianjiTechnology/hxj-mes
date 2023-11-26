@@ -48,6 +48,20 @@ namespace VOL.DeviceManager.Services
             //base.Init(dbRepository);
         }
 
+        public override PageGridData<dv_machinery> GetPageData(PageDataOptions options)
+        {
+            // 如果值为 -1，则默认清空所有查询条件
+            QueryRelativeList = list =>
+            {
+                if (list.Count > 0 && list[0].Name == "machinery_type_id" && list[0].Value == "-1")
+                {
+                    list.Clear();
+                }
+            };
+
+            return base.GetPageData(options);
+        }
+
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
             AddOnExecuting = (machinery, o) =>

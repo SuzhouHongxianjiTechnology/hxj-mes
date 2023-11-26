@@ -16,7 +16,9 @@ using VOL.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using VOL.Core.CacheManager;
 using VOL.DeviceManager.IRepositories;
+using VOL.Core.Const;
 
 namespace VOL.DeviceManager.Services
 {
@@ -24,17 +26,20 @@ namespace VOL.DeviceManager.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Idv_machinery_typeRepository _repository;//访问数据库
+        private readonly ICacheService _cacheService;
         private WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
         public dv_machinery_typeService(
             Idv_machinery_typeRepository dbRepository,
-            IHttpContextAccessor httpContextAccessor
+            IHttpContextAccessor httpContextAccessor,
+            ICacheService cacheService
             )
         : base(dbRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = dbRepository;
+            _cacheService= cacheService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
@@ -47,15 +52,17 @@ namespace VOL.DeviceManager.Services
         {
             try
             {
-                var data = await _repository.FindAsIQueryable(x => true)
+                var machineryTypeList =await GetDvMachineryTypeListAsync();
+
+                var data = machineryTypeList
                     .Select(d => new
                     {
                         d.machinery_type_id,
                         d.parent_type_id,
                         d.machinery_type_code,
                         d.machinery_type_name
-                    })
-                    .ToListAsync();
+                    }).ToList();
+
                 webResponse.Data = data;
                 return webResponse.OK();
 
@@ -65,5 +72,18 @@ namespace VOL.DeviceManager.Services
                 return webResponse.Error();
             }
         }
-  }
+
+        private async Task<List<dv_machinery_type>?> GetDvMachineryTypeListAsync()
+        {
+            var machineryTypeList = _cacheService.Get<List<dv_machinery_type>>(SystemConst.DV_MACHINERY_TYPE);
+
+            if (machineryTypeList == null)
+            {
+                machineryTypeList = await _repository.FindAsIQueryable(x => true).ToListAsync();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+            }
+
+            return machineryTypeList;
+        }
+    }
 }

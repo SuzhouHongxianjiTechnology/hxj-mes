@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VOL.BasicConfig\VOL.BasicConfig.csproj" />
     <ProjectReference Include="..\VOL.Builder\VOL.Builder.csproj" />
     <ProjectReference Include="..\VOL.Core\VOL.Core.csproj" />
     <ProjectReference Include="..\VOL.DeviceManager\VOL.DeviceManager.csproj" />

@@ -16,6 +16,7 @@ using VOL.Core.Extensions;
 using VOL.Core.Filters;
 using VOL.Core.ManageUser;
 using VOL.Core.UserManager;
+using VOL.Core.Utilities;
 using VOL.DeviceManager.IRepositories;
 using VOL.Entity.DomainModels;
 using VOL.DeviceManager.IServices;
@@ -27,6 +28,7 @@ namespace VOL.DeviceManager.Controllers
         private readonly Idv_machinery_typeService _service;//访问业务代码
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Idv_machinery_typeRepository _repository;
+        private WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
         public dv_machinery_typeController(
@@ -48,6 +50,13 @@ namespace VOL.DeviceManager.Controllers
                 return GetTreeTableRootData(loadData).Result;
             }
             return base.GetPageData(loadData);
+        }
+
+        [HttpGet("GetAllMachineryTypeTree")]
+        [ApiActionPermission(ActionPermissionOptions.Search)]
+        public async Task<WebResponseContent> GetAllMachineryTypeTree()
+        {
+            return await _service.GetAllMachineryTypeTreeAsync();
         }
 
         /// <summary>

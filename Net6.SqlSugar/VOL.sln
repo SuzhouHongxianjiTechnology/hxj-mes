@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOL.System", "VOL.System\VO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOL.WebApi", "VOL.WebApi\VOL.WebApi.csproj", "{4DB3C91B-93FE-4937-8B58-DDD3F57D4607}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOL.DeviceManager", "VOL.DeviceManager\VOL.DeviceManager.csproj", "{77B1C4CE-5AB3-4C30-B449-1AE1467FA62A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOL.DeviceManager", "VOL.DeviceManager\VOL.DeviceManager.csproj", "{77B1C4CE-5AB3-4C30-B449-1AE1467FA62A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOL.BasicConfig", "VOL.BasicConfig\VOL.BasicConfig.csproj", "{2C40CE06-52C8-444B-AA51-6714B08F7252}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{77B1C4CE-5AB3-4C30-B449-1AE1467FA62A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77B1C4CE-5AB3-4C30-B449-1AE1467FA62A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77B1C4CE-5AB3-4C30-B449-1AE1467FA62A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C40CE06-52C8-444B-AA51-6714B08F7252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C40CE06-52C8-444B-AA51-6714B08F7252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C40CE06-52C8-444B-AA51-6714B08F7252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C40CE06-52C8-444B-AA51-6714B08F7252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

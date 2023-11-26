@@ -6,7 +6,8 @@
       <el-scrollbar style="flex:1;border-right: 1px solid #eee;">
         <el-tree
           node-key="id"
-          :default-expanded-keys="defaultExpandedKeys"
+          default-expand-all
+          highlight-current
           :data="data"
           :props="defaultProps"
           :expand-on-click-node="false"
@@ -34,58 +35,48 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'name' //树形结构显示名称的字段
-      },
-      defaultExpandedKeys: [] //默认展开的tree节点
+      }
     };
   },
   methods: {
     nodeClick(data) {//左侧树点击事件
       let ids = [];
-      //获取分类的子节点
-      //左边树节点的甩有子节点，用于查询数据
-      this.getAllChildrenId(data, ids);
-
-      //获取所有的父节点
-      //左侧树选中节点的所有父节点,用于新建时设置级联的默认值
-      let nodes = this.base.getTreeAllParent(data.id, this.orginData);
-      let nodesList = nodes;
-      //获取节点的id
-      nodes = nodes.map((m) => {
-        return m.id;
-      });
-
-      //调用右边商品信息的查询(见代码Demo_Goods.js)
-      this.$refs.table.$refs.grid.nodeClick(ids,nodes,nodesList);
+      // 调用machinery组件中nodeClick方法
+      this.$refs.table.$refs.grid.nodeClick(data.id);
     },
-    getAllChildrenId(data, ids) {
-      //获取分类的子节点
-      ids.push(data.id);
-      if (!data.children || !data.children.length) {
-        return;
-      }
-      data.children.forEach((x) => {
-        ids.push(x.id);
-        this.getAllChildrenId(x, ids);
-      });
-    }
   },
   created() {
     // 获取设备类型
-    // this.http.get('api/dv_machinery_type/GetAllMachineryTypeTree').then((result) => {
-    //   console.log(result,'result');
-    //   //记录原始数据
-    //   // this.orginData = result;
-    //   // this.data = this.base.convertTree(result, (node, data, isRoot) => {});
-    //   // //商品分类有数据时加载右边商品信息
-    //   // if (this.data.length) {
-    //   //   //默认展开经一个树节点
-    //   //   this.defaultExpandedKeys = [this.data[0].children[0].id];
-    //   //   //调用右边商品信息的查询
-    //   //   this.$nextTick(() => {
-    //   //     this.nodeClick(this.data[0].children[0]);
-    //   //   });
-    //   // }
-    // });
+    this.http.get('api/dv_machinery_type/GetAllMachineryTypeTree').then((result) => {
+      console.log(result,'result');
+      //记录原始数据
+      this.orginData = result.data;
+      let data = result.data.map(item => {
+        return {
+          id:item.machinery_type_id,
+          name:item.machinery_type_name,
+          parentId:item.parent_type_id,
+          code: item.machinery_type_code,
+        }
+      })
+      let childData = this.base.convertTree(data, (node, data, isRoot) => {});
+      // 添加根节点数据
+      this.data = [{
+        id: -1,
+        name: "设备分类",
+        children: []
+      }]
+      this.data[0].children = childData;
+      console.log(this.data,'ddd');
+      //商品分类有数据时加载右边商品信息
+      if (this.data.length) {
+        //调用右边商品信息的查询
+        this.$nextTick(() => {
+          // console.log(this.data[0],'dd');
+          // this.nodeClick(this.data[0].id);
+        });
+      }
+    });
   }
 };
 </script>

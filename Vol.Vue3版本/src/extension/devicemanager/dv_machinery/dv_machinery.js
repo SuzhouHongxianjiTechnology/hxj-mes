@@ -1,11 +1,11 @@
-import { fa } from "element-plus/es/locale";
+// import { ca, fa } from "element-plus/es/locale";
 
 /*
- * @Description: 
+ * @Description: 台账功能修改页面
  * @Author: AlanGao
  * @Date: 2023-11-22 23:29:49
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-26 15:08:27
+ * @LastEditTime: 2023-11-26 20:14:47
  */
 let extension = {
   components: {
@@ -41,7 +41,18 @@ let extension = {
       //如果要配置明细表,在此方法操作
       //this.detailOptions.columns.forEach(column=>{ });
     },
+    nodeClick(machinery_type_id) {
+      this.machinery_type_id = machinery_type_id;
+      this.search()
+    },
     searchBefore(param) {
+      if(this.machinery_type_id) {
+        param.wheres.push({
+          name: 'machinery_type_id',
+          value: this.machinery_type_id,
+          displayType: 'cascader'
+        })
+      }
       //界面查询前,可以给param.wheres添加查询参数
       //返回false，则不会执行查询
       return true;
@@ -74,13 +85,12 @@ let extension = {
         this.editFormFields.status = "STOP"
         this.editFormFields.machinery_ip = "127.0.0.1:102" 
       }
-      console.log(this.editFormOptions)
       this.editFormOptions.forEach(item => {
         item.forEach(x => {
           if (x.field == 'machinery_code') {
             x.placeholder = '请输入，忽略将自动生成'
           }
-          if(x.field == 'machinery_type_name') {
+          if(x.field == 'machinery_type_id') {
             x.multiple = false
           }
         });

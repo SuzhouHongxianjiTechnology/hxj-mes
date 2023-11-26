@@ -5,7 +5,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-22 23:29:49
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-26 20:14:47
+ * @LastEditTime: 2023-11-26 20:26:27
  */
 let extension = {
   components: {
@@ -90,12 +90,8 @@ let extension = {
           if (x.field == 'machinery_code') {
             x.placeholder = '请输入，忽略将自动生成'
           }
-          if(x.field == 'machinery_type_id') {
-            x.multiple = false
-          }
         });
       });
-      // this.editFormFields.machinery_type_name = 200
     }
   }
 };

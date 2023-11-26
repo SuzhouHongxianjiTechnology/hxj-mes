@@ -1,3 +1,10 @@
+/*
+ * @Description: 点检保养
+ * @Author: AlanGao
+ * @Date: 2023-11-25 17:07:03
+ * @LastEditors: AlanGao
+ * @LastEditTime: 2023-11-26 20:38:05
+ */
 /*****************************************************************************************
 **  Author:jxx 2022
 **  QQ:283591387
@@ -6,7 +13,7 @@
 **后台操作见：http://v2.volcore.xyz/document/netCoreDev
 *****************************************************************************************/
 //此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
-
+import { formatTimeStamp } from "../../../uitils/dateFormatUtil";
 let extension = {
   components: {
     //查询界面扩展组件
@@ -69,6 +76,23 @@ let extension = {
       //(3)this.editFormFields.字段='xxx';
       //如果需要给下拉框设置默认值，请遍历this.editFormOptions找到字段配置对应data属性的key值
       //看不懂就把输出看：console.log(this.editFormOptions)
+      let curDate = new Date();
+      let nextDate = new Date(curDate.getTime() + 24 * 60 * 60 * 1000);
+      if(this.currentAction=='Add') {
+        this.editFormFields.record_type = "设备点检";
+        this.editFormFields.record_result = "RUN";
+        this.editFormFields.cycle_count = "1";
+        this.editFormFields.cycle_type = "HOUR";
+        this.editFormFields.start_date = formatTimeStamp(curDate, 'yyyy-MM-dd');
+        this.editFormFields.end_date = formatTimeStamp(nextDate, 'yyyy-MM-dd');
+      }
+      this.editFormOptions.forEach(item => {
+        item.forEach(x => {
+          if (x.field == 'machinery_code') {
+            x.placeholder = '请输入，忽略将自动生成'
+          }
+        });
+      });
     }
   }
 };

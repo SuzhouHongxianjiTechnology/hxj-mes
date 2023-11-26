@@ -5,7 +5,7 @@ import { fa } from "element-plus/es/locale";
  * @Author: AlanGao
  * @Date: 2023-11-22 23:29:49
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-25 23:59:42
+ * @LastEditTime: 2023-11-26 15:08:27
  */
 let extension = {
   components: {
@@ -85,6 +85,7 @@ let extension = {
           }
         });
       });
+      // this.editFormFields.machinery_type_name = 200
     }
   }
 };

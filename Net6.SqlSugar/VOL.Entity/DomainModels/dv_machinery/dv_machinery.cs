@@ -34,7 +34,6 @@ namespace VOL.Entity.DomainModels
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
        [Editable(true)]
-       [Required(AllowEmptyStrings=false)]
        public string machinery_code { get; set; }
 
        /// <summary>
@@ -70,6 +69,7 @@ namespace VOL.Entity.DomainModels
        /// </summary>
        [Display(Name ="设备类型ID")]
        [Column(TypeName="bigint")]
+       [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public long machinery_type_id { get; set; }
 
@@ -87,7 +87,6 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="设备类型名称")]
        [MaxLength(255)]
        [Column(TypeName="nvarchar(255)")]
-       [Editable(true)]
        public string machinery_type_name { get; set; }
 
        /// <summary>

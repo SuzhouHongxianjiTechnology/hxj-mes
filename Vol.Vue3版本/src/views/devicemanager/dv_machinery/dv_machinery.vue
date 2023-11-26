@@ -29,12 +29,12 @@
                 url: "/dv_machinery/",
                 sortName: "machinery_id"
             });
-            const editFormFields = ref({"machinery_code":"","machinery_name":"","machinery_brand":"","machinery_spec":"","machinery_type_name":"","workshop_name":"","machinery_ip":"","remark":"","machinery_config":""});
-            const editFormOptions = ref([[{"title":"设备编码","required":true,"field":"machinery_code","type":"text"},
+            const editFormFields = ref({"machinery_code":"","machinery_name":"","machinery_brand":"","machinery_spec":"","machinery_type_id":[],"workshop_name":"","machinery_ip":"","remark":"","machinery_config":""});
+            const editFormOptions = ref([[{"title":"设备编码","field":"machinery_code","type":"text"},
                                {"title":"设备名称","required":true,"field":"machinery_name","type":"text"}],
                               [{"title":"品牌","field":"machinery_brand"},
                                {"title":"规格型号","field":"machinery_spec"}],
-                              [{"dataKey":"设备类型级联","data":[],"title":"设备类型名称","field":"machinery_type_name","type":"treeSelect"},
+                              [{"dataKey":"设备类型级联","data":[],"title":"设备类型ID","required":true,"field":"machinery_type_id","type":"cascader"},
                                {"title":"所属车间名称","field":"workshop_name"}],
                               [{"title":"设备通讯接口","required":true,"field":"machinery_ip","type":"text"},
                                {"title":"备注","field":"remark","type":"text"}],
@@ -42,11 +42,11 @@
             const searchFormFields = ref({"machinery_code":"","machinery_name":""});
             const searchFormOptions = ref([[{"title":"设备编码","field":"machinery_code","type":"like"},{"title":"设备名称","field":"machinery_name","type":"text"}]]);
             const columns = ref([{field:'machinery_id',title:'设备ID',type:'bigint',width:120,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'machinery_code',title:'设备编码',type:'string',width:120,require:true,align:'left',sort:true},
+                       {field:'machinery_code',title:'设备编码',type:'string',width:120,align:'left',sort:true},
                        {field:'machinery_name',title:'设备名称',type:'string',width:120,require:true,align:'left'},
                        {field:'machinery_brand',title:'品牌',type:'string',width:120,align:'left'},
                        {field:'machinery_spec',title:'规格型号',type:'string',width:120,align:'left'},
-                       {field:'machinery_type_id',title:'设备类型ID',type:'bigint',width:120,hidden:true,require:true,align:'left'},
+                       {field:'machinery_type_id',title:'设备类型ID',type:'bigint',bind:{ key:'设备类型级联',data:[]},width:120,hidden:true,require:true,align:'left'},
                        {field:'machinery_type_code',title:'设备类型编码',type:'string',width:120,hidden:true,align:'left'},
                        {field:'machinery_type_name',title:'设备类型名称',type:'string',bind:{ key:'设备类型级联',data:[]},width:120,align:'left'},
                        {field:'machinery_ip',title:'设备通讯接口',type:'string',width:120,require:true,align:'left'},

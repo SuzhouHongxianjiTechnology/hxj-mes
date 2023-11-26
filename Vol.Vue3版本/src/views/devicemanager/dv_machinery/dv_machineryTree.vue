@@ -70,21 +70,22 @@ export default {
     }
   },
   created() {
-    //从打印模版分类Equip_DevCatalogController加载左边tree数据
-    this.http.get('api/dv_machinery_type/getPageData').then((result) => {
-      //记录原始数据
-      // this.orginData = result;
-      // this.data = this.base.convertTree(result, (node, data, isRoot) => {});
-      // //商品分类有数据时加载右边商品信息
-      // if (this.data.length) {
-      //   //默认展开经一个树节点
-      //   this.defaultExpandedKeys = [this.data[0].children[0].id];
-      //   //调用右边商品信息的查询
-      //   this.$nextTick(() => {
-      //     this.nodeClick(this.data[0].children[0]);
-      //   });
-      // }
-    });
+    // 获取设备类型
+    // this.http.get('api/dv_machinery_type/GetAllMachineryTypeTree').then((result) => {
+    //   console.log(result,'result');
+    //   //记录原始数据
+    //   // this.orginData = result;
+    //   // this.data = this.base.convertTree(result, (node, data, isRoot) => {});
+    //   // //商品分类有数据时加载右边商品信息
+    //   // if (this.data.length) {
+    //   //   //默认展开经一个树节点
+    //   //   this.defaultExpandedKeys = [this.data[0].children[0].id];
+    //   //   //调用右边商品信息的查询
+    //   //   this.$nextTick(() => {
+    //   //     this.nodeClick(this.data[0].children[0]);
+    //   //   });
+    //   // }
+    // });
   }
 };
 </script>
@@ -98,6 +99,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 200px;
+    padding-top: 15px;
     .tree-left-title {
       line-height: 25px;
       font-size: 15px;

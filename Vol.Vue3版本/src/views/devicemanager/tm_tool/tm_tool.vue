@@ -45,7 +45,7 @@
             const searchFormFields = ref({"tool_code":"","tool_name":"","mainten_type":""});
             const searchFormOptions = ref([[{"title":"易损件编码","field":"tool_code","type":"like"},{"title":"易损件名称","field":"tool_name","type":"text"},{"dataKey":"易损件保养类型","data":[],"title":"保养维护类型","field":"mainten_type","type":"select"}]]);
             const columns = ref([{field:'tool_id',title:'易损件ID',type:'bigint',width:110,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'tool_code',title:'易损件编码',type:'string',width:120,align:'left',sort:true},
+                       {field:'tool_code',title:'易损件编码',type:'string',link:true,width:120,align:'left',sort:true},
                        {field:'tool_name',title:'易损件名称',type:'string',width:220,require:true,align:'left'},
                        {field:'brand',title:'品牌',type:'string',width:220,align:'left'},
                        {field:'spec',title:'型号',type:'string',width:220,align:'left'},

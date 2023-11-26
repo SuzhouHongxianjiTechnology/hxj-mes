@@ -42,13 +42,13 @@
             const searchFormFields = ref({"machinery_code":"","machinery_name":""});
             const searchFormOptions = ref([[{"title":"设备编码","field":"machinery_code","type":"like"},{"title":"设备名称","field":"machinery_name","type":"text"}]]);
             const columns = ref([{field:'machinery_id',title:'设备ID',type:'bigint',width:120,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'machinery_code',title:'设备编码',type:'string',width:120,align:'left',sort:true},
+                       {field:'machinery_code',title:'设备编码',type:'string',link:true,width:120,align:'left',sort:true},
                        {field:'machinery_name',title:'设备名称',type:'string',width:120,require:true,align:'left'},
                        {field:'machinery_brand',title:'品牌',type:'string',width:120,align:'left'},
                        {field:'machinery_spec',title:'规格型号',type:'string',width:120,align:'left'},
                        {field:'machinery_type_id',title:'设备类型ID',type:'bigint',bind:{ key:'设备类型级联',data:[]},width:120,hidden:true,require:true,align:'left'},
                        {field:'machinery_type_code',title:'设备类型编码',type:'string',width:120,hidden:true,align:'left'},
-                       {field:'machinery_type_name',title:'设备类型名称',type:'string',bind:{ key:'设备类型级联',data:[]},width:120,align:'left'},
+                       {field:'machinery_type_name',title:'设备类型名称',type:'string',width:120,align:'left'},
                        {field:'machinery_ip',title:'设备通讯接口',type:'string',width:120,require:true,align:'left'},
                        {field:'machinery_config',title:'设备配置信息',type:'string',width:120,align:'left'},
                        {field:'workshop_id',title:'所属车间ID',type:'bigint',width:120,hidden:true,require:true,align:'left'},

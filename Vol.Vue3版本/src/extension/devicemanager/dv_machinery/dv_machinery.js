@@ -5,7 +5,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-22 23:29:49
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-26 20:26:27
+ * @LastEditTime: 2023-11-27 00:31:27
  */
 let extension = {
   components: {
@@ -35,11 +35,24 @@ let extension = {
 
         //示例：设置修改新建、编辑弹出框字段标签的长度
         // this.boxOptions.labelWidth = 150;
+        // this.tableHeight = 400
+        
     },
     onInited() {
       //框架初始化配置后
       //如果要配置明细表,在此方法操作
       //this.detailOptions.columns.forEach(column=>{ });
+      // 设备维修弹出框嵌套设备台账表的操作
+      if(this.$route.path == "/dv_repair") {
+        this.height = 400  //设置弹框表格高度
+        this.single = true //设置弹框表格单选
+        // 隐藏其他按钮，只保留查询
+        this.buttons.forEach(item => {
+          if(item.value != "Search") {
+            item.hidden = true;
+          }
+        })
+      }
     },
     nodeClick(machinery_type_id) {
       this.machinery_type_id = machinery_type_id;

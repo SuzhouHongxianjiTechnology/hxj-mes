@@ -1,3 +1,10 @@
+/*
+ * @Description: 易损件管理
+ * @Author: AlanGao
+ * @Date: 2023-11-25 17:07:03
+ * @LastEditors: AlanGao
+ * @LastEditTime: 2023-11-26 22:49:51
+ */
 /*****************************************************************************************
 **  Author:jxx 2022
 **  QQ:283591387
@@ -34,7 +41,7 @@ let extension = {
         //   });
 
         //示例：设置修改新建、编辑弹出框字段标签的长度
-        // this.boxOptions.labelWidth = 150;
+        this.boxOptions.labelWidth = 130;
     },
     onInited() {
       //框架初始化配置后
@@ -69,6 +76,12 @@ let extension = {
       //(3)this.editFormFields.字段='xxx';
       //如果需要给下拉框设置默认值，请遍历this.editFormOptions找到字段配置对应data属性的key值
       //看不懂就把输出看：console.log(this.editFormOptions)
+      if(this.currentAction=='Add') {
+        this.editFormFields.mainten_type = "CYCLE";
+        this.editFormFields.quantity = "999";
+        this.editFormFields.quantity_avail = "0"
+        this.editFormFields.quantity_avail_remain = "0"
+      }
     }
   }
 };

@@ -44,6 +44,33 @@ namespace VOL.DeviceManager.Services
             //base.Init(dbRepository);
         }
 
+
+        public override WebResponseContent Add(SaveModel saveDataModel)
+        {
+            AddOnExecuted = (type, o) =>
+            {
+                var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+
+                return webResponse.OK();
+            };
+
+            return base.Add(saveDataModel);
+        }
+
+        public override WebResponseContent Update(SaveModel saveModel)
+        {
+            UpdateOnExecuted = (type, o, arg3, arg4) =>
+            {
+                var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+
+                return webResponse.OK();
+            };
+
+            return base.Update(saveModel);
+        }
+
         /// <summary>
         /// 获取所有设备类型节点树
         /// </summary>

@@ -16,9 +16,10 @@ using VOL.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
-using VOL.Core.CacheManager;
+using SqlSugar;
 using VOL.DeviceManager.IRepositories;
 using VOL.Core.Const;
+using ICacheService = VOL.Core.CacheManager.ICacheService;
 
 namespace VOL.DeviceManager.Services
 {
@@ -43,7 +44,6 @@ namespace VOL.DeviceManager.Services
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
-
 
         public override WebResponseContent Add(SaveModel saveDataModel)
         {

@@ -38,7 +38,7 @@
             const searchFormFields = ref({"machinery_type_code":"","machinery_type_name":"","enable_flag":""});
             const searchFormOptions = ref([[{"title":"设备类型编码","field":"machinery_type_code","type":"like"},{"title":"设备类型名称","field":"machinery_type_name","type":"like"},{"dataKey":"enable","data":[],"title":"是否启用","field":"enable_flag","type":"select"}]]);
             const columns = ref([{field:'machinery_type_id',title:'设备类型ID',type:'bigint',width:110,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'machinery_type_code',title:'设备类型编码',type:'string',width:120,align:'left',sort:true},
+                       {field:'machinery_type_code',title:'设备类型编码',type:'string',link:true,width:120,align:'left',sort:true},
                        {field:'machinery_type_name',title:'设备类型名称',type:'string',width:220,require:true,align:'left'},
                        {field:'parent_type_id',title:'父类型ID',type:'bigint',bind:{ key:'设备类型级联',data:[]},width:110,hidden:true,align:'left'},
                        {field:'enable_flag',title:'是否启用',type:'string',bind:{ key:'enable',data:[]},width:110,require:true,align:'left'},

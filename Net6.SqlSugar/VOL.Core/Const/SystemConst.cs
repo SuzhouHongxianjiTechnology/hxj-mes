@@ -8,13 +8,11 @@ namespace VOL.Core.Const
 {
     public struct SystemConst
     {
+        public const string DV_MACHINERY = "dv_machinery";
         public const string DV_MACHINERY_TYPE = "dv_machinery_type";
-        
+        public const string DV_MACHINERY_TYPE_ID = "machinery_type_id";
 
-    }
-
-    public struct ErrorConst
-    {
-        public const string DV_MACHINERY_CODE_EXIST = "设备编号已存在";
+        public const string DV_MACHINERY_LIST = "dv_machinery_list";
+        public const string DV_MACHINERY_TYPE_LIST = "dv_machinery_type_list";
     }
 }

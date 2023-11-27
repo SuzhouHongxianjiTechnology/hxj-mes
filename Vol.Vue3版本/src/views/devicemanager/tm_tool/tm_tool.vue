@@ -29,34 +29,34 @@
                 url: "/tm_tool/",
                 sortName: "tool_id"
             });
-            const editFormFields = ref({"tool_code":"","tool_name":"","brand":"","spec":"","tool_type":"","mainten_type":"","quantity":"","quantity_avail":"","quantity_avail_remain":"","next_mainten_period":"","next_mainten_date":"","remark":""});
+            const editFormFields = ref({"tool_code":"","tool_name":"","tool_type_id":"","brand":"","mainten_type":"","quantity":"","quantity_avail":"","quantity_avail_remain":"","next_mainten_period":"","next_mainten_date":"","status":"","remark":""});
             const editFormOptions = ref([[{"title":"易损件编码","field":"tool_code","type":"text"},
                                {"title":"易损件名称","required":true,"field":"tool_name","type":"text"}],
-                              [{"title":"品牌","field":"brand","type":"text"},
-                               {"title":"型号","field":"spec","type":"text"}],
-                              [{"title":"易损件类型","field":"tool_type","type":"text"},
-                               {"dataKey":"易损件保养类型","data":[],"title":"保养维护类型","field":"mainten_type","type":"select"}],
-                              [{"title":"总次数","required":true,"field":"quantity","type":"number"},
-                               {"title":"已用次数","field":"quantity_avail","type":"number"}],
-                              [{"title":"剩余次数","field":"quantity_avail_remain","type":"number"},
-                               {"title":"下一次保养周期","field":"next_mainten_period","type":"datetime"}],
-                              [{"title":"下一次保养日期","field":"next_mainten_date","type":"datetime"},
-                               {"title":"备注","field":"remark","type":"text"}]]);
-            const searchFormFields = ref({"tool_code":"","tool_name":"","mainten_type":""});
-            const searchFormOptions = ref([[{"title":"易损件编码","field":"tool_code","type":"like"},{"title":"易损件名称","field":"tool_name","type":"text"},{"dataKey":"易损件保养类型","data":[],"title":"保养维护类型","field":"mainten_type","type":"select"}]]);
+                              [{"dataKey":"易损件类型下拉","data":[],"title":"易损件类型","field":"tool_type_id","type":"select"},
+                               {"title":"品牌","field":"brand","type":"text"}],
+                              [{"dataKey":"易损件保养类型","data":[],"title":"保养维护类型","field":"mainten_type","type":"select"},
+                               {"title":"总次数","required":true,"field":"quantity","type":"number"}],
+                              [{"title":"已用次数","field":"quantity_avail","type":"number"},
+                               {"title":"剩余次数","field":"quantity_avail_remain","type":"number"}],
+                              [{"title":"下一次保养周期","field":"next_mainten_period","type":"datetime"},
+                               {"title":"下一次保养日期","field":"next_mainten_date","type":"datetime"}],
+                              [{"title":"备注","field":"remark","type":"text"},
+                               {"dataKey":"单据状态","data":[],"title":"状态","field":"status","type":"select"}]]);
+            const searchFormFields = ref({"tool_code":"","tool_name":"","tool_type_id":"","mainten_type":""});
+            const searchFormOptions = ref([[{"title":"易损件编码","field":"tool_code","type":"like"},{"title":"易损件名称","field":"tool_name","type":"text"},{"dataKey":"易损件类型下拉","data":[],"title":"易损件类型","field":"tool_type_id","type":"select"},{"dataKey":"易损件保养类型","data":[],"title":"保养维护类型","field":"mainten_type","type":"select"}]]);
             const columns = ref([{field:'tool_id',title:'易损件ID',type:'bigint',width:110,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'tool_code',title:'易损件编码',type:'string',link:true,width:120,align:'left',sort:true},
+                       {field:'tool_code',title:'易损件编码',type:'string',link:true,width:150,align:'left',sort:true},
                        {field:'tool_name',title:'易损件名称',type:'string',width:220,require:true,align:'left'},
+                       {field:'tool_type_id',title:'易损件类型',type:'bigint',bind:{ key:'易损件类型下拉',data:[]},width:120,align:'left'},
                        {field:'brand',title:'品牌',type:'string',width:220,align:'left'},
-                       {field:'spec',title:'型号',type:'string',width:220,align:'left'},
-                       {field:'tool_type',title:'易损件类型',type:'string',width:120,align:'left'},
+                       {field:'spec',title:'型号',type:'string',width:220,hidden:true,align:'left'},
                        {field:'mainten_type',title:'保养维护类型',type:'string',bind:{ key:'易损件保养类型',data:[]},width:110,align:'left'},
                        {field:'quantity',title:'总次数',type:'int',width:110,require:true,align:'left'},
                        {field:'quantity_avail',title:'已用次数',type:'int',width:110,align:'left'},
                        {field:'quantity_avail_remain',title:'剩余次数',type:'int',width:110,align:'left'},
                        {field:'next_mainten_period',title:'下一次保养周期',type:'int',width:110,align:'left'},
                        {field:'next_mainten_date',title:'下一次保养日期',type:'datetime',width:150,align:'left',sort:true},
-                       {field:'status',title:'状态',type:'string',width:120,hidden:true,align:'left'},
+                       {field:'status',title:'状态',type:'string',bind:{ key:'单据状态',data:[]},width:120,hidden:true,align:'left'},
                        {field:'remark',title:'备注',type:'string',width:220,align:'left'},
                        {field:'attr1',title:'预留字段1',type:'string',width:120,hidden:true,align:'left'},
                        {field:'attr2',title:'预留字段2',type:'string',width:220,hidden:true,align:'left'},

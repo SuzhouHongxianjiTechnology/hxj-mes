@@ -9,5 +9,6 @@ namespace VOL.BasicConfig.IServices
 {
     public partial interface Ibs_coderuleService
     {
+        Task<string> GetCahceCodeRule(string lastCodeRule, string cacheKey);
     }
  }

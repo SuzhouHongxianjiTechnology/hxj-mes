@@ -38,7 +38,7 @@ export default {
         let row = this.$refs.machinery.$refs.grid.getSelectRows();
         this.$emit('parentCall', $parent => { 
             $parent.editFormFields.machinery_code = row[0].machinery_code;
-            $parent.editFormFields.machinery_name = row[0].machinery_name;  
+            $parent.editFormFields.machinery_name = row[0].machinery_name; 
         })
         this.model = false;
     }

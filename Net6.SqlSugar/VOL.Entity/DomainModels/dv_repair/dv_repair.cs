@@ -35,7 +35,6 @@ namespace VOL.Entity.DomainModels
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
        [Editable(true)]
-       [Required(AllowEmptyStrings=false)]
        public string repair_code { get; set; }
 
        /// <summary>

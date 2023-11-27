@@ -16,10 +16,14 @@ using VOL.Core.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
-using VOL.Core.CacheManager;
 using VOL.DeviceManager.IRepositories;
 using VOL.Core.Const;
 using Autofac.Core;
+using SqlSugar;
+using VOL.BasicConfig.IRepositories;
+using VOL.BasicConfig.IServices;
+using ICacheService = VOL.Core.CacheManager.ICacheService;
+using Microsoft.IdentityModel.Tokens;
 
 namespace VOL.DeviceManager.Services
 {
@@ -28,6 +32,7 @@ namespace VOL.DeviceManager.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Idv_machineryRepository _repository;//访问数据库
         private readonly Idv_machinery_typeRepository _repositoryMachineryType; // 设备类型仓库
+        private readonly Ibs_coderuleService _coderuleService ;  // 编码规则服务
         private readonly ICacheService _cacheService;
         private WebResponseContent webResponse = new();
 
@@ -35,6 +40,7 @@ namespace VOL.DeviceManager.Services
         public dv_machineryService(
             Idv_machineryRepository dbRepository,
             Idv_machinery_typeRepository repositoryMachineryType,
+            Ibs_coderuleService coderuleService,
             IHttpContextAccessor httpContextAccessor,
             ICacheService cacheService
             )
@@ -43,6 +49,7 @@ namespace VOL.DeviceManager.Services
             _httpContextAccessor = httpContextAccessor;
             _repository = dbRepository;
             _repositoryMachineryType = repositoryMachineryType;
+            _coderuleService = coderuleService;
             _cacheService = cacheService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
@@ -53,7 +60,9 @@ namespace VOL.DeviceManager.Services
             // 如果值为 -1，则默认清空所有查询条件
             QueryRelativeList = list =>
             {
-                if (list.Count > 0 && list[0].Name == "machinery_type_id" && list[0].Value == "-1")
+                if (list.Count > 0 
+                    && list[0].Name == SystemConst.DV_MACHINERY_TYPE_ID 
+                    && list[0].Value == "-1")
                 {
                     list.Clear();
                 }
@@ -66,10 +75,21 @@ namespace VOL.DeviceManager.Services
         {
             AddOnExecuting = (machinery, o) =>
             {
+                if (string.IsNullOrEmpty(machinery.machinery_code))
+                {
+                    var lastCodeRule = repository
+                        .FindAsIQueryable(x => true)
+                        .OrderByDescending(d => d.machinery_id)
+                        .First()?
+                        .machinery_code;
+
+                    machinery.machinery_code = _coderuleService.GetCahceCodeRule(lastCodeRule, typeof(dv_machinery).Name).Result;
+                }
+
                 //如果返回false,后面代码不会再执行
                 if (repository.Exists(x => x.machinery_code == machinery.machinery_code))
                 {
-                    return webResponse.Error(ErrorConst.DV_MACHINERY_CODE_EXIST);
+                    return webResponse.Error(ErrorConst.DV_CODE_EXIST);
                 }
 
                 // 加入存在，则会将 machinery 中的设备类型 ID 所有值查询出来而后赋值给数据库
@@ -85,7 +105,7 @@ namespace VOL.DeviceManager.Services
 
         private dv_machinery_type? GetDvMachineryType(long machineryTypeId)
         {
-            var machineryTypeList = _cacheService.Get<List<dv_machinery_type>>(SystemConst.DV_MACHINERY_TYPE);
+            var machineryTypeList = _cacheService.Get<List<dv_machinery_type>>(SystemConst.DV_MACHINERY_TYPE_LIST);
 
             if (machineryTypeList != null && machineryTypeList.Count > 0)
             {

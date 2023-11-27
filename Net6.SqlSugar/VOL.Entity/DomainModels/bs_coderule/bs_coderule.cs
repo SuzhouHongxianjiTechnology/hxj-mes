@@ -44,6 +44,7 @@ namespace VOL.Entity.DomainModels
        [MaxLength(50)]
        [Column(TypeName="nvarchar(50)")]
        [Editable(true)]
+       [Required(AllowEmptyStrings=false)]
        public string fromcode { get; set; }
 
        /// <summary>
@@ -62,6 +63,7 @@ namespace VOL.Entity.DomainModels
        [MaxLength(50)]
        [Column(TypeName="nvarchar(50)")]
        [Editable(true)]
+       [Required(AllowEmptyStrings=false)]
        public string time { get; set; }
 
        /// <summary>
@@ -70,7 +72,8 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="流水号位")]
        [Column(TypeName="int")]
        [Editable(true)]
-       public int? serialnumber { get; set; }
+       [Required(AllowEmptyStrings=false)]
+       public int serialnumber { get; set; }
 
        /// <summary>
        ///创建者ID

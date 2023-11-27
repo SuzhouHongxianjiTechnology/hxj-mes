@@ -17,6 +17,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using VOL.DeviceManager.IRepositories;
+using System.Net;
+using VOL.BasicConfig.Services;
+using VOL.Core.Const;
+using VOL.BasicConfig.IServices;
 
 namespace VOL.DeviceManager.Services
 {
@@ -24,18 +28,50 @@ namespace VOL.DeviceManager.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Itm_toolRepository _repository;//访问数据库
+        private readonly Ibs_coderuleService _coderuleService;  // 编码规则服务
+        private readonly WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
         public tm_toolService(
             Itm_toolRepository dbRepository,
-            IHttpContextAccessor httpContextAccessor
+            IHttpContextAccessor httpContextAccessor,
+            Ibs_coderuleService coderuleService
             )
         : base(dbRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = dbRepository;
+            _coderuleService = coderuleService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
-  }
+
+
+        public override WebResponseContent Add(SaveModel saveDataModel)
+        {
+            AddOnExecuting = (tool, o) =>
+            {
+                if (string.IsNullOrEmpty(tool.tool_code))
+                {
+                    var lastCodeRule = repository
+                        .FindAsIQueryable(x => true)
+                        .OrderByDescending(d => d.tool_id)
+                    .First()?
+                    .tool_code;
+
+                    tool.tool_code = _coderuleService.GetCahceCodeRule(lastCodeRule, typeof(tm_tool).Name).Result;
+                }
+
+                //如果返回false,后面代码不会再执行
+                if (repository.Exists(x => x.tool_code == tool.tool_code))
+                {
+                    return webResponse.Error(ErrorConst.DV_CODE_EXIST);
+                }
+
+                return webResponse.OK();
+            };
+
+            return base.Add(saveDataModel);
+        }
+    }
 }

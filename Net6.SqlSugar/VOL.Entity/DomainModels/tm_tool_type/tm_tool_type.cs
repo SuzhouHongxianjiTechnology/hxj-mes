@@ -14,55 +14,37 @@ using VOL.Entity.SystemModels;
 
 namespace VOL.Entity.DomainModels
 {
-    [Entity(TableCnName = "易损件管理",TableName = "tm_tool")]
-    public partial class tm_tool:BaseEntity
+    [Entity(TableCnName = "易损件类型",TableName = "tm_tool_type")]
+    public partial class tm_tool_type:BaseEntity
     {
         /// <summary>
-       ///易损件ID
+       ///易损件类型ID
        /// </summary>
        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
        [Key]
-       [Display(Name ="易损件ID")]
+       [Display(Name ="易损件类型ID")]
        [Column(TypeName="bigint")]
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
-       public long tool_id { get; set; }
+       public long tool_type_id { get; set; }
 
        /// <summary>
-       ///易损件编码
+       ///易损件类型编码
        /// </summary>
-       [Display(Name ="易损件编码")]
+       [Display(Name ="易损件类型编码")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
        [Editable(true)]
-       public string tool_code { get; set; }
+       public string tool_type_code { get; set; }
 
        /// <summary>
-       ///易损件名称
+       ///易损件类型名称
        /// </summary>
-       [Display(Name ="易损件名称")]
+       [Display(Name ="易损件类型名称")]
        [MaxLength(255)]
        [Column(TypeName="nvarchar(255)")]
        [Editable(true)]
-       [Required(AllowEmptyStrings=false)]
-       public string tool_name { get; set; }
-
-       /// <summary>
-       ///易损件类型
-       /// </summary>
-       [Display(Name ="易损件类型")]
-       [Column(TypeName="bigint")]
-       [Editable(true)]
-       public long? tool_type_id { get; set; }
-
-       /// <summary>
-       ///品牌
-       /// </summary>
-       [Display(Name ="品牌")]
-       [MaxLength(255)]
-       [Column(TypeName="nvarchar(255)")]
-       [Editable(true)]
-       public string brand { get; set; }
+       public string tool_type_name { get; set; }
 
        /// <summary>
        ///型号
@@ -70,57 +52,8 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="型号")]
        [MaxLength(255)]
        [Column(TypeName="nvarchar(255)")]
+       [Editable(true)]
        public string spec { get; set; }
-
-       /// <summary>
-       ///保养维护类型
-       /// </summary>
-       [Display(Name ="保养维护类型")]
-       [MaxLength(20)]
-       [Column(TypeName="nvarchar(20)")]
-       [Editable(true)]
-       public string mainten_type { get; set; }
-
-       /// <summary>
-       ///总次数
-       /// </summary>
-       [Display(Name ="总次数")]
-       [Column(TypeName="int")]
-       [Editable(true)]
-       [Required(AllowEmptyStrings=false)]
-       public int quantity { get; set; }
-
-       /// <summary>
-       ///已用次数
-       /// </summary>
-       [Display(Name ="已用次数")]
-       [Column(TypeName="int")]
-       [Editable(true)]
-       public int? quantity_avail { get; set; }
-
-       /// <summary>
-       ///剩余次数
-       /// </summary>
-       [Display(Name ="剩余次数")]
-       [Column(TypeName="int")]
-       [Editable(true)]
-       public int? quantity_avail_remain { get; set; }
-
-       /// <summary>
-       ///下一次保养周期
-       /// </summary>
-       [Display(Name ="下一次保养周期")]
-       [Column(TypeName="int")]
-       [Editable(true)]
-       public int? next_mainten_period { get; set; }
-
-       /// <summary>
-       ///下一次保养日期
-       /// </summary>
-       [Display(Name ="下一次保养日期")]
-       [Column(TypeName="datetime")]
-       [Editable(true)]
-       public DateTime? next_mainten_date { get; set; }
 
        /// <summary>
        ///状态

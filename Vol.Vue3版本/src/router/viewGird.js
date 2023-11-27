@@ -153,6 +153,10 @@ let viewgird = [
         path: '/bs_coderule',
         name: 'bs_coderule',
         component: () => import('@/views/basicconfig/bs_coderule/bs_coderule.vue')
+    }    ,{
+        path: '/tm_tool_type',
+        name: 'tm_tool_type',
+        component: () => import('@/views/devicemanager/tm_tool_type/tm_tool_type.vue')
     }]
 
 export default viewgird

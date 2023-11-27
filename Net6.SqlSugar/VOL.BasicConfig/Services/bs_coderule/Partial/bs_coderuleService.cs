@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using VOL.BasicConfig.IRepositories;
 using VOL.Core.CacheManager;
+using VOL.Core.Extensions;
 
 namespace VOL.BasicConfig.Services
 {
@@ -73,6 +74,57 @@ namespace VOL.BasicConfig.Services
                 return webResponse.OK();
             };
             return base.Update(saveDataModel);
+        }
+
+        /// <summary>
+        /// 给所有人调用，缓存编码规则
+        /// </summary>
+        /// <param name="lastCodeRule"></param>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        public async Task<string> GetCahceCodeRule(string lastCodeRule, string cacheKey)
+        {
+            //查询当天最新的订单号
+
+            // var lastCodeRule = repository
+            //     .FindAsIQueryable(x => true)
+            //     .OrderByDescending(d => d.CreateDate)
+            //     .Take(1)
+            //     .Single()?
+            //     .machinery_code;
+
+            // typeof(dv_machinery).Name
+            var codeRule = _cacheService.Get<bs_coderule>(cacheKey);
+
+            // 如果为空则从数据库中获取
+            if (codeRule == null)
+            {
+                codeRule = await _repository.FindAsIQueryable(x =>
+                        x.fromcode == cacheKey)
+                    .FirstAsync();
+
+                if (codeRule == null)
+                {
+                    return DateTime.Now.ToString("yyyyMMddHHmmssffff");
+                }
+                else
+                {
+                    _cacheService.AddObject(codeRule.fromcode, codeRule);
+                }
+            }
+
+            string rule = codeRule.prefix + DateTime.Now.ToString(codeRule.time);
+
+            if (string.IsNullOrEmpty(lastCodeRule))
+            {
+                rule += "1".PadLeft(codeRule.serialnumber, '0');
+            }
+            else
+            {
+                rule += (lastCodeRule.Substring(lastCodeRule.Length - codeRule.serialnumber).GetInt() + 1).ToString("0".PadLeft(codeRule.serialnumber, '0'));
+            }
+
+            return rule;
         }
     }
 }

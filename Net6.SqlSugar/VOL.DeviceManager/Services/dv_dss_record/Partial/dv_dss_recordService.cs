@@ -17,6 +17,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using VOL.DeviceManager.IRepositories;
+using VOL.BasicConfig.IServices;
+using VOL.Core.CacheManager;
+using VOL.Core.Const;
 
 namespace VOL.DeviceManager.Services
 {
@@ -24,18 +27,52 @@ namespace VOL.DeviceManager.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Idv_dss_recordRepository _repository;//访问数据库
+        private readonly Ibs_coderuleService _coderuleService;  // 编码规则服务
+        private readonly ICacheService _cacheService;
+        private WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
         public dv_dss_recordService(
             Idv_dss_recordRepository dbRepository,
-            IHttpContextAccessor httpContextAccessor
+            IHttpContextAccessor httpContextAccessor,
+            Ibs_coderuleService coderuleService, 
+            ICacheService cacheService
             )
         : base(dbRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = dbRepository;
+            _coderuleService = coderuleService;
+            _cacheService = cacheService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
-  }
+
+        public override WebResponseContent Add(SaveModel saveDataModel)
+        {
+            AddOnExecuting = (dsRecord, o) =>
+            {
+                if (string.IsNullOrEmpty(dsRecord.record_code))
+                {
+                    var lastCodeRule = repository
+                        .FindAsIQueryable(x => true)
+                        .OrderByDescending(d => d.record_id)
+                        .First()?
+                        .record_code;
+
+                    dsRecord.record_code = _coderuleService.GetCahceCodeRule(lastCodeRule, typeof(dv_dss_record).Name).Result;
+                }
+
+                //如果返回false,后面代码不会再执行
+                if (repository.Exists(x => x.record_code == dsRecord.record_code))
+                {
+                    return webResponse.Error(ErrorConst.DV_CODE_EXIST);
+                }
+
+                return webResponse.OK();
+            };
+
+            return base.Add(saveDataModel);
+        }
+    }
 }

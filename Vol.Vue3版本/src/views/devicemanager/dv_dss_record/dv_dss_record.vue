@@ -43,7 +43,7 @@
             const searchFormFields = ref({"record_code":"","record_type":"","record_result":""});
             const searchFormOptions = ref([[{"title":"点检保养编号","field":"record_code","type":"like"},{"dataKey":"设备点检保养类型","data":[],"title":"点检保养类型","field":"record_type","type":"select"},{"dataKey":"设备点检保养结果","data":[],"title":"点检保养结果","field":"record_result","type":"select"}]]);
             const columns = ref([{field:'record_id',title:'记录ID',type:'bigint',width:110,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'record_code',title:'点检保养编号',type:'string',link:true,width:120,align:'left',sort:true},
+                       {field:'record_code',title:'点检保养编号',type:'string',link:true,width:150,align:'left',sort:true},
                        {field:'record_type',title:'点检保养类型',type:'string',bind:{ key:'设备点检保养类型',data:[]},width:120,align:'left'},
                        {field:'record_result',title:'点检保养结果',type:'string',bind:{ key:'设备点检保养结果',data:[]},width:110,require:true,align:'left'},
                        {field:'machinery_id',title:'设备ID',type:'bigint',width:110,hidden:true,require:true,align:'left'},

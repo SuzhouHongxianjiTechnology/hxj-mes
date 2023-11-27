@@ -20,6 +20,9 @@ using SqlSugar;
 using VOL.DeviceManager.IRepositories;
 using VOL.Core.Const;
 using ICacheService = VOL.Core.CacheManager.ICacheService;
+using System.Reflection.PortableExecutable;
+using VOL.BasicConfig.Services;
+using VOL.BasicConfig.IServices;
 
 namespace VOL.DeviceManager.Services
 {
@@ -27,6 +30,7 @@ namespace VOL.DeviceManager.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Idv_machinery_typeRepository _repository;//访问数据库
+        private readonly Ibs_coderuleService _coderuleService;  // 编码规则服务
         private readonly ICacheService _cacheService;
         private WebResponseContent webResponse = new();
 
@@ -34,21 +38,41 @@ namespace VOL.DeviceManager.Services
         public dv_machinery_typeService(
             Idv_machinery_typeRepository dbRepository,
             IHttpContextAccessor httpContextAccessor,
-            ICacheService cacheService
+            ICacheService cacheService,
+            Ibs_coderuleService coderuleService
             )
         : base(dbRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = dbRepository;
-            _cacheService= cacheService;
+            _coderuleService = coderuleService;
+            _cacheService = cacheService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
 
         public override WebResponseContent Add(SaveModel saveDataModel)
         {
-            AddOnExecuted = (type, o) =>
+            AddOnExecuting = (type, o) =>
             {
+                if (string.IsNullOrEmpty(type.machinery_type_code))
+                {
+                    var lastCodeRule = repository
+                        .FindAsIQueryable(x => true)
+                        .OrderByDescending(d => d.machinery_type_id)
+                    .First()?
+                    .machinery_type_code;
+
+                    type.machinery_type_code = _coderuleService.GetCahceCodeRule(lastCodeRule, typeof(dv_machinery_type).Name).Result;
+                }
+
+                //如果返回false,后面代码不会再执行
+                if (repository.Exists(x => x.machinery_type_code == type.machinery_type_code))
+                {
+                    return webResponse.Error(ErrorConst.DV_CODE_EXIST);
+                }
+
+
                 var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
                 _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
 

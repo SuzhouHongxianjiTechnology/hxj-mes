@@ -157,6 +157,10 @@ let viewgird = [
         path: '/tm_tool_type',
         name: 'tm_tool_type',
         component: () => import('@/views/devicemanager/tm_tool_type/tm_tool_type.vue')
+    }    ,{
+        path: '/tm_tool_return',
+        name: 'tm_tool_return',
+        component: () => import('@/views/devicemanager/tm_tool_return/tm_tool_return.vue')
     }]
 
 export default viewgird

@@ -593,7 +593,8 @@ var vueParam = {
       tableHeight: 0, //查询页面table的高度
       tableMaxHeight: 0, //查询页面table的最大高度
       textInline: true, //table内容超出后是否不换行2020.01.16
-      pagination: { total: 0, size: 30, sortName: '' }, //从分页配置数据
+      // pagination: { total: 0, size: 30, sortName: '' }, //从分页配置数据
+      pagination: { total: 0, size: 30, sortName: '',order: 'asc' },
       boxOptions: {
         title: '', //弹出框显示的标题2022.08.01
         saveClose: true,

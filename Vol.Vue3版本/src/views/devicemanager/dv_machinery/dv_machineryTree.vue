@@ -2,12 +2,16 @@
   <div class="machinery-tree">
     <!-- 左边树结构 -->
     <div class="tree-left">
-      <div class="tree-left-title">设备类型</div>
+      <div class="tree-left-title">
+        <span>设备类型</span>
+        <Refresh style="width: 20px;height: 20px;cursor: pointer;" @click="getTreeData"/>
+      </div>
       <el-scrollbar style="flex:1;border-right: 1px solid #eee;">
         <el-tree
           node-key="id"
           default-expand-all
           highlight-current
+          v-loading="treeLoading"
           :data="data"
           :props="defaultProps"
           :expand-on-click-node="false"
@@ -35,8 +39,13 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'name' //树形结构显示名称的字段
-      }
+      },
+      treeLoading: false
     };
+  },
+  created() {
+    // 获取设备类型
+    this.getTreeData();
   },
   methods: {
     nodeClick(data) {//左侧树点击事件
@@ -44,39 +53,38 @@ export default {
       // 调用machinery组件中nodeClick方法
       this.$refs.table.$refs.grid.nodeClick(data.id);
     },
-  },
-  created() {
-    // 获取设备类型
-    this.http.get('api/dv_machinery_type/GetAllMachineryTypeTree').then((result) => {
-      console.log(result,'result');
-      //记录原始数据
-      this.orginData = result.data;
-      let data = result.data.map(item => {
-        return {
-          id:item.machinery_type_id,
-          name:item.machinery_type_name,
-          parentId:item.parent_type_id,
-          code: item.machinery_type_code,
+    getTreeData() {
+      this.treeLoading = true
+      this.http.get('api/dv_machinery_type/GetAllMachineryTypeTree').then((result) => {
+        // console.log(result,'result');
+        //记录原始数据
+        this.orginData = result.data;
+        let data = result.data.map(item => {
+          return {
+            id:item.machinery_type_id,
+            name:item.machinery_type_name,
+            parentId:item.parent_type_id,
+            code: item.machinery_type_code,
+          }
+        })
+        let childData = this.base.convertTree(data, (node, data, isRoot) => {});
+        // 添加根节点数据
+        this.data = [{
+          id: -1,
+          name: "设备分类",
+          children: []
+        }]
+        this.data[0].children = childData;
+        this.treeLoading = false
+        //商品分类有数据时加载右边商品信息
+        if (this.data.length) {
+          //调用右边商品信息的查询
+          this.$nextTick(() => {
+            // this.nodeClick(this.data[0].id);
+          });
         }
-      })
-      let childData = this.base.convertTree(data, (node, data, isRoot) => {});
-      // 添加根节点数据
-      this.data = [{
-        id: -1,
-        name: "设备分类",
-        children: []
-      }]
-      this.data[0].children = childData;
-      console.log(this.data,'ddd');
-      //商品分类有数据时加载右边商品信息
-      if (this.data.length) {
-        //调用右边商品信息的查询
-        this.$nextTick(() => {
-          // console.log(this.data[0],'dd');
-          // this.nodeClick(this.data[0].id);
-        });
-      }
-    });
+      });
+    }
   }
 };
 </script>
@@ -97,6 +105,9 @@ export default {
       background: rgba(102, 177, 255, 0.058823529411764705);
       padding: 6px 16px;
       border: 1px solid #ececec;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
   .tree-right {

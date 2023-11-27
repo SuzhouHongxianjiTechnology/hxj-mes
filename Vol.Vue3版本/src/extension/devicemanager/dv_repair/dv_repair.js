@@ -4,9 +4,9 @@
  * @Author: AlanGao
  * @Date: 2023-11-25 17:07:03
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-26 23:11:04
+ * @LastEditTime: 2023-11-27 22:43:50
  */
-import modelBody from "./dv_repairModelBody.vue"
+import modelBody from "../conpoent/dv_repairModelBody.vue"
 let extension = {
   components: {
     //查询界面扩展组件

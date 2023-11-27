@@ -5,7 +5,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-22 23:29:49
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-27 00:31:27
+ * @LastEditTime: 2023-11-27 22:45:35
  */
 let extension = {
   components: {
@@ -42,8 +42,8 @@ let extension = {
       //框架初始化配置后
       //如果要配置明细表,在此方法操作
       //this.detailOptions.columns.forEach(column=>{ });
-      // 设备维修弹出框嵌套设备台账表的操作
-      if(this.$route.path == "/dv_repair") {
+      // 设备维修,点检保养弹出框嵌套设备台账表的操作
+      if(this.$route.path == "/dv_repair" || this.$route.path == "/dv_dss_record") {
         this.height = 400  //设置弹框表格高度
         this.single = true //设置弹框表格单选
         // 隐藏其他按钮，只保留查询

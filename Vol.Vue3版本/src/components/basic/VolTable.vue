@@ -663,7 +663,7 @@ export default defineComponent({
       rowData: [],
       paginations: {
         sort: '',
-        order: 'desc',
+        order: 'asc',
         Foots: '',
         total: 0,
         // 2020.08.29增加自定义分页条大小
@@ -801,8 +801,15 @@ export default defineComponent({
           });
         });
     }
-
-    this.paginations.sort = this.pagination.sortName;
+    // 对表格排序进行操作
+    // this.paginations.sort = this.pagination.sortName;
+    let [sortName,order] = this.pagination.sortName.split(' ');
+    // 排序字段
+    this.paginations.sort = sortName;  
+    // 排序方式
+    if(order) {
+      this.paginations.order = order;
+    }
     // 2020.08.29增加自定义分页条大小
     Object.assign(this.paginations, this.pagination);
     if (this.pagination.size) {

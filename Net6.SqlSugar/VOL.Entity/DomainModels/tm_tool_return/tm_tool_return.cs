@@ -99,7 +99,6 @@ namespace VOL.Entity.DomainModels
        [Display(Name ="状态")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
-       [Editable(true)]
        public string status { get; set; }
 
        /// <summary>
@@ -112,9 +111,9 @@ namespace VOL.Entity.DomainModels
        public string remark { get; set; }
 
        /// <summary>
-       ///预留字段1
+       ///借还状态
        /// </summary>
-       [Display(Name ="预留字段1")]
+       [Display(Name ="借还状态")]
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
        [Editable(true)]

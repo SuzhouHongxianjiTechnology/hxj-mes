@@ -29,7 +29,7 @@
                 url: "/tm_tool_return/",
                 sortName: "tool_tool_return_id"
             });
-            const editFormFields = ref({"tool_tool_return_code":"","tool_tool_return_name":"","tool_code":"","tool_name":"","quantity_avail_remain":"","accepted_by_name":"","accepted_by_count":"","status":"","remark":""});
+            const editFormFields = ref({"tool_tool_return_code":"","tool_tool_return_name":"","tool_code":"","tool_name":"","quantity_avail_remain":"","accepted_by_name":"","accepted_by_count":"","attr1":"","remark":""});
             const editFormOptions = ref([[{"title":"易损件借还编码","field":"tool_tool_return_code","type":"text"},
                                {"title":"易损件借还名称","required":true,"field":"tool_tool_return_name","type":"text"}],
                               [{"title":"易损件编码","required":true,"field":"tool_code","type":"text"},
@@ -37,21 +37,21 @@
                               [{"title":"易损件剩余次数","required":true,"field":"quantity_avail_remain","type":"number"},
                                {"dataKey":"人员选择下拉框","data":[],"title":"借用人员姓名","field":"accepted_by_name","type":"select"}],
                               [{"title":"借用次数","field":"accepted_by_count","type":"number"},
-                               {"dataKey":"单据状态","data":[],"title":"状态","field":"status","type":"select"}],
+                               {"dataKey":"易损件借还状态","data":[],"title":"借还状态","field":"attr1","type":"select"}],
                               [{"title":"备注","field":"remark","colSize":12,"type":"text"}]]);
-            const searchFormFields = ref({"tool_tool_return_code":"","tool_tool_return_name":"","status":""});
-            const searchFormOptions = ref([[{"title":"易损件借还编码","field":"tool_tool_return_code","type":"like"},{"title":"易损件借还名称","field":"tool_tool_return_name","type":"like"},{"dataKey":"单据状态","data":[],"title":"状态","field":"status","type":"select"}]]);
+            const searchFormFields = ref({"tool_tool_return_code":"","tool_tool_return_name":"","attr1":""});
+            const searchFormOptions = ref([[{"title":"易损件借还编码","field":"tool_tool_return_code","type":"like"},{"title":"易损件借还名称","field":"tool_tool_return_name","type":"like"},{"dataKey":"易损件借还状态","data":[],"title":"借还状态","field":"attr1","type":"select"}]]);
             const columns = ref([{field:'tool_tool_return_id',title:'易损件归还ID',type:'bigint',width:110,hidden:true,readonly:true,require:true,align:'left'},
-                       {field:'tool_tool_return_code',title:'易损件借还编码',type:'string',width:120,align:'left',sort:true},
+                       {field:'tool_tool_return_code',title:'易损件借还编码',type:'string',width:160,align:'left',sort:true},
                        {field:'tool_tool_return_name',title:'易损件借还名称',type:'string',width:220,require:true,align:'left'},
-                       {field:'tool_code',title:'易损件编码',type:'string',width:120,require:true,align:'left'},
+                       {field:'tool_code',title:'易损件编码',type:'string',width:160,require:true,align:'left'},
                        {field:'tool_name',title:'易损件名称',type:'string',width:220,require:true,align:'left'},
                        {field:'quantity_avail_remain',title:'易损件剩余次数',type:'int',width:120,require:true,align:'left'},
                        {field:'accepted_by_name',title:'借用人员姓名',type:'string',bind:{ key:'人员选择下拉框',data:[]},width:220,align:'left'},
                        {field:'accepted_by_count',title:'借用次数',type:'bigint',width:110,align:'left'},
-                       {field:'status',title:'状态',type:'string',bind:{ key:'单据状态',data:[]},width:120,align:'left'},
-                       {field:'remark',title:'备注',type:'string',width:220,align:'left'},
-                       {field:'attr1',title:'预留字段1',type:'string',width:120,hidden:true,align:'left'},
+                       {field:'status',title:'状态',type:'string',width:120,align:'left'},
+                       {field:'remark',title:'备注',type:'string',width:220,hidden:true,align:'left'},
+                       {field:'attr1',title:'借还状态',type:'string',bind:{ key:'易损件借还状态',data:[]},width:120,hidden:true,align:'left'},
                        {field:'attr2',title:'预留字段2',type:'string',width:220,hidden:true,align:'left'},
                        {field:'attr3',title:'预留字段3',type:'int',width:110,hidden:true,align:'left'},
                        {field:'attr4',title:'预留字段4',type:'int',width:110,hidden:true,align:'left'},

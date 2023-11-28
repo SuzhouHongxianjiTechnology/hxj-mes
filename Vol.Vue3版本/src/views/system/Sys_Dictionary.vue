@@ -27,7 +27,7 @@
                 cnName: '字典数据',
                 name: 'Sys_Dictionary',
                 url: "/Sys_Dictionary/",
-                sortName: "Dic_ID"
+                sortName: "CreateDate desc"
             });
             const editFormFields = ref({"DicNo":"","DicName":"","ParentId":"","OrderNo":"","Enable":"","CreateDate":"","DbSql":"","Remark":""});
             const editFormOptions = ref([[{"title":"字典编号","required":true,"field":"DicNo"},
@@ -64,7 +64,7 @@
                        {field:'DicValue',title:'数据源Value',type:'string',width:90,edit:{type:'text'},align:'left'},
                        {field:'DicName',title:'数据源Text',type:'string',width:90,edit:{type:'text'},align:'left'},
                        {field:'OrderNo',title:'排序号',type:'int',width:90,edit:{type:'text'},align:'left'},
-                       {field:'Remark',title:'备注',type:'string',width:90,edit:{type:'text'},align:'left'},
+                       {field:'Remark',title:'备注',type:'string',bind:{ key:'pz',data:[]},width:90,edit:{type:'selectList'},align:'left'},
                        {field:'Enable',title:'是否可用',type:'byte',bind:{ key:'enable',data:[]},width:90,edit:{type:'switch'},align:'left'},
                        {field:'CreateID',title:'CreateID',type:'int',width:90,hidden:true,align:'left'},
                        {field:'Creator',title:'创建人',type:'string',width:130,readonly:true,align:'left'},

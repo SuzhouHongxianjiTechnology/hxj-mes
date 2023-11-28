@@ -79,6 +79,14 @@ namespace VOL.DeviceManager.Services
                 return webResponse.OK();
             };
 
+            AddOnExecuted = (type, o) =>
+            {
+                var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+
+                return webResponse.OK();
+            };
+
             return base.Add(saveDataModel);
         }
 
@@ -93,6 +101,19 @@ namespace VOL.DeviceManager.Services
             };
 
             return base.Update(saveModel);
+        }
+
+        public override WebResponseContent Del(object[] keys, bool delList = true)
+        {
+            DelOnExecuted = objects =>
+            {
+                var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+
+                return webResponse.OK();
+            };
+
+            return base.Del(keys, delList);
         }
 
         /// <summary>

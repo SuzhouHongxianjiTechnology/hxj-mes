@@ -1,11 +1,10 @@
-/*****************************************************************************************
-**  Author:jxx 2022
-**  QQ:283591387
-**完整文档见：http://v2.volcore.xyz/document/api 【代码生成页面ViewGrid】
-**常用示例见：http://v2.volcore.xyz/document/vueDev
-**后台操作见：http://v2.volcore.xyz/document/netCoreDev
-*****************************************************************************************/
-//此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
+/*
+ * @Description: 易损件类型
+ * @Author: AlanGao
+ * @Date: 2023-11-27 19:45:58
+ * @LastEditors: AlanGao
+ * @LastEditTime: 2023-11-29 22:42:56
+ */
 
 let extension = {
   components: {
@@ -69,6 +68,13 @@ let extension = {
       //(3)this.editFormFields.字段='xxx';
       //如果需要给下拉框设置默认值，请遍历this.editFormOptions找到字段配置对应data属性的key值
       //看不懂就把输出看：console.log(this.editFormOptions)
+      this.editFormOptions.forEach(item => {
+        item.forEach(x => {
+          if (x.field == 'tool_type_code') {
+            x.placeholder = '请输入，忽略将自动生成'
+          }
+        });
+      });
     }
   }
 };

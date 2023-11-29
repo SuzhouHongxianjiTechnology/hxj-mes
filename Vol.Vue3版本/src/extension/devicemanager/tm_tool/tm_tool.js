@@ -3,7 +3,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-25 17:07:03
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-26 22:49:51
+ * @LastEditTime: 2023-11-30 00:34:50
  */
 /*****************************************************************************************
 **  Author:jxx 2022
@@ -46,7 +46,7 @@ let extension = {
     onInited() {
       //框架初始化配置后
       //如果要配置明细表,在此方法操作
-      //this.detailOptions.columns.forEach(column=>{ });
+      //this.detailOptions.columns.forEach(column=>{ });      
     },
     searchBefore(param) {
       //界面查询前,可以给param.wheres添加查询参数
@@ -77,10 +77,42 @@ let extension = {
       //如果需要给下拉框设置默认值，请遍历this.editFormOptions找到字段配置对应data属性的key值
       //看不懂就把输出看：console.log(this.editFormOptions)
       if(this.currentAction=='Add') {
-        this.editFormFields.mainten_type = "CYCLE";
-        this.editFormFields.quantity = "999";
-        this.editFormFields.quantity_avail = "0"
-        this.editFormFields.quantity_avail_remain = "0"
+        this.editFormFields.mainten_type = "CYCLE";  //定期维护
+        this.editFormFields.quantity = 999; //总次数
+        this.editFormFields.quantity_avail = 0 //已用次数
+        this.editFormFields.quantity_avail_remain = 999 //剩余次数
+      }
+      this.editFormOptions[0].find(x => x.field == "tool_code").placeholder = "请输入，忽略将自动生成"
+      // 给弹出框保养维护类型添加事件和只读
+      let maintenType = this.editFormOptions[2].find(x => x.field == "mainten_type"); //保养维护类型对象
+      let quantity = this.editFormOptions[2].find(x => x.field == "quantity") //总次数对象
+      quantity.disabled = true
+      /**
+       * @description: 保养维护类型切换事件
+       * @param {*} value 
+       * @param {*} option 
+       */      
+      maintenType.onChange = (value,option) => {
+        // 定期维护
+        if(value == "CYCLE") {
+          // 禁用总次数
+          quantity.disabled = true
+          this.editFormOptions[4].forEach(item => {
+            item.disabled = false
+          })
+        } else {
+          // 按次维护
+          quantity.disabled = false
+          // 禁用保养周期和日期,并清空值
+          this.editFormOptions[4].forEach(item => {
+            item.disabled = true
+          })
+          // this.editFormFields.next_mainten_period = ""
+          // this.editFormFields.next_mainten_date = ""
+        }
+      }
+      quantity.onKeyPress = (curVal) => {
+        this.editFormFields.quantity_avail_remain = curVal - this.editFormFields.quantity_avail
       }
     }
   }

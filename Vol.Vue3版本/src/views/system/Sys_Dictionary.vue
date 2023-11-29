@@ -27,7 +27,7 @@
                 cnName: '字典数据',
                 name: 'Sys_Dictionary',
                 url: "/Sys_Dictionary/",
-                sortName: "CreateDate desc"
+                sortName: "Dic_ID desc"
             });
             const editFormFields = ref({"DicNo":"","DicName":"","ParentId":"","OrderNo":"","Enable":"","CreateDate":"","DbSql":"","Remark":""});
             const editFormOptions = ref([[{"title":"字典编号","required":true,"field":"DicNo"},

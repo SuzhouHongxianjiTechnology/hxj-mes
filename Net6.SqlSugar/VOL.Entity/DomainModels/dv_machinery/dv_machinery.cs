@@ -34,6 +34,7 @@ namespace VOL.Entity.DomainModels
        [MaxLength(64)]
        [Column(TypeName="nvarchar(64)")]
        [Editable(true)]
+       [Required(AllowEmptyStrings=false)]
        public string machinery_code { get; set; }
 
        /// <summary>
@@ -141,6 +142,14 @@ namespace VOL.Entity.DomainModels
        [Editable(true)]
        [Required(AllowEmptyStrings=false)]
        public string status { get; set; }
+
+       /// <summary>
+       ///设备点检保养编号
+       /// </summary>
+       [Display(Name ="设备点检保养编号")]
+       [MaxLength(50)]
+       [Column(TypeName="nvarchar(50)")]
+       public string record_code { get; set; }
 
        /// <summary>
        ///备注

@@ -34,6 +34,7 @@ namespace VOL.DeviceManager.Services
         private readonly Idv_machinery_typeRepository _repositoryMachineryType; // 设备类型仓库
         private readonly Ibs_coderuleService _coderuleService ;  // 编码规则服务
         private readonly ICacheService _cacheService;
+        private readonly DeviceBaseService _deviceBaseService;
         private WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
@@ -42,7 +43,8 @@ namespace VOL.DeviceManager.Services
             Idv_machinery_typeRepository repositoryMachineryType,
             Ibs_coderuleService coderuleService,
             IHttpContextAccessor httpContextAccessor,
-            ICacheService cacheService
+            ICacheService cacheService,
+            DeviceBaseService deviceBaseService
             )
         : base(dbRepository)
         {
@@ -51,6 +53,7 @@ namespace VOL.DeviceManager.Services
             _repositoryMachineryType = repositoryMachineryType;
             _coderuleService = coderuleService;
             _cacheService = cacheService;
+            _deviceBaseService = deviceBaseService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
@@ -93,9 +96,17 @@ namespace VOL.DeviceManager.Services
                 }
 
                 // 加入存在，则会将 machinery 中的设备类型 ID 所有值查询出来而后赋值给数据库
-                var machineryType = GetDvMachineryType(machinery.machinery_type_id);
+                var machineryType = _deviceBaseService.GetDvMachineryType(machinery.machinery_type_id).Result;
                 machinery.machinery_type_code = machineryType?.machinery_type_code;
                 machinery.machinery_type_name = machineryType?.machinery_type_name;
+
+                return webResponse.OK();
+            };
+
+            AddOnExecuted = (machinery, o) =>
+            {
+                var machineryList = _repository.FindAsIQueryable(x => true).ToList();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_LIST, machineryList);
 
                 return webResponse.OK();
             };
@@ -103,18 +114,30 @@ namespace VOL.DeviceManager.Services
             return base.Add(saveDataModel);
         }
 
-        private dv_machinery_type? GetDvMachineryType(long machineryTypeId)
+        public override WebResponseContent Update(SaveModel saveModel)
         {
-            var machineryTypeList = _cacheService.Get<List<dv_machinery_type>>(SystemConst.DV_MACHINERY_TYPE_LIST);
+            UpdateOnExecuted = (machinery, o, arg3, arg4) =>
+            {
+                var machineryList = _repository.FindAsIQueryable(x => true).ToList();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_LIST, machineryList);
 
-            if (machineryTypeList != null && machineryTypeList.Count > 0)
+                return webResponse.OK();
+            };
+
+            return base.Update(saveModel);
+        }
+
+        public override WebResponseContent Del(object[] keys, bool delList = true)
+        {
+            DelOnExecuted = objects =>
             {
-                return machineryTypeList.First(x => x.machinery_type_id == machineryTypeId);
-            }
-            else
-            {
-                return _repositoryMachineryType.FindFirst(x => x.machinery_type_id == machineryTypeId);
-            }
+                var machineryList = _repository.FindAsIQueryable(x => true).ToList();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_LIST, machineryList);
+
+                return webResponse.OK();
+            };
+
+            return base.Del(keys, delList);
         }
     }
 }

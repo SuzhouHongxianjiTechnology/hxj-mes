@@ -32,6 +32,7 @@ namespace VOL.DeviceManager.Services
         private readonly Idv_machinery_typeRepository _repository;//访问数据库
         private readonly Ibs_coderuleService _coderuleService;  // 编码规则服务
         private readonly ICacheService _cacheService;
+        private readonly DeviceBaseService _deviceBaseService;
         private WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
@@ -39,7 +40,8 @@ namespace VOL.DeviceManager.Services
             Idv_machinery_typeRepository dbRepository,
             IHttpContextAccessor httpContextAccessor,
             ICacheService cacheService,
-            Ibs_coderuleService coderuleService
+            Ibs_coderuleService coderuleService,
+            DeviceBaseService deviceBaseService
             )
         : base(dbRepository)
         {
@@ -47,6 +49,7 @@ namespace VOL.DeviceManager.Services
             _repository = dbRepository;
             _coderuleService = coderuleService;
             _cacheService = cacheService;
+            _deviceBaseService = deviceBaseService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
@@ -72,17 +75,13 @@ namespace VOL.DeviceManager.Services
                     return webResponse.Error(ErrorConst.DV_CODE_EXIST);
                 }
 
-
-                var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
-                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
-
                 return webResponse.OK();
             };
 
             AddOnExecuted = (type, o) =>
             {
                 var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
-                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE_LIST, machineryTypeList);
 
                 return webResponse.OK();
             };
@@ -95,7 +94,7 @@ namespace VOL.DeviceManager.Services
             UpdateOnExecuted = (type, o, arg3, arg4) =>
             {
                 var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
-                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE_LIST, machineryTypeList);
 
                 return webResponse.OK();
             };
@@ -108,7 +107,7 @@ namespace VOL.DeviceManager.Services
             DelOnExecuted = objects =>
             {
                 var machineryTypeList = _repository.FindAsIQueryable(x => true).ToList();
-                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE_LIST, machineryTypeList);
 
                 return webResponse.OK();
             };
@@ -124,7 +123,7 @@ namespace VOL.DeviceManager.Services
         {
             try
             {
-                var machineryTypeList =await GetDvMachineryTypeListAsync();
+                var machineryTypeList =await _deviceBaseService.GetDvMachineryTypeListAsync();
 
                 var data = machineryTypeList
                     .Select(d => new
@@ -143,19 +142,6 @@ namespace VOL.DeviceManager.Services
             {
                 return webResponse.Error();
             }
-        }
-
-        private async Task<List<dv_machinery_type>?> GetDvMachineryTypeListAsync()
-        {
-            var machineryTypeList = _cacheService.Get<List<dv_machinery_type>>(SystemConst.DV_MACHINERY_TYPE);
-
-            if (machineryTypeList == null)
-            {
-                machineryTypeList = await _repository.FindAsIQueryable(x => true).ToListAsync();
-                _cacheService.AddObject(SystemConst.DV_MACHINERY_TYPE, machineryTypeList);
-            }
-
-            return machineryTypeList;
         }
     }
 }

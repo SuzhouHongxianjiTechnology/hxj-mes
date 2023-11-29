@@ -14,5 +14,10 @@ namespace VOL.Core.Const
 
         public const string DV_MACHINERY_LIST = "dv_machinery_list";
         public const string DV_MACHINERY_TYPE_LIST = "dv_machinery_type_list";
+
+        public const string REPAIRED = "REPAIRED";
+        public const string STOP = "STOP";
+        public const string REPAIR = "REPAIR";
+
     }
 }

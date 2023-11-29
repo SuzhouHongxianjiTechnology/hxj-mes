@@ -27,23 +27,29 @@ namespace VOL.DeviceManager.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Idv_dss_recordRepository _repository;//访问数据库
+        private readonly Idv_machineryRepository _repositoryMachinery; // 设备数据库
         private readonly Ibs_coderuleService _coderuleService;  // 编码规则服务
         private readonly ICacheService _cacheService;
+        private readonly DeviceBaseService _deviceBaseService;
         private WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
         public dv_dss_recordService(
             Idv_dss_recordRepository dbRepository,
+            Idv_machineryRepository repositoryMachinery,
             IHttpContextAccessor httpContextAccessor,
             Ibs_coderuleService coderuleService, 
-            ICacheService cacheService
+            ICacheService cacheService,
+            DeviceBaseService deviceBaseService
             )
         : base(dbRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = dbRepository;
+            _repositoryMachinery= repositoryMachinery;
             _coderuleService = coderuleService;
             _cacheService = cacheService;
+            _deviceBaseService = deviceBaseService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
@@ -72,7 +78,36 @@ namespace VOL.DeviceManager.Services
                 return webResponse.OK();
             };
 
+            AddOnExecuted = (dsRecord, o) =>
+            {
+                // 1. 查询出对应的设备 2.更改对应设备-保养代码值 3.保存更新，并更新缓存
+                var machinery = _deviceBaseService.GetDvMachinery(dsRecord.machinery_code);
+                machinery.record_code = dsRecord.record_code;
+                _repositoryMachinery.Update(machinery);
+                _repositoryMachinery.SaveChanges();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_LIST, _repositoryMachinery.FindAsIQueryable(x => true).ToList());
+
+                return webResponse.OK();
+            };
+
             return base.Add(saveDataModel);
+        }
+
+        public override WebResponseContent Update(SaveModel saveModel)
+        {
+            UpdateOnExecuted = (record, o, arg3, arg4) =>
+            {
+                // 1. 查询出对应的设备 2.更改对应设备-保养代码值 3.保存更新，并更新缓存
+                var machinery = _deviceBaseService.GetDvMachinery(record.machinery_code);
+                machinery.record_code = record.record_code;
+                _repositoryMachinery.Update(machinery);
+                _repositoryMachinery.SaveChanges();
+                _cacheService.AddObject(SystemConst.DV_MACHINERY_LIST, _repositoryMachinery.FindAsIQueryable(x => true).ToList());
+
+                return webResponse.OK();
+            };
+
+            return base.Update(saveModel);
         }
     }
 }

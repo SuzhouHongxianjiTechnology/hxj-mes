@@ -17,16 +17,19 @@ namespace VOL.DeviceManager.Services
         private readonly ICacheService _cacheService;
         private readonly Idv_machineryRepository _repoMachinery; // 设备台账仓库
         private readonly Idv_machinery_typeRepository _repoMachineryType;  // 设备类型仓库
+        private readonly Itm_tool_typeRepository _repoToolType; // 易损件类型
         
 
         public DeviceBaseService(
             ICacheService cacheService,
             Idv_machineryRepository repoMachinery,
-            Idv_machinery_typeRepository repoMachineryType)
+            Idv_machinery_typeRepository repoMachineryType,
+            Itm_tool_typeRepository repoToolType)
         {
             _cacheService = cacheService;
             _repoMachinery = repoMachinery;
             _repoMachineryType = repoMachineryType;
+            _repoToolType = repoToolType;
         }
 
         /// <summary>
@@ -44,6 +47,19 @@ namespace VOL.DeviceManager.Services
             }
 
             return machineryTypeList;
+        }
+
+        public async Task<List<tm_tool_type>?> GetTmToolTypeListAsync()
+        {
+            var tmToolTypeList = _cacheService.Get<List<tm_tool_type>>(SystemConst.DV_TM_TOOL_TYPE_LIST);
+
+            if (tmToolTypeList == null)
+            {
+                tmToolTypeList = await _repoToolType.FindAsIQueryable(x => true).ToListAsync();
+                _cacheService.AddObject(SystemConst.DV_TM_TOOL_TYPE_LIST, tmToolTypeList);
+            }
+
+            return tmToolTypeList;
         }
 
         /// <summary>

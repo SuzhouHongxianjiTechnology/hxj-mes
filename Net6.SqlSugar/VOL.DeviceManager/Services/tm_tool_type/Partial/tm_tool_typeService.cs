@@ -27,19 +27,22 @@ namespace VOL.DeviceManager.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Itm_tool_typeRepository _repository;//访问数据库
         private readonly Ibs_coderuleService _coderuleService;  // 编码规则服务
+        private readonly DeviceBaseService _deviceBaseService;
         private readonly WebResponseContent webResponse = new();
 
         [ActivatorUtilitiesConstructor]
         public tm_tool_typeService(
             Itm_tool_typeRepository dbRepository,
             IHttpContextAccessor httpContextAccessor,
-            Ibs_coderuleService coderuleService
+            Ibs_coderuleService coderuleService,
+            DeviceBaseService deviceBaseService
             )
         : base(dbRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _repository = dbRepository;
             _coderuleService = coderuleService;
+            _deviceBaseService = deviceBaseService;
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
@@ -69,6 +72,34 @@ namespace VOL.DeviceManager.Services
             };
 
             return base.Add(saveDataModel);
+        }
+
+        /// <summary>
+        /// 获取所有设备类型节点树
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WebResponseContent> GetAllTmToolTypeTreeAsync()
+        {
+            try
+            {
+                var tmToolTypeList = await _deviceBaseService.GetTmToolTypeListAsync();
+
+                var data = tmToolTypeList
+                    .Select(d => new
+                    {
+                        d.tool_type_id,
+                        d.tool_type_code,
+                        d.tool_type_name
+                    }).ToList();
+
+                webResponse.Data = data;
+                return webResponse.OK();
+
+            }
+            catch (Exception e)
+            {
+                return webResponse.Error();
+            }
         }
     }
 }

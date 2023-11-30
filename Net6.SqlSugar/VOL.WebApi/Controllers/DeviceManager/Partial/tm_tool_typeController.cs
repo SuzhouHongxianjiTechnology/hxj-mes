@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using VOL.Entity.DomainModels;
 using VOL.DeviceManager.IServices;
+using VOL.Core.Enums;
+using VOL.Core.Filters;
+using VOL.Core.Utilities;
 
 namespace VOL.DeviceManager.Controllers
 {
@@ -28,6 +31,13 @@ namespace VOL.DeviceManager.Controllers
         {
             _service = service;
             _httpContextAccessor = httpContextAccessor;
+        }
+
+        [HttpGet("GetAllTmToolTypeTree")]
+        [ApiActionPermission(ActionPermissionOptions.Search)]
+        public async Task<WebResponseContent> GetAllTmToolTypeTree()
+        {
+            return await _service.GetAllTmToolTypeTreeAsync();
         }
     }
 }

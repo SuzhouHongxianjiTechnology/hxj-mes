@@ -9,5 +9,6 @@ namespace VOL.DeviceManager.IServices
 {
     public partial interface Itm_tool_typeService
     {
+        Task<WebResponseContent> GetAllTmToolTypeTreeAsync();
     }
  }

@@ -3,7 +3,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-25 17:07:03
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-27 22:44:12
+ * @LastEditTime: 2023-11-30 21:40:25
  */
 import { formatTimeStamp } from "../../../uitils/dateFormatUtil";
 
@@ -89,7 +89,7 @@ let extension = {
       if(this.currentAction=='Add') {
         this.editFormFields.record_type = "设备点检";
         this.editFormFields.record_result = "RUN";
-        this.editFormFields.cycle_count = "1";
+        this.editFormFields.cycle_count = 1;
         this.editFormFields.cycle_type = "HOUR";
         this.editFormFields.start_date = formatTimeStamp(curDate, 'yyyy-MM-dd');
         this.editFormFields.end_date = formatTimeStamp(nextDate, 'yyyy-MM-dd');

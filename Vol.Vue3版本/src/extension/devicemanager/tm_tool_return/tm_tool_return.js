@@ -3,7 +3,7 @@
  * @Author: AlanGao
  * @Date: 2023-11-27 22:24:22
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-30 23:25:32
+ * @LastEditTime: 2023-11-30 23:42:21
  */
 
 let extension = {
@@ -47,7 +47,7 @@ let extension = {
     searchBefore(param) {
       if(this.tool_type_code) {
         param.wheres.push({
-          name: 'tool_tool_return_code',
+          name: 'tool_code',
           value: this.tool_type_code,
           displayType: 'like'
         })

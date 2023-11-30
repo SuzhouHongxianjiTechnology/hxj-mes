@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using VOL.DeviceManager.IRepositories;
+using VOL.Core.Const;
 
 namespace VOL.DeviceManager.Services
 {
@@ -37,5 +38,21 @@ namespace VOL.DeviceManager.Services
             //多租户会用到这init代码，其他情况可以不用
             //base.Init(dbRepository);
         }
-  }
+
+        public override PageGridData<tm_tool_return> GetPageData(PageDataOptions options)
+        {
+            // 如果值为 -1，则默认清空所有查询条件
+            QueryRelativeList = list =>
+            {
+                if (list.Count > 0
+                    && list[0].Name == SystemConst.DV_TM_TOOL_TYPE_CODE
+                    && list[0].Value == "-1")
+                {
+                    list.Clear();
+                }
+            };
+
+            return base.GetPageData(options);
+        }
+    }
 }

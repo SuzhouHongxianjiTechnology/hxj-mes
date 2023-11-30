@@ -160,7 +160,7 @@ let viewgird = [
     }    ,{
         path: '/tm_tool_return',
         name: 'tm_tool_return',
-        component: () => import('@/views/devicemanager/tm_tool_return/tm_tool_return.vue')
+        component: () => import('@/views/devicemanager/tm_tool_return/tm_tool_returnTree.vue')
     }]
 
 export default viewgird

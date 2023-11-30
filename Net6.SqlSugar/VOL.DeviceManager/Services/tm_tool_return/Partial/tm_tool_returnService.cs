@@ -45,7 +45,7 @@ namespace VOL.DeviceManager.Services
             QueryRelativeList = list =>
             {
                 if (list.Count > 0
-                    && list[0].Name == SystemConst.DV_TM_TOOL_TYPE_CODE
+                    && list[0].Name == SystemConst.DV_TM_TOOL_RETURN_CODE
                     && list[0].Value == "-1")
                 {
                     list.Clear();

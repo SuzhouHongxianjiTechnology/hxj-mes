@@ -1,11 +1,10 @@
-/*****************************************************************************************
-**  Author:jxx 2022
-**  QQ:283591387
-**完整文档见：http://v2.volcore.xyz/document/api 【代码生成页面ViewGrid】
-**常用示例见：http://v2.volcore.xyz/document/vueDev
-**后台操作见：http://v2.volcore.xyz/document/netCoreDev
-*****************************************************************************************/
-//此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
+/*
+ * @Description: 易损件借还
+ * @Author: AlanGao
+ * @Date: 2023-11-27 22:24:22
+ * @LastEditors: AlanGao
+ * @LastEditTime: 2023-11-30 23:25:32
+ */
 
 let extension = {
   components: {
@@ -41,7 +40,18 @@ let extension = {
       //如果要配置明细表,在此方法操作
       //this.detailOptions.columns.forEach(column=>{ });
     },
+    nodeClick(code) {
+      this.tool_type_code = code
+      this.search()
+    },
     searchBefore(param) {
+      if(this.tool_type_code) {
+        param.wheres.push({
+          name: 'tool_tool_return_code',
+          value: this.tool_type_code,
+          displayType: 'like'
+        })
+      }
       //界面查询前,可以给param.wheres添加查询参数
       //返回false，则不会执行查询
       return true;

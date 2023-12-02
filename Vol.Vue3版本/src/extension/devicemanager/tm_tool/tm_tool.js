@@ -3,16 +3,8 @@
  * @Author: AlanGao
  * @Date: 2023-11-25 17:07:03
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-30 00:34:50
+ * @LastEditTime: 2023-12-02 17:05:54
  */
-/*****************************************************************************************
-**  Author:jxx 2022
-**  QQ:283591387
-**完整文档见：http://v2.volcore.xyz/document/api 【代码生成页面ViewGrid】
-**常用示例见：http://v2.volcore.xyz/document/vueDev
-**后台操作见：http://v2.volcore.xyz/document/netCoreDev
-*****************************************************************************************/
-//此js文件是用来自定义扩展业务代码，可以扩展一些自定义页面或者重新配置生成的代码
 
 let extension = {
   components: {
@@ -46,7 +38,19 @@ let extension = {
     onInited() {
       //框架初始化配置后
       //如果要配置明细表,在此方法操作
-      //this.detailOptions.columns.forEach(column=>{ });      
+      //this.detailOptions.columns.forEach(column=>{ });  
+
+      // 易损件借还弹出框嵌套易损件管理页面
+      if(this.$route.path == "/tm_tool_return") {
+        this.height = 400  //设置弹框表格高度
+        this.single = true //设置弹框表格单选
+        // 隐藏其他按钮，只保留查询
+        this.buttons.forEach(item => {
+          if(item.value != "Search") {
+            item.hidden = true;
+          }
+        })
+      }    
     },
     searchBefore(param) {
       //界面查询前,可以给param.wheres添加查询参数
@@ -76,6 +80,8 @@ let extension = {
       //(3)this.editFormFields.字段='xxx';
       //如果需要给下拉框设置默认值，请遍历this.editFormOptions找到字段配置对应data属性的key值
       //看不懂就把输出看：console.log(this.editFormOptions)
+      
+      // 新建时添加默认值
       if(this.currentAction=='Add') {
         this.editFormFields.mainten_type = "CYCLE";  //定期维护
         this.editFormFields.quantity = 999; //总次数

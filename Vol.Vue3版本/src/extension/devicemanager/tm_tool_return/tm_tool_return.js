@@ -3,9 +3,9 @@
  * @Author: AlanGao
  * @Date: 2023-11-27 22:24:22
  * @LastEditors: AlanGao
- * @LastEditTime: 2023-11-30 23:42:21
+ * @LastEditTime: 2023-12-02 16:57:33
  */
-
+import modelBody from "../conpoent/dv_tmToolReturnModelBody.vue"
 let extension = {
   components: {
     //查询界面扩展组件
@@ -14,7 +14,7 @@ let extension = {
     gridFooter: '',
     //新建、编辑弹出框扩展组件
     modelHeader: '',
-    modelBody: '',
+    modelBody: modelBody,
     modelFooter: ''
   },
   tableAction: '', //指定某张表的权限(这里填写表名,默认不用填写)
@@ -34,6 +34,21 @@ let extension = {
 
         //示例：设置修改新建、编辑弹出框字段标签的长度
         // this.boxOptions.labelWidth = 150;
+        // 给易损件借还的弹框添加一个按钮
+        this.editFormOptions.forEach(x => {
+          x.forEach(item => {
+            if(item.field == "tool_code") {
+              item.extra = {
+                icon: "el-icon-zoom-out",
+                text: "高级选择",
+                style: "color:blue;font-size: 14px;cursor: pointer;",
+                click: item => {
+                  this.$refs.modelBody.openDevice();
+                }
+              }
+            }
+          })
+        });
     },
     onInited() {
       //框架初始化配置后
